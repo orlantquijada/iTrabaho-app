@@ -1,5 +1,8 @@
 {
   "private": true,
+  "sideEffects": [
+    "!(components/index.ts)"
+  ],
   "scripts": {
     "dev": "next dev",
     "build": "next build",

@@ -8,8 +8,8 @@ import { styled } from '@/stitches.config'
 const required = { required: 'Please fill out this field' }
 
 interface FormFields {
-  fname: string
-  lname: string
+  firstName: string
+  lastName: string
   phoneNumber: string
   sex: 'M' | 'F'
   birthdate: string
@@ -47,20 +47,20 @@ export default function CreateApplicantPage() {
         gapY="4"
       >
         <Flex gap="4">
-          <FormField title="First Name" error={errors.fname?.message}>
+          <FormField title="First Name" error={errors.firstName?.message}>
             <Input
               placeholder="John"
-              type={errors.fname?.message ? 'error' : 'default'}
+              type={errors.firstName?.message ? 'error' : 'default'}
               clearable
-              {...register('fname', required)}
+              {...register('firstName', required)}
             />
           </FormField>
-          <FormField title="Last Name" error={errors.lname?.message}>
+          <FormField title="Last Name" error={errors.lastName?.message}>
             <Input
               placeholder="Doe"
-              type={errors.lname?.message ? 'error' : 'default'}
+              type={errors.lastName?.message ? 'error' : 'default'}
               clearable
-              {...register('lname', required)}
+              {...register('lastName', required)}
             />
           </FormField>
         </Flex>

@@ -22,7 +22,17 @@ const Span = styled('span', errorStyles, {
   lineHeight: '1.5',
 })
 
-const Required = styled('span', { color: '$erorr' })
+const requirementLabelSharedStyles = css({
+  ml: '4px',
+})
+const Optional = styled('span', requirementLabelSharedStyles, {
+  color: '#666',
+  fontSize: '0.75rem',
+  fontStyle: 'italic',
+})
+const Required = styled('span', requirementLabelSharedStyles, {
+  color: '$erorr',
+})
 const Small = styled('small', errorStyles, {
   fontSize: '0.75rem',
   fontWeight: '500',
@@ -33,22 +43,28 @@ const Small = styled('small', errorStyles, {
 
 function FormField({
   title,
-  required = false,
+  requirementLabel,
   error,
   children,
 }: {
   children: ReactNode
   title: string
-  required?: boolean
+  requirementLabel?: 'required' | 'optional'
   error?: string
 }) {
   const hasError = Boolean(error)
+
+  let label = null
+
+  if (requirementLabel === 'required') label = <Required>*</Required>
+  else if (requirementLabel === 'optional')
+    label = <Optional>(Optional)</Optional>
 
   return (
     <FieldLabel direction="column">
       <Span error={hasError}>
         {title}
-        {required ? <Required> *</Required> : null}
+        {label}
       </Span>
       {children}
       {error ? <Small error>{error}</Small> : null}

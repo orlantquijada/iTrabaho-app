@@ -1,9 +1,10 @@
 import { AutoComplete, Button, Card, Input, Text } from '@geist-ui/react'
 import React, { ReactElement, useState } from 'react'
 import { useFieldArray, useFormContext } from 'react-hook-form'
-import { Grid, FormField, Flex } from '@/components'
+import { Grid, FormField, Flex, TextField } from '@/components'
 import SectionTitle from './SectionTitle'
 import { FormFields, required } from './helpers'
+import { FieldLabel, Small, Span } from '../FormField'
 
 const allOptions = [
   { label: 'Carpenter', value: 'Carpenter' },
@@ -47,54 +48,106 @@ export default function Experience(): ReactElement {
     <section>
       <SectionTitle h1>Employment History</SectionTitle>
       <Flex direction="column" gap="2">
+        {fields.map((field, index) => (
+          <Card hoverable key={index}>
+            <Flex justify="between">
+              <Text h4 style={{ marginTop: 0 }}>
+                Experience {index + 1}
+              </Text>
+              {fields.length === 1 && index === 0 ? null : (
+                <Button auto scale={1 / 2} onClick={() => remove(index)}>
+                  Remove
+                </Button>
+              )}
+            </Flex>
+            <Grid gapX="4" columns="2">
+              <FormField
+                title="Role"
+                error={errors.experience?.[index]?.role?.message}
+              >
+                <AutoComplete
+                  clearable
+                  disableFreeSolo
+                  placeholder="Electrician"
+                  options={options}
+                  onSearch={searchHandler}
+                  type={
+                    errors.experience?.[index]?.role?.message
+                      ? 'error'
+                      : 'default'
+                  }
+                  {...register(`experience.${index}.role` as const, required)}
+                  onChange={(value) =>
+                    setValue(`experience.${index}.role`, value)
+                  }
+                />
+              </FormField>
+              <FormField title="Company" requirementLabel="optional">
+                <Input
+                  placeholder="Company A"
+                  clearable
+                  {...register(`experience.${index}.company`)}
+                />
+              </FormField>
+            </Grid>
+            <ExperienceDetails experienceIndex={index} />
+          </Card>
+        ))}
+        <Button
+          onClick={() => append({ details: [{ description: '' }] })}
+          style={{ width: 'fit-content' }}
+        >
+          Add Employment
+        </Button>
+      </Flex>
+    </section>
+  )
+}
+
+function ExperienceDetails({ experienceIndex }: { experienceIndex: number }) {
+  const {
+    register,
+    control,
+    formState: { errors },
+  } = useFormContext<FormFields>()
+
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: `experience.${experienceIndex}.details`,
+  })
+
+  return (
+    <>
+      <FieldLabel as="div" direction="column" gap="2" css={{ mt: '$4' }}>
+        <Span>Key Description/Impact</Span>
         {fields.map((field, index) => {
+          const error =
+            errors.experience?.[experienceIndex]?.details?.[index]?.description
+              ?.message
           return (
-            <Card hoverable key={index}>
-              <Flex justify="between">
-                <Text h4 style={{ marginTop: 0 }}>
-                  Experience {index + 1}
-                </Text>
+            <div key={index}>
+              <Flex gap="2" align="center">
+                <TextField
+                  status={error ? 'error' : undefined}
+                  {...register(
+                    `experience.${experienceIndex}.details.${index}.description` as const,
+                    required
+                  )}
+                />
                 {fields.length === 1 && index === 0 ? null : (
                   <Button auto scale={1 / 2} onClick={() => remove(index)}>
                     Remove
                   </Button>
                 )}
               </Flex>
-              <Grid gapX="4" columns="2">
-                <FormField
-                  title="Role"
-                  error={errors.experience?.[index]?.role?.message}
-                >
-                  <AutoComplete
-                    clearable
-                    disableFreeSolo
-                    placeholder="Electrician"
-                    options={options}
-                    onSearch={searchHandler}
-                    type={
-                      errors.experience?.[index]?.role?.message
-                        ? 'error'
-                        : 'default'
-                    }
-                    {...register(`experience.${index}.role` as const, required)}
-                    onChange={(value) =>
-                      setValue(`experience.${index}.role`, value)
-                    }
-                  />
-                </FormField>
-                <FormField title="Company" requirementLabel="optional">
-                  <Input
-                    placeholder="Company A"
-                    clearable
-                    {...register(`experience.${index}.company`)}
-                  />
-                </FormField>
-              </Grid>
-            </Card>
+              {error ? <Small error>{error}</Small> : null}
+            </div>
           )
         })}
-        <Button onClick={() => append({})}>Add Employment</Button>
-      </Flex>
-    </section>
+      </FieldLabel>
+      <Button auto mt="0.5rem" onClick={() => append({})}>
+        Add Description
+      </Button>
+    </>
   )
 }

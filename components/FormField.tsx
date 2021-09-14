@@ -13,8 +13,8 @@ const errorStyles = css({
   },
 })
 
-const FieldLabel = styled('label', flexStyles)
-const Span = styled('span', errorStyles, {
+export const FieldLabel = styled('label', flexStyles)
+export const Span = styled('span', errorStyles, {
   color: '#444',
   pl: '1px',
   mb: '7px',
@@ -33,7 +33,7 @@ const Optional = styled('span', requirementLabelSharedStyles, {
 const Required = styled('span', requirementLabelSharedStyles, {
   color: '$erorr',
 })
-const Small = styled('small', errorStyles, {
+export const Small = styled('small', errorStyles, {
   fontSize: '0.75rem',
   fontWeight: '500',
   mt: '0.5rem',

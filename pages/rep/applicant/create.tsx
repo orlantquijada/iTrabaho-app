@@ -13,7 +13,7 @@ export default function CreateApplicantPage() {
     mode: 'onTouched',
     shouldUseNativeValidation: false,
     defaultValues: {
-      experience: [{}],
+      experience: [{ details: [{}] }],
     },
   })
 

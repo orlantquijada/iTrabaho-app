@@ -18,7 +18,9 @@ export interface FormFields {
     end_month?: string
     end_year: string
 
-    details: string[]
+    details: Array<{
+      description: string
+    }>
   }>
 }
 

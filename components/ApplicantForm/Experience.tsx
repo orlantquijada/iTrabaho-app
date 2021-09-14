@@ -3,14 +3,8 @@ import React, { ReactElement, useState } from 'react'
 import { useFieldArray, useFormContext } from 'react-hook-form'
 import { Grid, FormField, Flex, TextField } from '@/components'
 import SectionTitle from './SectionTitle'
-import { FormFields, required } from './helpers'
+import { allOptions, FormFields, required } from './helpers'
 import { FieldLabel, Small, Span } from '../FormField'
-
-const allOptions = [
-  { label: 'Carpenter', value: 'Carpenter' },
-  { label: 'Construction Worker', value: 'Construction Worker' },
-  { label: 'Plumber', value: 'Plumber' },
-]
 
 export default function Experience(): ReactElement {
   const {

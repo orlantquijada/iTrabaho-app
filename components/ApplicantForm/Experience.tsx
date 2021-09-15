@@ -84,14 +84,32 @@ export default function Experience(): ReactElement {
                   {...register(`experience.${index}.company`)}
                 />
               </FormField>
-              <FormField title="Start Date" requirementLabel="required">
+              <FormField
+                title="Start Date"
+                requirementLabel="required"
+                error={errors.experience?.[index]?.startDate?.message}
+              >
                 <TextField
+                  status={
+                    errors.experience?.[index]?.startDate?.message
+                      ? 'error'
+                      : undefined
+                  }
                   type="month"
                   {...register(`experience.${index}.startDate`, required)}
                 />
               </FormField>
-              <FormField title="End Date" requirementLabel="required">
+              <FormField
+                title="End Date"
+                requirementLabel="required"
+                error={errors.experience?.[index]?.endDate?.message}
+              >
                 <TextField
+                  status={
+                    errors.experience?.[index]?.endDate?.message
+                      ? 'error'
+                      : undefined
+                  }
                   type="month"
                   {...register(`experience.${index}.endDate`, required)}
                 />

@@ -36,10 +36,23 @@ export default function CreateApplicantPage() {
           noValidate
           action="POST"
           onSubmit={methods.handleSubmit((values) => {
+            const { experience } = values
+
+            // parse endDate and startDate to startMonth and StartYear for each experience
+            const parsedExperience = experience.map((exp) => {
+              const { startDate, endDate } = exp
+              const [startMonth, startYear] = startDate.split(' ')
+              const [endMonth, endYear] = endDate.split(' ')
+
+              return { ...exp, startMonth, startYear, endMonth, endYear }
+            })
+
             const body: typeof values = {
               ...values,
+              experience: parsedExperience,
               phoneNumber: values.phoneNumber.replaceAll(' ', ''),
             }
+
             alert(JSON.stringify(body, null, 2))
           })}
         >

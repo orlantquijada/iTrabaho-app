@@ -60,4 +60,10 @@ const BaseInput = styled('input', sharedStyles, {
   },
 })
 
+export const BaseTextArea = styled('textarea', sharedStyles, {
+  py: '$2',
+  resize: 'vertical',
+  height: 'unset',
+})
+
 export default BaseInput

@@ -87,13 +87,13 @@ export default function Experience(): ReactElement {
               <FormField title="Start Date" requirementLabel="required">
                 <TextField
                   type="month"
-                  {...register(`experience.${index}.startDate`)}
+                  {...register(`experience.${index}.startDate`, required)}
                 />
               </FormField>
               <FormField title="End Date" requirementLabel="required">
                 <TextField
                   type="month"
-                  {...register(`experience.${index}.endDate`)}
+                  {...register(`experience.${index}.endDate`, required)}
                 />
               </FormField>
               <FormField title="Location" requirementLabel="optional">

@@ -54,7 +54,7 @@ export default function Experience(): ReactElement {
                 </Button>
               )}
             </Flex>
-            <Grid gapX="4" columns="2">
+            <Grid gapY="4" gapX="4" columns="2">
               <FormField
                 title="Role"
                 error={errors.experience?.[index]?.role?.message}
@@ -81,6 +81,19 @@ export default function Experience(): ReactElement {
                   placeholder="Company A"
                   clearable
                   {...register(`experience.${index}.company`)}
+                />
+              </FormField>
+              <FormField title="Start Date">
+                <TextField type="month" />
+              </FormField>
+              <FormField title="End Date">
+                <TextField type="month" />
+              </FormField>
+              <FormField title="Location">
+                <Input
+                  placeholder="Cebu City, Cebu"
+                  clearable
+                  {...register(`experience.${index}.location`)}
                 />
               </FormField>
             </Grid>

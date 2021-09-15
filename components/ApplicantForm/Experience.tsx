@@ -58,6 +58,7 @@ export default function Experience(): ReactElement {
               <FormField
                 title="Role"
                 error={errors.experience?.[index]?.role?.message}
+                requirementLabel="required"
               >
                 <AutoComplete
                   clearable
@@ -83,19 +84,19 @@ export default function Experience(): ReactElement {
                   {...register(`experience.${index}.company`)}
                 />
               </FormField>
-              <FormField title="Start Date">
+              <FormField title="Start Date" requirementLabel="required">
                 <TextField
                   type="month"
                   {...register(`experience.${index}.startDate`)}
                 />
               </FormField>
-              <FormField title="End Date">
+              <FormField title="End Date" requirementLabel="required">
                 <TextField
                   type="month"
                   {...register(`experience.${index}.endDate`)}
                 />
               </FormField>
-              <FormField title="Location">
+              <FormField title="Location" requirementLabel="optional">
                 <Input
                   placeholder="Cebu City, Cebu"
                   clearable

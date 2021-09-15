@@ -40,9 +40,13 @@ export default function CreateApplicantPage() {
 
             // parse endDate and startDate to startMonth and StartYear for each experience
             const parsedExperience = experience.map((exp) => {
-              const { startDate, endDate } = exp
-              const [startMonth, startYear] = startDate.split(' ')
-              const [endMonth, endYear] = endDate.split(' ')
+              const { startDate: start, endDate: end } = exp
+              const startDate = new Date(start)
+              const endDate = new Date(end)
+              const startMonth = startDate.getMonth() + 1
+              const endMonth = endDate.getMonth() + 1
+              const startYear = startDate.getFullYear()
+              const endYear = endDate.getFullYear()
 
               return { ...exp, startMonth, startYear, endMonth, endYear }
             })

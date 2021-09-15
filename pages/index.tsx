@@ -1,16 +1,19 @@
-import { Text, Page, AutoComplete } from '@geist-ui/react'
+import NextLink from 'next/link'
+import { Link } from '@geist-ui/react'
 
 export default function Home() {
-  const options = [
-    { label: 'London', value: 'london' },
-    { label: 'Sydney', value: 'sydney' },
-    { label: 'Shanghai', value: 'shanghai' },
-  ]
-
   return (
-    <Page>
-      <Text h1>Hello World</Text>
-      <AutoComplete options={options} />
-    </Page>
+    <>
+      <NextLink href="rep/applicant/create" passHref>
+        <Link color block>
+          create applicant form
+        </Link>
+      </NextLink>
+      <NextLink href="recruiter/signup" passHref>
+        <Link color block>
+          create recruiter account
+        </Link>
+      </NextLink>
+    </>
   )
 }

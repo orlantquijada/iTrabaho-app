@@ -1,9 +1,13 @@
 import { FormField, Grid, TextArea } from '@/components'
+import { allOptions } from '@/components/ApplicantForm/helpers'
 import SectionTitle from '@/components/ApplicantForm/SectionTitle'
 import { gridStyles } from '@/components/Grid'
 import { FormFields, required } from '@/components/JobPostForm/helpers'
 import { styled } from '@/stitches.config'
-import { Button, Input, Select } from '@geist-ui/react'
+import { availableLocations, cities } from '@/utils/data/location'
+import { AutoComplete, Button, Input, Select, Tooltip } from '@geist-ui/react'
+import { InfoCircledIcon } from '@radix-ui/react-icons'
+import { useState } from 'react'
 import { useController, useForm } from 'react-hook-form'
 
 export default function CreateJobPost() {
@@ -11,7 +15,8 @@ export default function CreateJobPost() {
     register,
     control,
     handleSubmit,
-    watch,
+    getValues,
+    setValue,
     formState: { errors },
   } = useForm<FormFields>()
 
@@ -19,25 +24,31 @@ export default function CreateJobPost() {
     control,
     name: 'province',
     rules: required,
+    defaultValue: 'Cebu',
   })
 
   const { field: city } = useController({
     control,
     name: 'city',
     rules: required,
+    defaultValue: cities[0],
   })
   const { field: barangay } = useController({
     control,
     name: 'barangay',
     rules: required,
   })
-  const { field: street } = useController({
-    control,
-    name: 'street',
-    rules: required,
-  })
 
-  // TODO: Province, city, barangay, street options
+  const [options, setOptions] =
+    useState<Array<{ label: string; value: string }>>()
+  const searchHandler = (currentValue) => {
+    if (!currentValue) return setOptions([])
+    const relatedOptions = allOptions.filter((item) =>
+      item.value.includes(currentValue)
+    )
+    setOptions(relatedOptions)
+  }
+
   return (
     <Form
       noValidate
@@ -52,12 +63,14 @@ export default function CreateJobPost() {
 
         <Grid gapY="4">
           <FormField title="Role" error={errors.role?.message}>
-            <Input
-              placeholder="Electrician"
+            <AutoComplete
+              options={options}
               width="100%"
-              clearable
+              placeholder="Electrician"
+              onSearch={searchHandler}
               type={errors.role?.message ? 'error' : 'default'}
               {...register('role', required)}
+              onChange={(value) => setValue('role', value)}
             />
           </FormField>
           <FormField title="Description" error={errors.description?.message}>
@@ -73,39 +86,46 @@ export default function CreateJobPost() {
         <SectionTitle h1>Location</SectionTitle>
         <Grid gapY="4">
           <Grid columns="2" gap="4">
-            <FormField title="Province" error={errors.province?.message}>
+            <FormField
+              title="Province"
+              error={errors.province?.message}
+              icon={
+                <Tooltip text="Other Provinces will be supported soon!">
+                  <InfoCircledIcon />
+                </Tooltip>
+              }
+            >
               <Select
                 placeholder="Choose one"
                 type={errors.province?.message ? 'error' : 'default'}
                 value={province.value}
                 onChange={province.onChange}
+                disabled
               >
-                <Select.Option value="primary">Primary</Select.Option>
-                <Select.Option value="junior">Junior High School</Select.Option>
-                <Select.Option value="senior">Senior High School</Select.Option>
-                <Select.Option value="undergraduate">
-                  Undergraduate
-                </Select.Option>
-                <Select.Option value="graduate">Graduate</Select.Option>
-                <Select.Option value="doctoral">Doctorial</Select.Option>
+                <Select.Option value="Cebu">Cebu</Select.Option>
               </Select>
             </FormField>
-            <FormField title="City" error={errors.city?.message}>
+            <FormField
+              title="City"
+              error={errors.city?.message}
+              icon={
+                <Tooltip text="Other Cities will be supported soon!">
+                  <InfoCircledIcon />
+                </Tooltip>
+              }
+            >
               <Select
                 placeholder="Choose one"
                 type={errors.city?.message ? 'error' : 'default'}
                 value={city.value}
                 onChange={city.onChange}
-                disabled={!watch('province')}
+                disabled
               >
-                <Select.Option value="primary">Primary</Select.Option>
-                <Select.Option value="junior">Junior High School</Select.Option>
-                <Select.Option value="senior">Senior High School</Select.Option>
-                <Select.Option value="undergraduate">
-                  Undergraduate
-                </Select.Option>
-                <Select.Option value="graduate">Graduate</Select.Option>
-                <Select.Option value="doctoral">Doctorial</Select.Option>
+                {cities.map((item) => (
+                  <Select.Option value={item} key={item}>
+                    {item}
+                  </Select.Option>
+                ))}
               </Select>
             </FormField>
           </Grid>
@@ -117,35 +137,22 @@ export default function CreateJobPost() {
                 type={errors.barangay?.message ? 'error' : 'default'}
                 value={barangay.value}
                 onChange={barangay.onChange}
-                disabled={!watch('city')}
+                disabled={!getValues('city')}
               >
-                <Select.Option value="primary">Primary</Select.Option>
-                <Select.Option value="junior">Junior High School</Select.Option>
-                <Select.Option value="senior">Senior High School</Select.Option>
-                <Select.Option value="undergraduate">
-                  Undergraduate
-                </Select.Option>
-                <Select.Option value="graduate">Graduate</Select.Option>
-                <Select.Option value="doctoral">Doctorial</Select.Option>
+                {availableLocations['Cebu City'].barangays.map((item) => (
+                  <Select.Option value={item} key={item}>
+                    {item}
+                  </Select.Option>
+                ))}
               </Select>
             </FormField>
             <FormField title="Street" error={errors.street?.message}>
-              <Select
-                placeholder="Choose one"
+              <Input
+                placeholder="221B Baker Street"
                 type={errors.street?.message ? 'error' : 'default'}
-                value={street.value}
-                onChange={street.onChange}
-                disabled={!watch('barangay')}
-              >
-                <Select.Option value="primary">Primary</Select.Option>
-                <Select.Option value="junior">Junior High School</Select.Option>
-                <Select.Option value="senior">Senior High School</Select.Option>
-                <Select.Option value="undergraduate">
-                  Undergraduate
-                </Select.Option>
-                <Select.Option value="graduate">Graduate</Select.Option>
-                <Select.Option value="doctoral">Doctorial</Select.Option>
-              </Select>
+                clearable
+                {...register('street', required)}
+              />
             </FormField>
           </Grid>
         </Grid>

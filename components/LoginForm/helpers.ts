@@ -1,11 +1,7 @@
 // types
 export interface FormFields {
-  firstName: string
-  lastName: string
   phoneNumber: string
-  sex?: 'M' | 'F'
-  birthdate: string
-  company?: string
+  password: string
 }
 
 // methods

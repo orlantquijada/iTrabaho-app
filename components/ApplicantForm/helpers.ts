@@ -3,7 +3,7 @@ export interface FormFields {
   firstName: string
   lastName: string
   phoneNumber: string
-  sex: 'M' | 'F'
+  sex?: 'M' | 'F'
   birthdate: string
 
   yearsOfExperience: number

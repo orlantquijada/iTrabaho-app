@@ -19,6 +19,11 @@ export default function Home() {
           create job post
         </Link>
       </NextLink>
+      <NextLink href="login" passHref>
+        <Link color block>
+          login
+        </Link>
+      </NextLink>
     </>
   )
 }

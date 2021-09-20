@@ -14,6 +14,11 @@ export default function Home() {
           create recruiter account
         </Link>
       </NextLink>
+      <NextLink href="jobs/create" passHref>
+        <Link color block>
+          create job post
+        </Link>
+      </NextLink>
       <NextLink href="login" passHref>
         <Link color block>
           login

@@ -52,10 +52,7 @@ export default class SignUpFormView extends Component<Props, State> {
       Boolean(this.getFirstName()),
       Boolean(this.getLastName()),
       Boolean(this.getPhoneNumber()),
-      Boolean(this.getSex()),
-      Boolean(this.getSex() == 'M' || this.getSex() == 'F'),
-      Boolean(this.getBirthDate()),
-      Boolean(this.getCompany()),
+      this.getSex() === 'M' || this.getSex() === 'F',
     ]
 
     return validations.some((valid) => !valid)
@@ -147,23 +144,10 @@ export default class SignUpFormView extends Component<Props, State> {
           </Grid>
 
           <Grid columns="2" gap="4">
-            <FormField
-              title="Birthdate"
-              error={this.props.methods.formState.errors.birthdate?.message}
-            >
+            <FormField title="Birthdate" requirementLabel="optional">
               <TextField
                 type="date"
-                status={
-                  this.props.methods.formState.errors.birthdate?.message
-                    ? 'error'
-                    : undefined
-                }
                 {...this.props.methods.register('birthdate', {
-                  ...required,
-                  validate: (v) => {
-                    if (isNaN(Date.parse(v))) return 'Please fill in this field'
-                    return undefined
-                  },
                   valueAsDate: true,
                 })}
               />
@@ -189,6 +173,4 @@ export default class SignUpFormView extends Component<Props, State> {
   }
 }
 
-const Form = styled('form', gridStyles, {
-  width: 'fit-content',
-})
+const Form = styled('form', gridStyles)

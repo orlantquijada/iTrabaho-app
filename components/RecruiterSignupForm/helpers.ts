@@ -4,7 +4,7 @@ export interface FormFields {
   lastName: string
   phoneNumber: string
   sex?: 'M' | 'F'
-  birthdate: string
+  birthdate?: string
   company?: string
 }
 

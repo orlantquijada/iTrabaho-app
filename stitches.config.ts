@@ -126,7 +126,12 @@ export const globalStyles = globalCss({
     fontFamily: '$default',
   },
 
+  '#__next': {
+    height: '100%',
+  },
+
   'body, html': {
+    height: '100%',
     margin: 0,
     padding: 0,
   },

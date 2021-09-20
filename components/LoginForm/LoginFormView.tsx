@@ -51,6 +51,7 @@ export default class LoginForm extends Component<Props, State> {
             error={this.props.methods.formState.errors.phoneNumber?.message}
           >
             <Input
+              width="100%"
               placeholder="09XXXXXXXXX"
               type={
                 this.props.methods.formState.errors.phoneNumber?.message
@@ -65,6 +66,7 @@ export default class LoginForm extends Component<Props, State> {
             error={this.props.methods.formState.errors.password?.message}
           >
             <Input
+              width="100%"
               placeholder="*********"
               type={
                 this.props.methods.formState.errors.password?.message
@@ -87,6 +89,4 @@ export default class LoginForm extends Component<Props, State> {
   }
 }
 
-const Form = styled('form', gridStyles, {
-  width: 'fit-content',
-})
+const Form = styled('form', gridStyles)

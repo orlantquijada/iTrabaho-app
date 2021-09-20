@@ -20,6 +20,14 @@ export const Span = styled('span', errorStyles, {
   mb: '7px',
   fontSize: '14px',
   lineHeight: '1.5',
+  mr: '$1',
+  display: 'flex',
+  alignItems: 'center',
+
+  '& .tooltip': {
+    display: 'inline-flex !important',
+    ml: '4px',
+  },
 })
 
 const requirementLabelSharedStyles = css({
@@ -46,11 +54,13 @@ function FormField({
   requirementLabel,
   error,
   children,
+  icon,
 }: {
   children: ReactNode
   title: string
   requirementLabel?: 'required' | 'optional'
   error?: string
+  icon?: ReactNode
 }) {
   const hasError = Boolean(error)
 
@@ -64,6 +74,8 @@ function FormField({
     <FieldLabel direction="column">
       <Span error={hasError}>
         {title}
+
+        {icon}
         {label}
       </Span>
       {children}

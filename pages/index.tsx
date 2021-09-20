@@ -1,29 +1,30 @@
-import NextLink from 'next/link'
-import { Link } from '@geist-ui/react'
+import { Box, Container } from '@/components'
+import { Text } from '@geist-ui/react'
 
 export default function Home() {
   return (
-    <>
-      <NextLink href="rep/applicant/create" passHref>
-        <Link color block>
-          create applicant form
-        </Link>
-      </NextLink>
-      <NextLink href="recruiter/signup" passHref>
-        <Link color block>
-          create recruiter account
-        </Link>
-      </NextLink>
-      <NextLink href="jobs/create" passHref>
-        <Link color block>
-          create job post
-        </Link>
-      </NextLink>
-      <NextLink href="login" passHref>
-        <Link color block>
-          login
-        </Link>
-      </NextLink>
-    </>
+    <Container>
+      <Box
+        css={{
+          textAlign: 'center',
+          py: '$9',
+        }}
+      >
+        <Text h1 font="59px">
+          Join the world’s largest startup community
+        </Text>
+        <Text
+          style={{
+            maxWidth: '80%',
+            fontSize: '1.5rem',
+            lineHeight: 1.5,
+            margin: 'auto',
+          }}
+        >
+          Experience the startup ecosystem — invest in startups, research the
+          fastest-growing companies, and find a job you love.
+        </Text>
+      </Box>
+    </Container>
   )
 }

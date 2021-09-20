@@ -1,3 +1,4 @@
+import { gray } from '@radix-ui/colors'
 import { createStitches } from '@stitches/react'
 import type * as Stitches from '@stitches/react'
 
@@ -5,6 +6,7 @@ export const stitches = createStitches({
   theme: {
     colors: {
       erorr: 'hsla(0 100% 67.8% / var(--opacity))',
+      ...gray,
     },
     radii: {
       1: '4px',

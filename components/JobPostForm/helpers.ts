@@ -7,6 +7,7 @@ export interface FormFields {
 
   description: string
   role: string
+  title: string
 }
 
 // methods

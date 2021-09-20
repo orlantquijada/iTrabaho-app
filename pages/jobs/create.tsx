@@ -73,6 +73,15 @@ export default function CreateJobPost() {
               onChange={(value) => setValue('role', value)}
             />
           </FormField>
+          <FormField title="Job Title" error={errors.title?.message}>
+            <Input
+              placeholder="Fix Broken Circuit"
+              type={errors.title?.message ? 'error' : 'default'}
+              clearable
+              width="100%"
+              {...register('title', required)}
+            />
+          </FormField>
           <FormField title="Description" error={errors.description?.message}>
             <TextArea
               rows={7}

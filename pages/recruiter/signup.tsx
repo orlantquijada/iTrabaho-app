@@ -11,10 +11,5 @@ export default function RecruiterSignUpPage() {
     rules: required,
   })
 
-  const props = {
-    methods,
-    sexController,
-  }
-
-  return <SignUpFormView {...props} />
+  return <SignUpFormView methods={methods} sexController={sexController} />
 }

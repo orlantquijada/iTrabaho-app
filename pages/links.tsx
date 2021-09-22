@@ -21,6 +21,11 @@ export default function Home() {
           create job post
         </Link>
       </NextLink>
+      <NextLink href="jobs" passHref>
+        <Link color block>
+          jobs list
+        </Link>
+      </NextLink>
       <Container size="md">
         <JobPostCard
           title="Create a social media strategy for my business"

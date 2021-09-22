@@ -21,10 +21,50 @@ interface Props {
 }
 
 export default class JobPostFormView extends Component<Props, State> {
+  state: State = {
+    street: '',
+    barangay: '',
+    city: '',
+    province: '',
+    description: '',
+    role: '',
+    title: '',
+  }
+  getAddressInput() {
+    return `${this.state.street} ${this.state.barangay} ${this.state.city}, ${this.state.province}`
+  }
+
+  getDescription() {
+    return this.state.description
+  }
+
+  getRole() {
+    return this.state.role
+  }
+
+  getTitle() {
+    return this.state.title
+  }
+
+  validateForm() {
+    const validations = [
+      Boolean(this.state.street),
+      Boolean(this.state.barangay),
+      Boolean(this.state.city),
+      Boolean(this.state.province),
+      Boolean(this.state.description),
+      Boolean(this.state.role),
+      Boolean(this.state.title),
+    ]
+
+    return validations.some((valid) => !valid)
+  }
+
   // TODO: connect to backend
   postJob = (values: FormFields) => {
     alert(JSON.stringify(values, null, 2))
   }
+
   render() {
     const {
       methods,

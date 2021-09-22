@@ -65,7 +65,7 @@ export default class LoginForm extends Component<Props, State> {
             title="Password"
             error={this.props.methods.formState.errors.password?.message}
           >
-            <Input
+            <Input.Password
               width="100%"
               placeholder="*********"
               type={

@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import { allOptions } from '@/components/ApplicantForm/helpers'
-import { FormFields, required } from '@/components/JobPostForm/helpers'
+import { FormFields, required } from '@/components/JobPost/helpers'
 import { cities } from '@/utils/data/location'
 import { useController, useForm } from 'react-hook-form'
-import JobPostFormView from '@/components/JobPostForm/JobPostFormView'
+import JobPostFormView from '@/components/JobPost/JobPostFormView'
 
 export default function CreateJobPost() {
   const methods = useForm<FormFields>()

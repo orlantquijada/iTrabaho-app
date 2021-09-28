@@ -42,6 +42,9 @@ const Title = styled(Text, {
 const cardStyles = css({
   p: '1.5rem',
   cursor: 'pointer',
+  // card can be a dialog trigger (button)
+  // default button styles are text-aligned center
+  textAlign: 'start',
 
   '& p': {
     m: 0,

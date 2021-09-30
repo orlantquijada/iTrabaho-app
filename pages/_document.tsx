@@ -1,5 +1,7 @@
+/* eslint-disable */
 import Document, { Html, Head, Main, NextScript } from 'next/document'
 import type { DocumentContext } from 'next/document'
+/* eslint-enable */
 import { CssBaseline } from '@geist-ui/react'
 import { getCssText } from '@/stitches.config'
 

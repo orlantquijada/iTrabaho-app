@@ -6,6 +6,8 @@ export interface FormFields {
   sex?: 'M' | 'F'
   birthdate?: string
   company?: string
+  password?: string
+  confirm_password?: string
 }
 
 // methods

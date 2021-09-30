@@ -39,8 +39,8 @@ const StyledContent = styled(DialogPrimitive.Content, {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: '90vw',
-  maxWidth: '450px',
+  maxWidth: '50vw',
+  minWidth: '30vw',
   maxHeight: '85vh',
   padding: 25,
   '@media (prefers-reduced-motion: no-preference)': {
@@ -54,7 +54,7 @@ const StyledTitle = styled(DialogPrimitive.Title, {
   margin: 0,
   fontWeight: 500,
   color: mauve.mauve12,
-  fontSize: 17,
+  fontSize: '1rem',
 })
 
 const StyledDescription = styled(DialogPrimitive.Description, {

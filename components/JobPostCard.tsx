@@ -2,7 +2,7 @@ import { css, styled } from '@/stitches.config'
 import { Text } from '@geist-ui/react'
 import { blue, grayA, slate } from '@radix-ui/colors'
 import React, { ComponentProps, forwardRef } from 'react'
-import { Flex } from '.'
+import { Badge, Flex } from '.'
 
 interface Props {
   title: string
@@ -18,9 +18,7 @@ export const JobPostCard = forwardRef<
   <Flex direction="column" className={cardStyles()} ref={ref}>
     <Flex justify="between" align="center">
       <Title span>{props.title}</Title>
-      <Text className={role()} span>
-        {props.role}
-      </Text>
+      <Badge>{props.role}</Badge>
     </Flex>
     <Text
       className={recruiter()}
@@ -60,15 +58,3 @@ const cardStyles = css({
 })
 const recruiter = css({ fontSize: '14px' })
 const description = css({ fontSize: '14px' })
-const role = css({
-  fontSize: '0.75rem',
-  fontWeight: 600,
-  flexShrink: 0,
-  color: `${slate.slate11} !important`,
-
-  px: '$2',
-  py: '$1',
-  borderRadius: '$pill',
-  background: slate.slate5,
-  width: 'fit-content',
-})

@@ -1,7 +1,7 @@
-import { Component, createRef } from 'react'
+import { Component } from 'react'
 import { Flex } from '@/components'
 import { FormFields } from './helpers'
-import { UseControllerReturn, UseFormReturn } from 'react-hook-form'
+import { UseFormReturn } from 'react-hook-form'
 import { FormField, Grid } from '@/components'
 import { required } from '@/components/ApplicantForm/helpers'
 import { gridStyles } from '@/components/Grid'
@@ -9,13 +9,12 @@ import { styled } from '@/stitches.config'
 import { Button, Input } from '@geist-ui/react'
 
 type State = FormFields
+
 interface Props {
   methods: UseFormReturn<FormFields>
-  sexController: UseControllerReturn<FormFields, 'sex'>
 }
 
 export default class SignUpFormView extends Component<Props, State> {
-  private passref: React.RefObject<HTMLInputElement> | string | null
   state: State = {
     firstName: '',
     lastName: '',
@@ -27,15 +26,6 @@ export default class SignUpFormView extends Component<Props, State> {
     confirm_password: '',
   }
 
-  constructor(props) {
-    super(props)
-    this.passref = createRef()
-    this.passref = this.props.methods.watch('password')
-  }
-
-  componentDidUpdate() {
-    this.passref = this.props.methods.watch('password')
-  }
   getFirstName() {
     return this.state.firstName
   }
@@ -118,104 +108,70 @@ export default class SignUpFormView extends Component<Props, State> {
               />
             </FormField>
           </Flex>
-          <Flex direction="column">
-            <FormField
-              title="Phone Number"
-              error={this.props.methods.formState.errors.phoneNumber?.message}
-            >
-              <Input
-                label="+639"
-                placeholder="922 283 3416"
-                clearable
-                width="100%"
-                type={
-                  this.props.methods.formState.errors.phoneNumber?.message
-                    ? 'error'
-                    : 'default'
-                }
-                {...this.props.methods.register('phoneNumber', {
-                  ...required,
-                  minLength: {
-                    message: 'Please fill in a valid Phone Number',
-                    value: 10,
-                  },
-                  maxLength: {
-                    message: 'Please fill in a valid Phone Number',
-                    value: 12,
-                  },
-                })}
-              />
-            </FormField>
-            <FormField
-              title="Password"
-              error={this.props.methods.formState.errors.password?.message}
-            >
-              <Input.Password
-                width="100%"
-                type={
-                  this.props.methods.formState.errors.password?.message
-                    ? 'error'
-                    : 'default'
-                }
-                clearable
-                {...this.props.methods.register('password', required)}
-              />
-            </FormField>
-            <FormField
-              title="Confirm Password"
-              error={
-                this.props.methods.formState.errors.confirm_password?.message
+          <FormField
+            title="Phone Number"
+            error={this.props.methods.formState.errors.phoneNumber?.message}
+          >
+            <Input
+              label="+63"
+              placeholder="922 283 3416"
+              clearable
+              width="100%"
+              type={
+                this.props.methods.formState.errors.phoneNumber?.message
+                  ? 'error'
+                  : 'default'
               }
-            >
-              <Input.Password
-                width="100%"
-                type={
-                  this.props.methods.formState.errors.confirm_password?.type ===
-                  'validate'
-                    ? 'error'
-                    : 'default'
-                }
-                clearable
-                {...this.props.methods.register('confirm_password', {
-                  required: true,
-                  validate: (value) => {
-                    if (value === this.passref) return true
-                    else return 'Passwords do not match'
-                  },
-                })}
-              />
-            </FormField>
-            {/* <FormField
-              title="Sex"
-              error={this.props.methods.formState.errors.sex?.message}
-            >
-              <Radio.Group
-                value={this.props.sexController.field.value}
-                onChange={this.props.sexController.field.onChange}
-              >
-                <Radio value="M">Male</Radio>
-                <Radio value="F">Female</Radio>
-              </Radio.Group>
-            </FormField> */}
-          </Flex>
+              {...this.props.methods.register('phoneNumber', {
+                ...required,
+                minLength: {
+                  message: 'Please fill in a valid Phone Number',
+                  value: 10,
+                },
+                maxLength: {
+                  message: 'Please fill in a valid Phone Number',
+                  value: 12,
+                },
+              })}
+            />
+          </FormField>
 
-          {/* <Grid columns="2" gap="4">
-            <FormField title="Birthdate" requirementLabel="optional">
-              <TextField
-                type="date"
-                {...this.props.methods.register('birthdate', {
-                  valueAsDate: true,
-                })}
-              />
-            </FormField>
-            <FormField title="Company" requirementLabel="optional">
-              <Input
-                placeholder="Company A"
-                clearable
-                {...this.props.methods.register('company')}
-              />
-            </FormField>
-          </Grid> */}
+          <FormField
+            title="Password"
+            error={this.props.methods.formState.errors.password?.message}
+          >
+            <Input.Password
+              width="100%"
+              type={
+                this.props.methods.formState.errors.password?.message
+                  ? 'error'
+                  : 'default'
+              }
+              {...this.props.methods.register('password', required)}
+            />
+          </FormField>
+          <FormField
+            title="Confirm Password"
+            error={
+              this.props.methods.formState.errors.confirm_password?.message
+            }
+          >
+            <Input.Password
+              width="100%"
+              type={
+                this.props.methods.formState.errors.confirm_password?.message
+                  ? 'error'
+                  : 'default'
+              }
+              {...this.props.methods.register('confirm_password', {
+                ...required,
+                validate: (value) =>
+                  value !== this.props.methods.getValues('password')
+                    ? 'Passwords do not match'
+                    : undefined,
+              })}
+            />
+          </FormField>
         </Grid>
         <Button
           type="secondary"

@@ -1,12 +1,13 @@
 import { Component } from 'react'
 import { Flex } from '@/components'
 import { FormFields } from './helpers'
-import { UseFormReturn } from 'react-hook-form'
+import { SubmitHandler, UseFormReturn } from 'react-hook-form'
 import { FormField, Grid } from '@/components'
 import { required } from '@/components/ApplicantForm/helpers'
 import { gridStyles } from '@/components/Grid'
 import { styled } from '@/stitches.config'
 import { Button, Input } from '@geist-ui/react'
+import { signup } from '@/utils/hooks/useUser'
 
 type State = FormFields
 
@@ -65,8 +66,8 @@ export default class SignUpFormView extends Component<Props, State> {
     return validations.some((valid) => !valid)
   }
 
-  signup(values: FormFields) {
-    alert(JSON.stringify(values, null, 2))
+  signup: SubmitHandler<FormFields> = async (values: FormFields) => {
+    signup(values).then(() => window.location.reload())
   }
   render() {
     return (

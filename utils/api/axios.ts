@@ -1,5 +1,5 @@
 import a from 'axios'
 
-const axios = a.create({ baseURL: 'http://localhost:8000' })
+const axios = a.create({ baseURL: 'https://itrabaho-api.herokuapp.com/' })
 
 export default axios

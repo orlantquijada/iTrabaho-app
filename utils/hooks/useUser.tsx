@@ -52,6 +52,22 @@ export async function login(body: { phoneNumber: string; password: string }) {
     .then((user) => window.localStorage.setItem(userKey, JSON.stringify(user)))
 }
 
+export async function signup(body: {
+  firstName: string
+  lastName: string
+  phoneNumber: string
+  password: string
+}) {
+  return axios
+    .post<User>('api/signup/', body)
+    .then((res) => res.data)
+    .then((data) => ({
+      ...data,
+      last_login: data.last_login ? new Date(data.last_login) : null,
+    }))
+    .then((user) => window.localStorage.setItem(userKey, JSON.stringify(user)))
+}
+
 export function logout() {
   window.localStorage.removeItem(userKey)
 }

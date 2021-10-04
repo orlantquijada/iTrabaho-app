@@ -5,6 +5,7 @@ import { styled } from '@/stitches.config'
 import { Button, Input } from '@geist-ui/react'
 import { FormFields, required } from './helpers'
 import { UseFormReturn } from 'react-hook-form'
+import { login } from '@/utils/hooks/useUser'
 
 type State = FormFields
 
@@ -26,8 +27,7 @@ export default class LoginForm extends Component<Props, State> {
     return this.state.password
   }
   login(values: FormFields) {
-    // TODO: login
-    alert(JSON.stringify(values))
+    login(values).then(() => window.location.reload())
   }
   validateForm() {
     const validations = [
@@ -65,7 +65,7 @@ export default class LoginForm extends Component<Props, State> {
             title="Password"
             error={this.props.methods.formState.errors.password?.message}
           >
-            <Input
+            <Input.Password
               width="100%"
               placeholder="*********"
               type={

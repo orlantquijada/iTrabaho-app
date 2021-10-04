@@ -1,18 +1,19 @@
 import { Component } from 'react'
 import { Flex } from '@/components'
 import { FormFields } from './helpers'
-import { UseControllerReturn, UseFormReturn } from 'react-hook-form'
-import { FormField, Grid, TextField } from '@/components'
+import { UseFormReturn } from 'react-hook-form'
+import { FormField, Grid } from '@/components'
 import { required } from '@/components/ApplicantForm/helpers'
 import { gridStyles } from '@/components/Grid'
 import { styled } from '@/stitches.config'
-import { Button, Input, Radio } from '@geist-ui/react'
+import { Button, Input } from '@geist-ui/react'
 
 type State = FormFields
+
 interface Props {
   methods: UseFormReturn<FormFields>
-  sexController: UseControllerReturn<FormFields, 'sex'>
 }
+
 export default class SignUpFormView extends Component<Props, State> {
   state: State = {
     firstName: '',
@@ -21,6 +22,8 @@ export default class SignUpFormView extends Component<Props, State> {
     sex: undefined,
     birthdate: '',
     company: '',
+    password: '',
+    confirm_password: '',
   }
 
   getFirstName() {
@@ -47,15 +50,16 @@ export default class SignUpFormView extends Component<Props, State> {
     return this.state.company
   }
 
+  getPassword() {
+    return this.state.password
+  }
+
   validateForm() {
     const validations = [
       Boolean(this.getFirstName()),
       Boolean(this.getLastName()),
       Boolean(this.getPhoneNumber()),
-      Boolean(this.getSex()),
-      Boolean(this.getSex() == 'M' || this.getSex() == 'F'),
-      Boolean(this.getBirthDate()),
-      Boolean(this.getCompany()),
+      this.getSex() === 'M' || this.getSex() === 'F',
     ]
 
     return validations.some((valid) => !valid)
@@ -104,78 +108,70 @@ export default class SignUpFormView extends Component<Props, State> {
               />
             </FormField>
           </Flex>
-          <Grid flow="column" gap="4" css={{ gridTemplateColumns: '70% auto' }}>
-            <FormField
-              title="Phone Number"
-              error={this.props.methods.formState.errors.phoneNumber?.message}
-            >
-              <Input
-                label="+639"
-                placeholder="922 283 3416"
-                clearable
-                type={
-                  this.props.methods.formState.errors.phoneNumber?.message
-                    ? 'error'
-                    : 'default'
-                }
-                {...this.props.methods.register('phoneNumber', {
-                  ...required,
-                  minLength: {
-                    message: 'Please fill in a valid Phone Number',
-                    value: 10,
-                  },
-                  maxLength: {
-                    message: 'Please fill in a valid Phone Number',
-                    value: 12,
-                  },
-                })}
-              />
-            </FormField>
+          <FormField
+            title="Phone Number"
+            error={this.props.methods.formState.errors.phoneNumber?.message}
+          >
+            <Input
+              label="+63"
+              placeholder="922 283 3416"
+              clearable
+              width="100%"
+              type={
+                this.props.methods.formState.errors.phoneNumber?.message
+                  ? 'error'
+                  : 'default'
+              }
+              {...this.props.methods.register('phoneNumber', {
+                ...required,
+                minLength: {
+                  message: 'Please fill in a valid Phone Number',
+                  value: 10,
+                },
+                maxLength: {
+                  message: 'Please fill in a valid Phone Number',
+                  value: 12,
+                },
+              })}
+            />
+          </FormField>
 
-            <FormField
-              title="Sex"
-              error={this.props.methods.formState.errors.sex?.message}
-            >
-              <Radio.Group
-                value={this.props.sexController.field.value}
-                onChange={this.props.sexController.field.onChange}
-              >
-                <Radio value="M">Male</Radio>
-                <Radio value="F">Female</Radio>
-              </Radio.Group>
-            </FormField>
-          </Grid>
-
-          <Grid columns="2" gap="4">
-            <FormField
-              title="Birthdate"
-              error={this.props.methods.formState.errors.birthdate?.message}
-            >
-              <TextField
-                type="date"
-                status={
-                  this.props.methods.formState.errors.birthdate?.message
-                    ? 'error'
-                    : undefined
-                }
-                {...this.props.methods.register('birthdate', {
-                  ...required,
-                  validate: (v) => {
-                    if (isNaN(Date.parse(v))) return 'Please fill in this field'
-                    return undefined
-                  },
-                  valueAsDate: true,
-                })}
-              />
-            </FormField>
-            <FormField title="Company" requirementLabel="optional">
-              <Input
-                placeholder="Company A"
-                clearable
-                {...this.props.methods.register('company')}
-              />
-            </FormField>
-          </Grid>
+          <FormField
+            title="Password"
+            error={this.props.methods.formState.errors.password?.message}
+          >
+            <Input.Password
+              width="100%"
+              type={
+                this.props.methods.formState.errors.password?.message
+                  ? 'error'
+                  : 'default'
+              }
+              {...this.props.methods.register('password', required)}
+            />
+          </FormField>
+          <FormField
+            title="Confirm Password"
+            error={
+              this.props.methods.formState.errors.confirm_password?.message
+            }
+          >
+            <Input.Password
+              width="100%"
+              type={
+                this.props.methods.formState.errors.confirm_password?.message
+                  ? 'error'
+                  : 'default'
+              }
+              {...this.props.methods.register('confirm_password', {
+                ...required,
+                validate: (value) =>
+                  value !== this.props.methods.getValues('password')
+                    ? 'Passwords do not match'
+                    : undefined,
+              })}
+            />
+          </FormField>
         </Grid>
         <Button
           type="secondary"
@@ -189,6 +185,4 @@ export default class SignUpFormView extends Component<Props, State> {
   }
 }
 
-const Form = styled('form', gridStyles, {
-  width: 'fit-content',
-})
+const Form = styled('form', gridStyles)

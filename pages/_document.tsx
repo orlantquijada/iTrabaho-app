@@ -1,5 +1,6 @@
 import Document, { Html, Head, Main, NextScript } from 'next/document'
 import type { DocumentContext } from 'next/document'
+
 import { CssBaseline } from '@geist-ui/react'
 import { getCssText } from '@/stitches.config'
 

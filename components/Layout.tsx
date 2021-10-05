@@ -1,5 +1,5 @@
 import useUser from '@/utils/hooks/useUser'
-import { Button, Modal, Page, Text } from '@geist-ui/react'
+import { Button, Modal, Text } from '@geist-ui/react'
 import { useRouter } from 'next/dist/client/router'
 import { ReactNode, useEffect, useState } from 'react'
 import { Box, Container, Flex, Link } from '.'
@@ -15,20 +15,15 @@ export default function Layout({ children }: { children: ReactNode }) {
   const user = useUser()
 
   useEffect(() => {
-    if (router.pathname !== '/' && !user) router.push('/')
+    if (!(router.pathname === '/' || router.pathname === '/jobs') && !user)
+      router.push('/')
   }, [router, user])
 
   return (
     <>
       <Box css={{ height: '100%' }}>
-        <Page.Header>
+        <header>
           <Flex as={Container} justify="between">
-            <Link
-              href="/links"
-              css={{ textDecoration: 'none', color: '#191919' }}
-            >
-              <Text>links</Text>
-            </Link>
             <Link href="/" css={{ textDecoration: 'none', color: '#191919' }}>
               <Text>iTrabaho</Text>
             </Link>
@@ -65,11 +60,18 @@ export default function Layout({ children }: { children: ReactNode }) {
               </Flex>
             )}
           </Flex>
-        </Page.Header>
+        </header>
 
         {children}
 
-        <Page.Footer></Page.Footer>
+        <Container as="footer">
+          <Link
+            href="/links"
+            css={{ textDecoration: 'none', color: '#191919' }}
+          >
+            <Text>links</Text>
+          </Link>
+        </Container>
       </Box>
       <Modal
         visible={loginModalState}

@@ -98,7 +98,13 @@ export default function Layout({ children }: { children: ReactNode }) {
 
         <Flex
           className={headerBottomShadow()}
-          css={{ height: '2.5rem' }}
+          css={{
+            height: '2.5rem',
+            position: 'sticky',
+            top: 0,
+            background: 'White',
+            zIndex: '$max',
+          }}
           align="center"
           justify="center"
         >
@@ -163,7 +169,7 @@ export default function Layout({ children }: { children: ReactNode }) {
 }
 
 export const headerBottomShadow = css({
-  boxShadow: `0 1px ${mauve.mauve5}`,
+  boxShadow: `inset 0 -1px ${mauve.mauve5}`,
 })
 
 export const navButtonStyles = css({

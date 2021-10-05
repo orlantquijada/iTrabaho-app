@@ -57,10 +57,7 @@ export default function JobsList() {
           {/* activity list */}
           <Flex direction="column" css={{ pl: '1rem' }}>
             <ActivityCard
-              currentUser={{
-                ...user,
-                fullName: 'John Doe',
-              }}
+              currentUser={user}
               datetimeCreated={new Date()}
               type="M"
               content={{

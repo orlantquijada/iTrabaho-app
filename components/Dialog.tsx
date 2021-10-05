@@ -21,7 +21,7 @@ const StyledOverlay = styled(DialogPrimitive.Overlay, {
   },
 })
 
-function DialogRoot({ children, ...props }) {
+function DialogRoot({ children, ...props }: DialogPrimitive.DialogCloseProps) {
   return (
     <DialogPrimitive.Root {...props}>
       <StyledOverlay />

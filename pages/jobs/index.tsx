@@ -140,7 +140,7 @@ function ActivityCard(
     (
       | { type: 'M'; content: Match } // match
       | { type: 'R'; content: Review } // review
-      | { type: 'A'; content: JobPost } // accepted
+      | { type: 'A'; content: Required<JobPost> } // accepted
     )
 ) {
   const description = () => {

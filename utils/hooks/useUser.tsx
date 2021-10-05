@@ -10,7 +10,9 @@ import {
 } from 'react'
 import { User } from '../types'
 
-const UserContext = createContext(null)
+const UserContext = createContext<
+  [User | null, Dispatch<SetStateAction<User | null>>]
+>([null, () => null])
 
 const userKey = 'user'
 
@@ -22,10 +24,12 @@ export function UserProvider({ children }: { children: ReactNode }) {
 
 export default function useUser() {
   const [user, setUser] =
-    useContext<[User, Dispatch<SetStateAction<User | null>>]>(UserContext)
+    useContext<[User | null, Dispatch<SetStateAction<User | null>>]>(
+      UserContext
+    )
 
   useEffect(() => {
-    const userData = JSON.parse(window.localStorage.getItem(userKey))
+    const userData = JSON.parse(window.localStorage.getItem(userKey) as string)
 
     if (userData) setUser(userData)
     else setUser(null)

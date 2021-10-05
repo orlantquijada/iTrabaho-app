@@ -17,7 +17,7 @@ interface Props {
   cityController: UseControllerReturn<FormFields, 'city'>
   barangayController: UseControllerReturn<FormFields, 'barangay'>
   options: Array<{ label: string; value: string }>
-  searchHandler: (currentValue: any) => void
+  searchHandler: (currentValue: string) => void
 }
 
 export default class JobPostFormView extends Component<Props, State> {

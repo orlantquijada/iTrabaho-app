@@ -8,14 +8,7 @@ import {
   Dispatch,
   SetStateAction,
 } from 'react'
-
-export interface User {
-  id: number
-  last_login: Date
-  firstName: string
-  lastName: string
-  phoneNumber: string
-}
+import { User } from '../types'
 
 const UserContext = createContext(null)
 
@@ -43,7 +36,7 @@ export default function useUser() {
 
 export async function login(body: { phoneNumber: string; password: string }) {
   return axios
-    .post<User>('api/login/login/', body)
+    .post<User>('api/login/', body)
     .then((res) => res.data)
     .then((data) => ({
       ...data,

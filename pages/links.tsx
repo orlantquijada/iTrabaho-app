@@ -6,7 +6,7 @@ import { Container } from '@/components'
 export default function Home() {
   return (
     <>
-      <NextLink href="rep/applicant/create" passHref>
+      <NextLink href="rep/applicants/create" passHref>
         <Link color block>
           create applicant form
         </Link>

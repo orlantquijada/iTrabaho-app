@@ -2,6 +2,7 @@ import { useController, useForm, FormProvider } from 'react-hook-form'
 
 import { required, FormFields } from '@/components/ApplicantForm/helpers'
 import ApplicantFormView from '@/components/ApplicantForm/ApplicantFormView'
+import { Container } from '@/components'
 
 export default function CreateApplicantPage() {
   const methods = useForm<FormFields>({
@@ -31,8 +32,10 @@ export default function CreateApplicantPage() {
   }
 
   return (
-    <FormProvider {...methods}>
-      <ApplicantFormView {...props} />
-    </FormProvider>
+    <Container css={{ maxWidth: 'fit-content', pt: '$6' }}>
+      <FormProvider {...methods}>
+        <ApplicantFormView {...props} />
+      </FormProvider>
+    </Container>
   )
 }

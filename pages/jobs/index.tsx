@@ -64,9 +64,10 @@ export default function JobsList() {
                 rank: 1,
                 percentage: 80,
                 jobPost: {
+                  id: 1,
                   barangay: 'Punta Princesa',
                   city: 'Cebu City',
-                  datetimeCreate: new Date(),
+                  datetimeCreated: new Date(),
                   province: 'Cebu',
                   street: '25 Bayabas Ext.',
                   description:

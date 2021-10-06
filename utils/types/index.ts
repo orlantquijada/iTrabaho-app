@@ -1,3 +1,11 @@
+export type JobPostStatuses = 'H' | 'A' | 'D'
+
+export type Modify<T, R extends Partial<Record<keyof T, any>>> = Omit<
+  T,
+  keyof R
+> &
+  R
+
 export interface User {
   firstName: string
   lastName: string
@@ -48,7 +56,8 @@ export interface Recruiter extends User {
   userType: 'R'
 }
 
-export interface JobPost {
+export interface JobPostAPIResponse {
+  id: number
   street: string
   barangay: string
   city: string
@@ -61,10 +70,17 @@ export interface JobPost {
   recruit?: Applicant
   recruiter: Recruiter
 
-  status: 'hiring' | 'active' | 'done'
-  datetimeCreate: Date
+  status: JobPostStatuses
+  datetimeCreated: string
 }
 
+export type JobPost = Modify<
+  JobPostAPIResponse,
+  {
+    datetimeCreated: Date
+    status: 'hiring' | 'active' | 'done'
+  }
+>
 export interface Review {
   rate: 1 | 2 | 3 | 4 | 5
   comment: string

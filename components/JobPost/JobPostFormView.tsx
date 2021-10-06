@@ -8,6 +8,7 @@ import { InfoCircledIcon } from '@radix-ui/react-icons'
 import { availableLocations, cities } from '@/utils/data/location'
 import { FormField, Grid, TextArea } from '@/components'
 import SectionTitle from '@/components/ApplicantForm/SectionTitle'
+import { postJob } from '@/utils/hooks/useJobPost'
 
 type State = FormFields
 
@@ -60,9 +61,8 @@ export default class JobPostFormView extends Component<Props, State> {
     return validations.some((valid) => !valid)
   }
 
-  // TODO: connect to backend
   postJob = (values: FormFields) => {
-    alert(JSON.stringify(values, null, 2))
+    postJob(values)
   }
 
   render() {
@@ -93,6 +93,14 @@ export default class JobPostFormView extends Component<Props, State> {
           <SectionTitle h1>Job Details</SectionTitle>
 
           <Grid gapY="4">
+            <FormField title="Title" error={errors.title?.message}>
+              <Input
+                placeholder="So what is the job all about?"
+                type={errors.title?.message ? 'error' : 'default'}
+                clearable
+                {...register('title', required)}
+              />
+            </FormField>
             <FormField title="Role" error={errors.role?.message}>
               <AutoComplete
                 options={options}
@@ -197,7 +205,7 @@ export default class JobPostFormView extends Component<Props, State> {
           htmlType="submit"
           style={{ marginTop: '2rem' }}
         >
-          Sign Up
+          Post Job
         </Button>
       </Form>
     )

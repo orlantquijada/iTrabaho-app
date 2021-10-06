@@ -907,10 +907,10 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
-"@stitches/react@^1.1.0":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@stitches/react/-/react-1.1.0.tgz#49342e085528d689b983682e112b79c5a0b0efb4"
-  integrity sha512-g1XZsmB3tFL5i9aaBx0+P4C83j3vf/PEmLc5e9PlumE5c6q3zsdbbOVr4ZC52eGm4MCvM+2bbAJ++rtTUa6ahw==
+"@stitches/react@^1.2.3":
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/@stitches/react/-/react-1.2.3.tgz#fe785d780d22085b2ad3d9cece0c30d58b6de18f"
+  integrity sha512-tvjtFemrbdIFPr5kzTujpR2UvsG52D8jorhj3WRhyq/UAOMacdOaT9oqW6f8KgSCsn7JXa0yvJSUW3IUVn9eQw==
 
 "@testing-library/dom@^7.28.1":
   version "7.31.2"

@@ -48,7 +48,7 @@ export interface Recruiter extends User {
   userType: 'R'
 }
 
-export interface JobPost {
+interface BaseJobPost {
   street: string
   barangay: string
   city: string
@@ -58,12 +58,32 @@ export interface JobPost {
   role: string
   title: string
 
-  recruit?: Applicant
   recruiter: Recruiter
-
   status: 'hiring' | 'active' | 'done'
-  datetimeCreate: Date
+
+  datetimeCreated: Date
 }
+
+export interface HiringJobPost extends BaseJobPost {
+  status: 'hiring'
+}
+
+export interface ActiveJobPost extends BaseJobPost {
+  status: 'active'
+  recruit: Applicant
+  recruitReview?: Omit<Review, 'jobPost'>
+  recruiterReview?: Omit<Review, 'jobPost'>
+}
+
+export interface DoneJobPost extends BaseJobPost {
+  status: 'done'
+  recruit: Applicant
+  recruitReview?: Omit<Review, 'jobPost'>
+  recruiterReview?: Omit<Review, 'jobPost'>
+  datetimeEnded: Date
+}
+
+export type JobPost = HiringJobPost | ActiveJobPost | DoneJobPost
 
 export interface Review {
   rate: 1 | 2 | 3 | 4 | 5

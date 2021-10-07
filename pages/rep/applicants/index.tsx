@@ -1,6 +1,6 @@
 import Image from 'next/image'
 
-import { Box, Container, Grid } from '@/components'
+import { Box, Container, Grid, Link } from '@/components'
 import { css } from '@/stitches.config'
 import { Card, Text } from '@geist-ui/react'
 import { StarFilledIcon } from '@radix-ui/react-icons'
@@ -14,42 +14,44 @@ export default function ApplicantsList() {
         css={{ gridTemplateColumns: 'repeat(auto-fill, minmax(250px,1fr))' }}
       >
         {/* users list */}
-        <Card hoverable>
-          <Card.Content className={userCard()}>
-            <Image
-              alt="Profile Picture"
-              src={`https://avatars.dicebear.com/api/initials/${
-                'John' + ' ' + 'Doe'
-              }.svg?r=50&size=28`}
-              width={28}
-              height={28}
-            />
-            <Box>
-              <Text span className={title()}>
-                John Doe
-              </Text>
-              {/* not sure pero basig ang source ani kay ang last job niya or most frequent occuring role sa experiences? */}
-              <Text className={subtitle()}>Software Engineer</Text>
+        <Link href="/rep/applicants/1" css={{ textDecoration: 'none' }}>
+          <Card hoverable>
+            <Card.Content className={userCard()}>
+              <Image
+                alt="Profile Picture"
+                src={`https://avatars.dicebear.com/api/initials/${
+                  'John' + ' ' + 'Doe'
+                }.svg?r=50&size=28`}
+                width={28}
+                height={28}
+              />
+              <Box>
+                <Text span className={title()}>
+                  John Doe
+                </Text>
+                {/* not sure pero basig ang source ani kay ang last job niya or most frequent occuring role sa experiences? */}
+                <Text className={subtitle()}>Software Engineer</Text>
 
-              <Grid
-                flow="column"
-                css={{
-                  width: 'fit-content',
-                  placeItems: 'center',
-                  marginTop: '0.5rem',
-                }}
-              >
-                <StarFilledIcon />
-                <Text span className={rateValue()}>
-                  4.8
-                </Text>
-                <Text span className={rateCount()}>
-                  (45)
-                </Text>
-              </Grid>
-            </Box>
-          </Card.Content>
-        </Card>
+                <Grid
+                  flow="column"
+                  css={{
+                    width: 'fit-content',
+                    placeItems: 'center',
+                    marginTop: '0.5rem',
+                  }}
+                >
+                  <StarFilledIcon />
+                  <Text span className={rateValue()}>
+                    4.8
+                  </Text>
+                  <Text span className={rateCount()}>
+                    (45)
+                  </Text>
+                </Grid>
+              </Box>
+            </Card.Content>
+          </Card>
+        </Link>
       </Grid>
     </Container>
   )

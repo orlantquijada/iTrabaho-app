@@ -7,6 +7,9 @@ export const gridStyles = css({
     gap: mapThemeToCSSProp('gap'),
     gapX: mapThemeToCSSProp('columnGap'),
     gapY: mapThemeToCSSProp('rowGap'),
+    inline: {
+      true: { display: 'inline-grid' },
+    },
     flow: {
       row: { gridAutoFlow: 'row' },
       column: { gridAutoFlow: 'column' },

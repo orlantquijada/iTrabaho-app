@@ -4,6 +4,7 @@ import { FormFields, required } from '@/components/JobPost/helpers'
 import { cities } from '@/utils/data/location'
 import { useController, useForm } from 'react-hook-form'
 import JobPostFormView from '@/components/JobPost/JobPostFormView'
+import { Container } from '@/components'
 
 export default function CreateJobPost() {
   const methods = useForm<FormFields>()
@@ -47,5 +48,9 @@ export default function CreateJobPost() {
     searchHandler,
   }
 
-  return <JobPostFormView {...props} />
+  return (
+    <Container css={{ maxWidth: 'fit-content', pt: '$6' }}>
+      <JobPostFormView {...props} />
+    </Container>
+  )
 }

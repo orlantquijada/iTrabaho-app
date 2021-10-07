@@ -96,6 +96,7 @@ export default class JobPostFormView extends Component<Props, State> {
             <FormField title="Title" error={errors.title?.message}>
               <Input
                 placeholder="So what is the job all about?"
+                width="100%"
                 type={errors.title?.message ? 'error' : 'default'}
                 clearable
                 {...register('title', required)}

@@ -1,4 +1,4 @@
-import useUser from '@/utils/hooks/useUser'
+import useUser, { logout } from '@/utils/hooks/useUser'
 import { Button, Modal, Text } from '@geist-ui/react'
 import { useRouter } from 'next/dist/client/router'
 import { ReactNode, useEffect, useState } from 'react'
@@ -8,8 +8,9 @@ import Signup from './Signup'
 import Image from 'next/image'
 import { css } from '@/stitches.config'
 import { mauve, slate } from '@radix-ui/colors'
-import { PlusIcon } from '@radix-ui/react-icons'
+import { PlusIcon, ExitIcon } from '@radix-ui/react-icons'
 import { User } from '@/utils/types'
+import * as Popover from '@/components/Popover'
 
 const links: Record<
   Exclude<User['userType'], 'A'>,
@@ -79,19 +80,37 @@ export default function Layout({ children }: { children: ReactNode }) {
                 </Button>
               </Flex>
             ) : (
-              <Flex align="center" gap="2">
-                <Image
-                  src={`https://avatars.dicebear.com/api/initials/${
-                    user.firstName + ' ' + user.lastName
-                  }.svg?r=50`}
-                  alt=""
-                  width={32}
-                  height={32}
-                />
-                <Text>
-                  {user.firstName} {user.lastName}
-                </Text>
-              </Flex>
+              <Popover.Root>
+                <Popover.CleanupTrigger>
+                  <Flex
+                    align="center"
+                    gap="2"
+                    css={{
+                      color: '$gray11',
+                      transition: 'color 200ms ease',
+                      '&:hover': { color: '$gray12' },
+                    }}
+                  >
+                    <Image
+                      src={`https://avatars.dicebear.com/api/initials/${
+                        user.firstName + ' ' + user.lastName
+                      }.svg?r=50`}
+                      alt=""
+                      width={28}
+                      height={28}
+                    />
+                    <Text>
+                      {user.firstName} {user.lastName}
+                    </Text>
+                  </Flex>
+                </Popover.CleanupTrigger>
+                <Popover.Content>
+                  <button className={button()} onClick={logout}>
+                    <ExitIcon />
+                    <Text className={buttonText()}>Log Out</Text>
+                  </button>
+                </Popover.Content>
+              </Popover.Root>
             )}
           </Flex>
         </header>
@@ -167,6 +186,28 @@ export default function Layout({ children }: { children: ReactNode }) {
     </>
   )
 }
+
+const button = css({
+  display: 'flex',
+  alignItems: 'center',
+  background: 'none',
+  border: 'none',
+  width: '100%',
+  gap: '0.5rem',
+  cursor: 'pointer',
+  borderRadius: '$1',
+
+  padding: '0.5rem',
+
+  '&:hover': {
+    backgroundColor: '$gray4',
+  },
+})
+
+const buttonText = css({
+  margin: 0,
+  fontSize: '0.875rem',
+})
 
 export const headerBottomShadow = css({
   boxShadow: `inset 0 -1px ${mauve.mauve5}`,

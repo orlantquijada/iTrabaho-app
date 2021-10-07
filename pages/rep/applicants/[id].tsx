@@ -3,7 +3,13 @@ import Image from 'next/image'
 import { Badge, Box, Container, Flex, Grid } from '@/components'
 import * as Tabs from '@/components/ApplicantProfile/Tabs'
 import { css } from '@/stitches.config'
-import { ActiveJobPost, Applicant, DoneJobPost, Recruiter } from '@/utils/types'
+import {
+  ActiveJobPost,
+  Applicant,
+  DoneJobPost,
+  Experience,
+  Recruiter,
+} from '@/utils/types'
 import { Text } from '@geist-ui/react'
 import { slate } from '@radix-ui/colors'
 import WorkHistoryCard from '@/components/ApplicantProfile/WorkHistoryCard'
@@ -12,7 +18,7 @@ const border = `1px solid ${slate.slate6}`
 
 export default function ApplicantDetail() {
   return (
-    <Container css={{ pt: '$6' }}>
+    <Container css={{ py: '$6', display: 'grid', gap: '2rem' }}>
       <Grid
         css={{
           gridTemplateColumns: '30% 1fr',
@@ -101,9 +107,83 @@ export default function ApplicantDetail() {
           </Box>
         </Box>
       </Grid>
+
+      <Box css={{ border }}>
+        <Box css={{ padding: '1.5rem 2rem', borderBottom: border }}>
+          <Text h2 className={sectionTitlte()}>
+            Employment History
+          </Text>
+        </Box>
+
+        <Box css={{ paddingInline: '2rem' }}>
+          {recruit.profile.experience.map((experience, index) => (
+            <ExperienceCard {...experience} key={index} />
+          ))}
+        </Box>
+      </Box>
     </Container>
   )
 }
+
+function ExperienceCard(props: Experience) {
+  return (
+    <Box
+      css={{
+        paddingBlock: '1.25rem',
+        '&:not(:last-of-type)': { borderBottom: border },
+      }}
+    >
+      <Text h4 className={role()}>
+        {props.role}
+        {props.company ? ` | ${props.company}` : null}
+      </Text>
+      <Text className={dates()}>
+        {props.start_month} {props.start_year} - {props.end_month}{' '}
+        {props.end_year}
+      </Text>
+      <ul
+        style={{
+          paddingInline: '1.25rem',
+          margin: 0,
+          display: 'grid',
+          gap: '0.25rem',
+        }}
+      >
+        {props.experienceDetails.map((detail, index) => (
+          <li
+            style={{
+              fontSize: '0.875rem',
+              color: '#222',
+              lineHeight: '20px',
+              letterSpacing: 0.35,
+            }}
+            key={index}
+          >
+            {detail.description}
+          </li>
+        ))}
+      </ul>
+    </Box>
+  )
+}
+
+const dates = css({
+  margin: '1rem 0 0.5rem',
+  fontSize: '0.875rem',
+  color: '#656565 !important',
+})
+
+const sectionTitlte = css({
+  margin: 0,
+  fontSize: '1.5rem',
+  fontWeight: 500,
+})
+
+const role = css({
+  margin: 0,
+  fontWeight: 500,
+})
+
 const recruiter: Recruiter = {
   firstName: 'John',
   lastName: 'Doe',
@@ -142,9 +222,50 @@ const recruit: Applicant = {
         start_month: 'October',
         location: 'Punta Princesa Cebu City',
         role: 'Software Engineer',
+        company: 'David Dobrik LLC',
         experienceDetails: [
           {
-            description: 'wow cool',
+            description:
+              'Write modern, performant, and robust code for a diverse array of client and internal projects',
+          },
+          {
+            description:
+              'Work with a variety of different languages, frameworks, and content management systems such as JavaScript, TypeScript, React, Vue, NativeScript, Node.js, Craft, Prismic, etc.',
+          },
+          {
+            description:
+              'Communicate and collaborate with multi-disciplinary teams of engineers, designers, producers, clients, and stakeholders on a daily basis',
+          },
+          {
+            description:
+              'Worked with a team of three designers to build a marketing website and e-commerce platform for blistabloc, an ambitious venture originating from Northeastern',
+          },
+        ],
+      },
+      {
+        end_month: 'January',
+        end_year: 2021,
+        start_year: 2020,
+        start_month: 'October',
+        location: 'Punta Princesa Cebu City',
+        role: 'Software Engineer',
+        company: 'David Dobrik LLC',
+        experienceDetails: [
+          {
+            description:
+              'Write modern, performant, and robust code for a diverse array of client and internal projects',
+          },
+          {
+            description:
+              'Work with a variety of different languages, frameworks, and content management systems such as JavaScript, TypeScript, React, Vue, NativeScript, Node.js, Craft, Prismic, etc.',
+          },
+          {
+            description:
+              'Communicate and collaborate with multi-disciplinary teams of engineers, designers, producers, clients, and stakeholders on a daily basis',
+          },
+          {
+            description:
+              'Worked with a team of three designers to build a marketing website and e-commerce platform for blistabloc, an ambitious venture originating from Northeastern',
           },
         ],
       },

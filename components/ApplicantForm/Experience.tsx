@@ -58,7 +58,6 @@ export default function Experience(): ReactElement {
               <FormField
                 title="Role"
                 error={errors.experience?.[index]?.role?.message}
-                requirementLabel="required"
               >
                 <AutoComplete
                   clearable
@@ -86,7 +85,6 @@ export default function Experience(): ReactElement {
               </FormField>
               <FormField
                 title="Start Date"
-                requirementLabel="required"
                 error={errors.experience?.[index]?.startDate?.message}
               >
                 <TextField
@@ -101,7 +99,6 @@ export default function Experience(): ReactElement {
               </FormField>
               <FormField
                 title="End Date"
-                requirementLabel="required"
                 error={errors.experience?.[index]?.endDate?.message}
               >
                 <TextField

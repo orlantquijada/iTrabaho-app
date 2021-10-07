@@ -1,15 +1,11 @@
 import { css, styled } from '@/stitches.config'
+import { JobPost } from '@/utils/types'
 import { Text } from '@geist-ui/react'
 import { blue, grayA, slate } from '@radix-ui/colors'
 import React, { ComponentProps, forwardRef } from 'react'
 import { Badge, Flex } from '.'
 
-interface Props {
-  title: string
-  description: string
-  role: string
-  recruiter: string
-}
+type Props = Pick<JobPost, 'title' | 'description' | 'role' | 'recruiter'>
 
 export const JobPostCard = forwardRef<
   HTMLDivElement,
@@ -24,7 +20,7 @@ export const JobPostCard = forwardRef<
       className={recruiter()}
       style={{ color: grayA.grayA11, marginBlock: '0.25rem 0.5rem' }}
     >
-      By {props.recruiter}
+      By {props.recruiter.fullName}
     </Text>
     <Text style={{ color: grayA.grayA11 }} className={description()}>
       {props.description}

@@ -4,8 +4,9 @@ import { Box, Container, Flex, Grid } from '@/components'
 import { Text } from '@geist-ui/react'
 import { blue, gray } from '@radix-ui/colors'
 import JobPostListView from '@/components/JobPost/JobPostListView'
-import { JobPost, Match, Review, User } from '@/utils/types'
+import { ActiveJobPost, Match, Review, User } from '@/utils/types'
 import useUser from '@/utils/hooks/useUser'
+import { css } from '@/stitches.config'
 
 export default function JobsList() {
   const user = useUser()
@@ -19,7 +20,7 @@ export default function JobsList() {
         position: 'relative',
       }}
     >
-      <Box css={{ position: 'sticky', top: '2rem', height: 'fit-content' }}>
+      <Box className={sticky()}>
         <Text h4 marginBottom="1rem" paddingLeft="0.5rem" marginTop="0">
           Categories
         </Text>
@@ -52,8 +53,10 @@ export default function JobsList() {
       </Flex>
 
       {user ? (
-        <Flex direction="column">
-          <Text marginTop="0">All Activity</Text>
+        <Flex direction="column" className={sticky()}>
+          <Text marginTop="0" style={{ paddingLeft: '1rem' }}>
+            All Activity
+          </Text>
           {/* activity list */}
           <Flex direction="column" css={{ pl: '1rem' }}>
             <ActivityCard
@@ -66,7 +69,7 @@ export default function JobsList() {
                 jobPost: {
                   barangay: 'Punta Princesa',
                   city: 'Cebu City',
-                  datetimeCreate: new Date(),
+                  datetimeCreated: new Date(),
                   province: 'Cebu',
                   street: '25 Bayabas Ext.',
                   description:
@@ -140,7 +143,7 @@ function ActivityCard(
     (
       | { type: 'M'; content: Match } // match
       | { type: 'R'; content: Review } // review
-      | { type: 'A'; content: JobPost } // accepted
+      | { type: 'A'; content: Required<ActiveJobPost> } // accepted
     )
 ) {
   const description = () => {
@@ -209,3 +212,9 @@ function ActivityCard(
     </Grid>
   )
 }
+
+const sticky = css({
+  position: 'sticky',
+  top: '3.5rem',
+  height: 'fit-content',
+})

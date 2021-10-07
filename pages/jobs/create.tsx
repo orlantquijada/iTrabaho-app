@@ -27,10 +27,11 @@ export default function CreateJobPost() {
     rules: required,
   })
 
-  const [options, setOptions] =
-    useState<Array<{ label: string; value: string }>>()
+  const [options, setOptions] = useState<
+    Array<{ label: string; value: string }>
+  >([])
 
-  const searchHandler = (currentValue) => {
+  const searchHandler = (currentValue: string) => {
     if (!currentValue) return setOptions([])
     const relatedOptions = allOptions.filter((item) =>
       item.value.includes(currentValue)

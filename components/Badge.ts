@@ -5,6 +5,7 @@ const badgeStyles = css({
   fontSize: '0.75rem',
   fontWeight: 600,
   flexShrink: 0,
+  cursor: 'default',
 
   px: '$2',
   py: '$1',

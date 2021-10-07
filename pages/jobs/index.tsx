@@ -4,7 +4,7 @@ import { Box, Container, Flex, Grid } from '@/components'
 import { Text } from '@geist-ui/react'
 import { blue, gray } from '@radix-ui/colors'
 import JobPostListView from '@/components/JobPost/JobPostListView'
-import { JobPost, Match, Review, User } from '@/utils/types'
+import { ActiveJobPost, Match, Review, User } from '@/utils/types'
 import useUser from '@/utils/hooks/useUser'
 import { css } from '@/stitches.config'
 
@@ -69,7 +69,7 @@ export default function JobsList() {
                 jobPost: {
                   barangay: 'Punta Princesa',
                   city: 'Cebu City',
-                  datetimeCreate: new Date(),
+                  datetimeCreated: new Date(),
                   province: 'Cebu',
                   street: '25 Bayabas Ext.',
                   description:
@@ -143,7 +143,7 @@ function ActivityCard(
     (
       | { type: 'M'; content: Match } // match
       | { type: 'R'; content: Review } // review
-      | { type: 'A'; content: Required<JobPost> } // accepted
+      | { type: 'A'; content: Required<ActiveJobPost> } // accepted
     )
 ) {
   const description = () => {

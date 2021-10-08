@@ -185,6 +185,7 @@ const role = css({
 })
 
 const recruiter: Recruiter = {
+  id: 1,
   firstName: 'John',
   lastName: 'Doe',
   phoneNumber: '+639222833416',
@@ -193,6 +194,7 @@ const recruiter: Recruiter = {
   userType: 'R',
 }
 const recruit: Applicant = {
+  id: 1,
   firstName: 'John',
   lastName: 'Doe',
   phoneNumber: '+639222833416',
@@ -201,6 +203,7 @@ const recruit: Applicant = {
   birthdate: new Date(),
   userType: 'A',
   rep: {
+    id: 1,
     barangay: 'Punta Princesa',
     birthdate: new Date(),
     city: 'Cebu City',

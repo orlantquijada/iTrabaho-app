@@ -14,7 +14,7 @@ const UserContext = createContext<
   [User | null, Dispatch<SetStateAction<User | null>>]
 >([null, () => null])
 
-const userKey = 'user'
+export const userKey = 'user'
 
 export function UserProvider({ children }: { children: ReactNode }) {
   const state = useState<User | null>(null)

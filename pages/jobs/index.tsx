@@ -79,6 +79,7 @@ export default function JobsList() {
                   status: 'hiring',
                   role: 'Communications Expert',
                   recruiter: {
+                    id: 1,
                     birthdate: new Date(),
                     firstName: 'Jane',
                     lastName: 'Doe',
@@ -94,6 +95,7 @@ export default function JobsList() {
                   birthdate: new Date(),
                   userType: 'A',
                   rep: {
+                    id: 1,
                     barangay: 'Punta Princesa',
                     birthdate: new Date(),
                     city: 'Cebu City',

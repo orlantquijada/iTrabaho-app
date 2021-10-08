@@ -18,6 +18,8 @@ interface Props {
   barangayController: UseControllerReturn<FormFields, 'barangay'>
   options: Array<{ label: string; value: string }>
   searchHandler: (currentValue: string) => void
+  handleSubmit: ReturnType<UseFormReturn['handleSubmit']>
+  isCreatingJobPost: boolean
 }
 
 export default class JobPostFormView extends Component<Props, State> {
@@ -60,11 +62,6 @@ export default class JobPostFormView extends Component<Props, State> {
     return validations.some((valid) => !valid)
   }
 
-  // TODO: connect to backend
-  postJob = (values: FormFields) => {
-    alert(JSON.stringify(values, null, 2))
-  }
-
   render() {
     const {
       methods,
@@ -76,23 +73,26 @@ export default class JobPostFormView extends Component<Props, State> {
     } = this.props
     const {
       register,
-      handleSubmit,
       formState: { errors },
       setValue,
       getValues,
     } = methods
 
     return (
-      <Form
-        noValidate
-        action="POST"
-        onSubmit={handleSubmit(this.postJob)}
-        gap="2"
-      >
+      <Form noValidate action="POST" onSubmit={this.props.handleSubmit} gap="2">
         <section>
           <SectionTitle h1>Job Details</SectionTitle>
 
           <Grid gapY="4">
+            <FormField title="Title" error={errors.title?.message}>
+              <Input
+                placeholder="So what is the job all about?"
+                width="100%"
+                type={errors.title?.message ? 'error' : 'default'}
+                clearable
+                {...register('title', required)}
+              />
+            </FormField>
             <FormField title="Role" error={errors.role?.message}>
               <AutoComplete
                 options={options}
@@ -196,8 +196,9 @@ export default class JobPostFormView extends Component<Props, State> {
           type="secondary"
           htmlType="submit"
           style={{ marginTop: '2rem' }}
+          loading={this.props.isCreatingJobPost}
         >
-          Sign Up
+          Post Job
         </Button>
       </Form>
     )

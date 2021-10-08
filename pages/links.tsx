@@ -19,6 +19,11 @@ export default function Home() {
           jobs list
         </Link>
       </NextLink>
+      <NextLink href="/rec/my-jobs" passHref>
+        <Link color block>
+          my jobs
+        </Link>
+      </NextLink>
     </>
   )
 }

@@ -5,9 +5,15 @@ import { cities } from '@/utils/data/location'
 import { useController, useForm } from 'react-hook-form'
 import JobPostFormView from '@/components/JobPost/JobPostFormView'
 import { Container } from '@/components'
+import { addJobPost, useJobPosts } from '@/utils/hooks/useJobPosts'
+import useUser from '@/utils/hooks/useUser'
 
 export default function CreateJobPost() {
   const methods = useForm<FormFields>()
+  const user = useUser()
+  const { isValidating, mutate } = useJobPosts({
+    params: { recruiterId: user?.id as number },
+  })
 
   const provinceController = useController({
     control: methods.control,
@@ -48,9 +54,23 @@ export default function CreateJobPost() {
     searchHandler,
   }
 
+  const handleSubmit = methods.handleSubmit((values) =>
+    mutate(async (jobs) => {
+      const job = await addJobPost({
+        ...values,
+        recruiterId: user?.id as number,
+      })
+      return jobs ? [...jobs, job.data] : jobs
+    })
+  )
+
   return (
     <Container css={{ maxWidth: 'fit-content', pt: '$6' }}>
-      <JobPostFormView {...props} />
+      <JobPostFormView
+        {...props}
+        handleSubmit={handleSubmit}
+        isCreatingJobPost={isValidating}
+      />
     </Container>
   )
 }

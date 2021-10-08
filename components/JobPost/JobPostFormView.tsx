@@ -8,7 +8,6 @@ import { InfoCircledIcon } from '@radix-ui/react-icons'
 import { availableLocations, cities } from '@/utils/data/location'
 import { FormField, Grid, TextArea } from '@/components'
 import SectionTitle from '@/components/ApplicantForm/SectionTitle'
-import { postJob } from '@/utils/hooks/useJobPost'
 
 type State = FormFields
 
@@ -19,6 +18,8 @@ interface Props {
   barangayController: UseControllerReturn<FormFields, 'barangay'>
   options: Array<{ label: string; value: string }>
   searchHandler: (currentValue: string) => void
+  handleSubmit: ReturnType<UseFormReturn['handleSubmit']>
+  isCreatingJobPost: boolean
 }
 
 export default class JobPostFormView extends Component<Props, State> {
@@ -61,10 +62,6 @@ export default class JobPostFormView extends Component<Props, State> {
     return validations.some((valid) => !valid)
   }
 
-  postJob = (values: FormFields) => {
-    postJob(values)
-  }
-
   render() {
     const {
       methods,
@@ -76,19 +73,13 @@ export default class JobPostFormView extends Component<Props, State> {
     } = this.props
     const {
       register,
-      handleSubmit,
       formState: { errors },
       setValue,
       getValues,
     } = methods
 
     return (
-      <Form
-        noValidate
-        action="POST"
-        onSubmit={handleSubmit(this.postJob)}
-        gap="2"
-      >
+      <Form noValidate action="POST" onSubmit={this.props.handleSubmit} gap="2">
         <section>
           <SectionTitle h1>Job Details</SectionTitle>
 
@@ -205,6 +196,7 @@ export default class JobPostFormView extends Component<Props, State> {
           type="secondary"
           htmlType="submit"
           style={{ marginTop: '2rem' }}
+          loading={this.props.isCreatingJobPost}
         >
           Post Job
         </Button>

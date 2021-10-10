@@ -13,7 +13,7 @@ export const JobPostCard = forwardRef<
 >((props, ref) => (
   <Flex direction="column" className={cardStyles()} ref={ref}>
     <Flex justify="between" align="center">
-      <Title span>{props.title}</Title>
+      <Title>{props.title}</Title>
       <Badge>{props.role}</Badge>
     </Flex>
     <Text
@@ -28,7 +28,8 @@ export const JobPostCard = forwardRef<
   </Flex>
 ))
 
-const Title = styled(Text, {
+const Title = styled('span', {
+  color: 'black',
   fontSize: '1.25rem',
   fontWeight: 600,
   transition: 'color 200ms ease',

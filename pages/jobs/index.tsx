@@ -21,7 +21,10 @@ export default function JobsList() {
       }}
     >
       <Box className={sticky()}>
-        <Text h4 marginBottom="1rem" paddingLeft="0.5rem" marginTop="0">
+        <Text
+          h4
+          style={{ marginTop: 0, paddingLeft: '0.5rem', marginBottom: '1rem' }}
+        >
           Categories
         </Text>
         {/* TODO: filter job posts per category */}
@@ -46,7 +49,7 @@ export default function JobsList() {
         </Grid>
       </Box>
       <Flex direction="column">
-        <Text h1 marginTop="0">
+        <Text h1 style={{ marginTop: 0 }}>
           Jobs For You
         </Text>
         <JobPostListView />
@@ -54,7 +57,7 @@ export default function JobsList() {
 
       {user ? (
         <Flex direction="column" className={sticky()}>
-          <Text marginTop="0" style={{ paddingLeft: '1rem' }}>
+          <Text style={{ paddingLeft: '1rem', marginTop: 0 }}>
             All Activity
           </Text>
           {/* activity list */}
@@ -205,9 +208,12 @@ function ActivityCard(
       <Box>
         {description()}
         <Text
-          marginBottom="0"
-          marginTop="0.25rem"
-          style={{ fontSize: '0.75rem', color: gray.gray11 }}
+          style={{
+            marginTop: '0.25rem',
+            marginBottom: 0,
+            fontSize: '0.75rem',
+            color: gray.gray11,
+          }}
         >
           {props.datetimeCreated.toDateString()}
         </Text>

@@ -8,10 +8,16 @@ const StyledLink = styled('a', {})
 
 const Link = forwardRef<
   ElementRef<typeof StyledLink>,
-  ComponentProps<typeof StyledLink>
->(({ href, ...rest }, ref) => {
+  ComponentProps<typeof StyledLink> & {
+    nextLinkProps?: LinkProps
+  }
+>(({ href, nextLinkProps, ...rest }, ref) => {
   return (
-    <NextLink href={href as LinkProps['href']} passHref>
+    <NextLink
+      {...nextLinkProps}
+      href={nextLinkProps?.href || (href as LinkProps['href'])}
+      passHref
+    >
       <StyledLink ref={ref} {...rest} />
     </NextLink>
   )

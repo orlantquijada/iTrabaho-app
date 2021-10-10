@@ -67,6 +67,7 @@ export default function JobsList() {
                 rank: 1,
                 percentage: 80,
                 jobPost: {
+                  id: 1,
                   barangay: 'Punta Princesa',
                   city: 'Cebu City',
                   datetimeCreated: new Date(),
@@ -107,7 +108,7 @@ export default function JobsList() {
                     userType: 'L',
                   },
                   profile: {
-                    yearsyearsOfExperience: 4,
+                    yearsOfExperience: 4,
                     highestEducationAttained: 'Primary School',
                     experience: [
                       {

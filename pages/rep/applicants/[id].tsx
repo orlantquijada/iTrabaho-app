@@ -215,7 +215,7 @@ const recruit: Applicant = {
     userType: 'L',
   },
   profile: {
-    yearsyearsOfExperience: 4,
+    yearsOfExperience: 4,
     highestEducationAttained: 'Primary School',
     experience: [
       {
@@ -277,6 +277,7 @@ const recruit: Applicant = {
 }
 
 const job2: DoneJobPost = {
+  id: 1,
   title: 'Create a social media strategy for my business',
   description:
     'Social media strategy developed for your campaign, event, or general business promotion. I have 16 years of experience developing social media strategies and content, including copy and graphics. The strategy will include a review of your social media and recommendations on how improve/leverage/expand your social marketing efforts.',
@@ -307,6 +308,7 @@ const job2: DoneJobPost = {
 }
 
 const job: ActiveJobPost = {
+  id: 2,
   title: 'Create a social media strategy for my business',
   description:
     'Social media strategy developed for your campaign, event, or general business promotion. I have 16 years of experience developing social media strategies and content, including copy and graphics. The strategy will include a review of your social media and recommendations on how improve/leverage/expand your social marketing efforts.',

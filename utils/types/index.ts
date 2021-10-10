@@ -35,7 +35,7 @@ export interface Experience {
 
 export interface Applicant extends User {
   profile: {
-    yearsyearsOfExperience: number
+    yearsOfExperience: number
     highestEducationAttained: string
     experience: Experience[]
   }
@@ -50,6 +50,7 @@ export interface Recruiter extends User {
 }
 
 interface BaseJobPost {
+  id: number
   street: string
   barangay: string
   city: string

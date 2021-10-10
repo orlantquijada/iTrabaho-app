@@ -167,7 +167,7 @@ export default function Layout({ children }: { children: ReactNode }) {
           Sign into your account here.
         </Modal.Subtitle>
         <Modal.Content>
-          <Login />
+          <Login setLoginModalState={setLoginModalState} />
         </Modal.Content>
       </Modal>
 

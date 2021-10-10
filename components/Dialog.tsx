@@ -1,3 +1,5 @@
+import type { ComponentProps } from 'react'
+
 import { styled, keyframes } from '@/stitches.config'
 import { blackA, mauve } from '@radix-ui/colors'
 import * as DialogPrimitive from '@radix-ui/react-dialog'
@@ -21,7 +23,10 @@ const StyledOverlay = styled(DialogPrimitive.Overlay, {
   },
 })
 
-function DialogRoot({ children, ...props }: DialogPrimitive.DialogCloseProps) {
+function DialogRoot({
+  children,
+  ...props
+}: ComponentProps<typeof DialogPrimitive.Root>) {
   return (
     <DialogPrimitive.Root {...props}>
       <StyledOverlay />

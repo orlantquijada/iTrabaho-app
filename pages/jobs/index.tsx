@@ -1,15 +1,34 @@
 import Image from 'next/image'
 
 import { Box, Container, Flex, Grid } from '@/components'
-import { Text } from '@geist-ui/react'
+import { Loading, Text } from '@geist-ui/react'
 import { blue, gray } from '@radix-ui/colors'
 import JobPostListView from '@/components/JobPost/JobPostListView'
 import { ActiveJobPost, Match, Review, User } from '@/utils/types'
-import useUser from '@/utils/hooks/useUser'
 import { css } from '@/stitches.config'
+import useUser from '@/utils/hooks/useUser'
+import { useJobPosts } from '@/utils/hooks/useJobPosts'
+import { useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
 
 export default function JobsList() {
+  const { jobs, isLoading } = useJobPosts()
+  const router = useRouter()
+  const [jobId, setJobId] = useState<number | undefined>(undefined)
   const user = useUser()
+
+  useEffect(() => {
+    const handleRouteChange = () => {
+      const urlParams = new URLSearchParams(window.location.search)
+      setJobId(Number(urlParams.get('job')) || undefined)
+    }
+
+    router.events.on('routeChangeComplete', handleRouteChange)
+
+    return () => {
+      router.events.off('routeChangeComplete', handleRouteChange)
+    }
+  }, [router.events])
 
   return (
     <Container
@@ -52,7 +71,11 @@ export default function JobsList() {
         <Text h1 style={{ marginTop: 0 }}>
           Jobs For You
         </Text>
-        <JobPostListView />
+        {!isLoading && jobs ? (
+          <JobPostListView jobId={jobId} jobs={jobs} />
+        ) : (
+          <Loading />
+        )}
       </Flex>
 
       {user ? (

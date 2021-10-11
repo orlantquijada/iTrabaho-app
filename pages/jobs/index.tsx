@@ -1,15 +1,34 @@
 import Image from 'next/image'
 
 import { Box, Container, Flex, Grid } from '@/components'
-import { Text } from '@geist-ui/react'
+import { Loading, Text } from '@geist-ui/react'
 import { blue, gray } from '@radix-ui/colors'
 import JobPostListView from '@/components/JobPost/JobPostListView'
 import { ActiveJobPost, Match, Review, User } from '@/utils/types'
-import useUser from '@/utils/hooks/useUser'
 import { css } from '@/stitches.config'
+import useUser from '@/utils/hooks/useUser'
+import { useJobPosts } from '@/utils/hooks/useJobPosts'
+import { useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
 
 export default function JobsList() {
+  const { jobs, isLoading } = useJobPosts()
+  const router = useRouter()
+  const [jobId, setJobId] = useState<number | undefined>(undefined)
   const user = useUser()
+
+  useEffect(() => {
+    const handleRouteChange = () => {
+      const urlParams = new URLSearchParams(window.location.search)
+      setJobId(Number(urlParams.get('job')) || undefined)
+    }
+
+    router.events.on('routeChangeComplete', handleRouteChange)
+
+    return () => {
+      router.events.off('routeChangeComplete', handleRouteChange)
+    }
+  }, [router.events])
 
   return (
     <Container
@@ -21,7 +40,10 @@ export default function JobsList() {
       }}
     >
       <Box className={sticky()}>
-        <Text h4 marginBottom="1rem" paddingLeft="0.5rem" marginTop="0">
+        <Text
+          h4
+          style={{ marginTop: 0, paddingLeft: '0.5rem', marginBottom: '1rem' }}
+        >
           Categories
         </Text>
         {/* TODO: filter job posts per category */}
@@ -46,15 +68,19 @@ export default function JobsList() {
         </Grid>
       </Box>
       <Flex direction="column">
-        <Text h1 marginTop="0">
+        <Text h1 style={{ marginTop: 0 }}>
           Jobs For You
         </Text>
-        <JobPostListView />
+        {!isLoading && jobs ? (
+          <JobPostListView jobId={jobId} jobs={jobs} />
+        ) : (
+          <Loading />
+        )}
       </Flex>
 
       {user ? (
         <Flex direction="column" className={sticky()}>
-          <Text marginTop="0" style={{ paddingLeft: '1rem' }}>
+          <Text style={{ paddingLeft: '1rem', marginTop: 0 }}>
             All Activity
           </Text>
           {/* activity list */}
@@ -67,6 +93,7 @@ export default function JobsList() {
                 rank: 1,
                 percentage: 80,
                 jobPost: {
+                  id: 1,
                   barangay: 'Punta Princesa',
                   city: 'Cebu City',
                   datetimeCreated: new Date(),
@@ -107,7 +134,7 @@ export default function JobsList() {
                     userType: 'L',
                   },
                   profile: {
-                    yearsyearsOfExperience: 4,
+                    yearsOfExperience: 4,
                     highestEducationAttained: 'Primary School',
                     experience: [
                       {
@@ -204,9 +231,12 @@ function ActivityCard(
       <Box>
         {description()}
         <Text
-          marginBottom="0"
-          marginTop="0.25rem"
-          style={{ fontSize: '0.75rem', color: gray.gray11 }}
+          style={{
+            marginTop: '0.25rem',
+            marginBottom: 0,
+            fontSize: '0.75rem',
+            color: gray.gray11,
+          }}
         >
           {props.datetimeCreated.toDateString()}
         </Text>

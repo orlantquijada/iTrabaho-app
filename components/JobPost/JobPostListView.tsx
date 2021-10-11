@@ -62,7 +62,7 @@ const JobsListContainer = styled('div', {
   borderInline: '$$border',
   borderTop: '$$border',
 
-  '& > button': {
+  '& > a > div': {
     borderBottom: '$$border',
   },
 })

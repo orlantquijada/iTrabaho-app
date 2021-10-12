@@ -1,10 +1,6 @@
-import Image from 'next/image'
-
-import { Box, Container, Grid, Link } from '@/components'
-import { css } from '@/stitches.config'
-import { Card, Text } from '@geist-ui/react'
-import { StarFilledIcon } from '@radix-ui/react-icons'
-import { slate } from '@radix-ui/colors'
+import { Container, Grid, Link } from '@/components'
+import ApplicantCardCompact from '@/components/ApplicantCardCompact'
+import { Applicant } from '@/utils/types'
 
 export default function ApplicantsList() {
   return (
@@ -14,72 +10,101 @@ export default function ApplicantsList() {
         css={{ gridTemplateColumns: 'repeat(auto-fill, minmax(250px,1fr))' }}
       >
         {/* users list */}
-        <Link href="/rep/applicants/1" css={{ textDecoration: 'none' }}>
-          <Card hoverable>
-            <Card.Content className={userCard()}>
-              <Image
-                alt="Profile Picture"
-                src={`https://avatars.dicebear.com/api/initials/${
-                  'John' + ' ' + 'Doe'
-                }.svg?r=50&size=28`}
-                width={28}
-                height={28}
-              />
-              <Box>
-                <Text span className={title()}>
-                  John Doe
-                </Text>
-                {/* not sure pero basig ang source ani kay ang last job niya or most frequent occuring role sa experiences? */}
-                <Text className={subtitle()}>Software Engineer</Text>
-
-                <Grid
-                  flow="column"
-                  css={{
-                    width: 'fit-content',
-                    placeItems: 'center',
-                    marginTop: '0.5rem',
-                  }}
-                >
-                  <StarFilledIcon />
-                  <Text span className={rateValue()}>
-                    4.8
-                  </Text>
-                  <Text span className={rateCount()}>
-                    (45)
-                  </Text>
-                </Grid>
-              </Box>
-            </Card.Content>
-          </Card>
-        </Link>
+        {recruitsList.map((recruit, index) => (
+          <Link
+            href="/rep/applicants/1"
+            css={{ textDecoration: 'none' }}
+            key={index}
+          >
+            <ApplicantCardCompact {...recruit} />
+          </Link>
+        ))}
       </Grid>
     </Container>
   )
 }
 
-const rateValue = css({
-  fontSize: '0.75rem',
-  color: '#111 !important',
-  marginInlineStart: '5px',
-})
-const rateCount = css({
-  fontSize: '0.75rem',
-  color: `${slate.slate11} !important`,
-})
-const title = css({
-  fontSize: '0.875rem',
-  fontWeight: 500,
-  color: '#111 !important',
-  textTransform: 'capitalize',
-})
-const subtitle = css({
-  margin: 0,
-  fontSize: '0.75rem',
-  color: '#444 !important',
-})
-const userCard = css({
-  display: 'grid',
-  gridTemplateColumns: '28px 1fr',
-  alignItems: 'flex-start',
-  gap: '$2',
-})
+const recruit: Applicant = {
+  id: 1,
+  firstName: 'John',
+  lastName: 'Doe',
+  phoneNumber: '+639222833416',
+  address: '25 Bayabas Ext., Punta Princes, Cebu City, Cebu',
+  fullName: 'John Doe',
+  birthdate: new Date(),
+  userType: 'A',
+  rep: {
+    id: 1,
+    barangay: 'Punta Princesa',
+    birthdate: new Date(),
+    city: 'Cebu City',
+    province: 'Cebu',
+    firstName: 'Jane',
+    lastName: 'Doe',
+    fullName: 'Jane Doe',
+    phoneNumber: '09222833416',
+    userType: 'L',
+  },
+  profile: {
+    yearsOfExperience: 4,
+    highestEducationAttained: 'Primary School',
+    experience: [
+      {
+        end_month: 'January',
+        end_year: 2021,
+        start_year: 2020,
+        start_month: 'October',
+        location: 'Punta Princesa Cebu City',
+        role: 'Software Engineer',
+        company: 'David Dobrik LLC',
+        experienceDetails: [
+          {
+            description:
+              'Write modern, performant, and robust code for a diverse array of client and internal projects',
+          },
+          {
+            description:
+              'Work with a variety of different languages, frameworks, and content management systems such as JavaScript, TypeScript, React, Vue, NativeScript, Node.js, Craft, Prismic, etc.',
+          },
+          {
+            description:
+              'Communicate and collaborate with multi-disciplinary teams of engineers, designers, producers, clients, and stakeholders on a daily basis',
+          },
+          {
+            description:
+              'Worked with a team of three designers to build a marketing website and e-commerce platform for blistabloc, an ambitious venture originating from Northeastern',
+          },
+        ],
+      },
+      {
+        end_month: 'January',
+        end_year: 2021,
+        start_year: 2020,
+        start_month: 'October',
+        location: 'Punta Princesa Cebu City',
+        role: 'Software Engineer',
+        company: 'David Dobrik LLC',
+        experienceDetails: [
+          {
+            description:
+              'Write modern, performant, and robust code for a diverse array of client and internal projects',
+          },
+          {
+            description:
+              'Work with a variety of different languages, frameworks, and content management systems such as JavaScript, TypeScript, React, Vue, NativeScript, Node.js, Craft, Prismic, etc.',
+          },
+          {
+            description:
+              'Communicate and collaborate with multi-disciplinary teams of engineers, designers, producers, clients, and stakeholders on a daily basis',
+          },
+          {
+            description:
+              'Worked with a team of three designers to build a marketing website and e-commerce platform for blistabloc, an ambitious venture originating from Northeastern',
+          },
+        ],
+      },
+    ],
+  },
+}
+
+const recruitsList = [recruit, recruit, recruit, recruit, recruit, recruit]

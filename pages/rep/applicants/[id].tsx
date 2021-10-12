@@ -2,7 +2,7 @@ import Image from 'next/image'
 
 import { Badge, Box, Container, Flex, Grid } from '@/components'
 import * as Tabs from '@/components/ApplicantProfile/Tabs'
-import { css } from '@/stitches.config'
+import { CSS, css } from '@/stitches.config'
 import {
   ActiveJobPost,
   Applicant,
@@ -16,9 +16,9 @@ import WorkHistoryCard from '@/components/ApplicantProfile/WorkHistoryCard'
 
 const border = `1px solid ${slate.slate6}`
 
-export default function ApplicantDetail() {
+export default function ApplicantDetail({ css }: { css?: CSS }) {
   return (
-    <Container css={{ py: '$6', display: 'grid', gap: '2rem' }}>
+    <Container css={{ py: '$6', display: 'grid', gap: '2rem', ...css }}>
       <Grid
         css={{
           gridTemplateColumns: '30% 1fr',

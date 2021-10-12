@@ -17,7 +17,7 @@ export default function ApplicantCardCompact({ fullName }: Applicant) {
           width={28}
           height={28}
         />
-        <Box>
+        <Box css={{ textAlign: 'start' }}>
           <Text span className={title()}>
             {fullName}
           </Text>

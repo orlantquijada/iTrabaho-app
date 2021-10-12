@@ -72,6 +72,8 @@ const StyledDescription = styled(DialogPrimitive.Description, {
 const StyledTrigger = styled(DialogPrimitive.Trigger, {
   background: 'none',
   border: 'none',
+
+  cursor: 'pointer',
 })
 
 export const Root = DialogRoot

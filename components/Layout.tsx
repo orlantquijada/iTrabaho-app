@@ -29,6 +29,7 @@ const links: Record<
   R: [
     { href: '/', title: 'Home' },
     { href: '/jobs', title: 'Jobs' },
+    { href: '/rec/my-jobs', title: 'My Jobs' },
     { href: '/jobs/create', title: 'Create Job Post', create: true },
   ],
 }

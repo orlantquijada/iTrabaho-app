@@ -11,6 +11,7 @@ const badgeStyles = css({
   py: '$1',
   borderRadius: '$pill',
   width: 'fit-content',
+  height: 'fit-content',
 
   variants: {
     variant: {

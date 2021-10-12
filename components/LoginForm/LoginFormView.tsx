@@ -45,7 +45,7 @@ export default class LoginForm extends Component<Props, State> {
     return (
       <Form noValidate action="POST" onSubmit={this.props.handleSubmit}>
         {this.props.submitError ? (
-          <Note label="Error" type="error" marginBottom={1}>
+          <Note label="Error" type="error" style={{ marginBottom: '1rem' }}>
             {this.props.submitError}
           </Note>
         ) : null}

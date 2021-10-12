@@ -22,8 +22,8 @@ export default function Login({
         setSubmitError('Invalid phone number or password.')
         setLoginModalState(true)
         methods.reset()
+        setIsSubmitting(false)
       })
-      .finally(() => setIsSubmitting(false))
   })
 
   return (

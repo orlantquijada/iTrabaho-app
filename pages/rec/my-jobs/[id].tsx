@@ -3,19 +3,42 @@ import ApplicantCardCompact from '@/components/ApplicantCardCompact'
 import { css } from '@/stitches.config'
 import { useJobPost } from '@/utils/hooks/useJobPost'
 import { Applicant } from '@/utils/types'
-import { Loading, Text, Description } from '@geist-ui/react'
+import {
+  Loading,
+  Text,
+  Description,
+  Button,
+  Modal,
+  useModal,
+} from '@geist-ui/react'
 import { slate } from '@radix-ui/colors'
 import { useRouter } from 'next/router'
+import ApplicantProfile from '@/components/ApplicantProfile'
 
 import * as Dialog from '@/components/Dialog'
-import ApplicantDetail from '@/pages/rep/applicants/[id]'
+import EmploymentHistory from '@/components/ApplicantProfile/EmploymentHistory'
+import { useState } from 'react'
+import ReviewForm, { FormFields } from '@/components/ReviewForm'
+import { useForm } from 'react-hook-form'
 
 const border = `1px solid ${slate.slate6}`
 
 export default function JobDetail() {
   const router = useRouter()
   const { id } = router.query
-  const { job, isLoading } = useJobPost(Number(id))
+  const jobId = Number(id)
+  const { job, isLoading, mutate, isValidating } = useJobPost(jobId)
+  const { bindings, setVisible } = useModal()
+  const methods = useForm<FormFields>({
+    mode: 'onTouched',
+    defaultValues: { rating: 0 },
+  })
+
+  // TODO: connect to api
+  const handleSubmit = methods.handleSubmit((values) => {
+    alert(JSON.stringify(values, null, 2))
+    setVisible(false)
+  })
 
   return (
     <Container css={{ py: '$6', display: 'grid', gap: '2rem' }}>
@@ -47,7 +70,7 @@ export default function JobDetail() {
               as="section"
               direction="column"
               gap="5"
-              css={{ padding: '1.25rem 2rem' }}
+              css={{ padding: '2rem' }}
             >
               <Description title="Recruiter" content={job.recruiter.fullName} />
               {job.status !== 'hiring' ? (
@@ -55,13 +78,13 @@ export default function JobDetail() {
               ) : null}
               <Description
                 title="Location"
-                content={`${job.street} ${job.barangay} ${job.city} ${job.province}`}
+                content={`${job.street} ${job.barangay}, ${job.city}, ${job.province}`}
               />
               <Description
                 title="Status"
                 content={
                   <Badge
-                    variant={job.status}
+                    color={job.status}
                     css={{ textTransform: 'capitalize' }}
                   >
                     {job.status}
@@ -72,6 +95,33 @@ export default function JobDetail() {
                 title="Post On"
                 content={job.datetimeCreated.toDateString()}
               />
+              {job.status === 'active' ? (
+                <>
+                  <Button type="secondary" onClick={() => setVisible(true)}>
+                    Finish Job
+                  </Button>
+                  <Modal {...bindings}>
+                    <Modal.Title>Feedback</Modal.Title>
+                    <Modal.Subtitle style={{ textTransform: 'initial' }}>
+                      How would you rate{' '}
+                      <span style={{ fontWeight: 700 }}>
+                        {job.recruit.fullName}
+                      </span>
+                      ?
+                    </Modal.Subtitle>
+                    <Modal.Content>
+                      <ReviewForm
+                        handleSubmit={handleSubmit}
+                        methods={methods}
+                      />
+                    </Modal.Content>
+                    <Modal.Action passive onClick={() => setVisible(false)}>
+                      Cancel
+                    </Modal.Action>
+                    <Modal.Action onClick={handleSubmit}>Submit</Modal.Action>
+                  </Modal>
+                </>
+              ) : null}
             </Flex>
           </Box>
 
@@ -86,35 +136,32 @@ export default function JobDetail() {
                 title="Description"
                 content={<p className={description()}>{job.description}</p>}
               />
-              <Description
-                title="Applicants"
-                content={
-                  <Grid
-                    gap="2"
-                    css={{
-                      gridTemplateColumns:
-                        'repeat(auto-fill, minmax(200px,1fr))',
-                    }}
-                  >
-                    {recruistList.map((recruit, index) => (
-                      <Dialog.Root key={index}>
-                        <Dialog.CleanedUpTrigger css={{ paddingInline: 0 }}>
-                          <ApplicantCardCompact {...recruit} />
-                        </Dialog.CleanedUpTrigger>
-                        <Dialog.Content
-                          css={{
-                            minWidth: '75vw',
-                            padding: 0,
-                            overflow: 'auto',
+
+              {job.status === 'hiring' ? (
+                <Description
+                  title="Applicants"
+                  content={
+                    <Grid
+                      gap="2"
+                      css={{
+                        gridTemplateColumns:
+                          'repeat(auto-fill, minmax(200px,1fr))',
+                      }}
+                    >
+                      {recruistList.map((recruit, index) => (
+                        <ApplicantDialog
+                          recruit={recruit}
+                          isValidating={isValidating}
+                          onClick={() => {
+                            mutate((data) => data)
                           }}
-                        >
-                          <ApplicantDetail css={{ m: 'auto', p: '$8 $6' }} />
-                        </Dialog.Content>
-                      </Dialog.Root>
-                    ))}
-                  </Grid>
-                }
-              />
+                          key={index}
+                        />
+                      ))}
+                    </Grid>
+                  }
+                />
+              ) : null}
             </Flex>
           </Box>
         </Grid>
@@ -122,6 +169,51 @@ export default function JobDetail() {
         <Loading />
       )}
     </Container>
+  )
+}
+
+function ApplicantDialog({
+  isValidating,
+  onClick,
+  recruit,
+}: {
+  recruit: Applicant
+  onClick: () => void
+  isValidating: boolean
+}) {
+  const [open, setOpen] = useState(false)
+
+  return (
+    <Dialog.Root open={open} onOpenChange={(open) => setOpen(open)}>
+      <Dialog.CleanedUpTrigger css={{ paddingInline: 0 }}>
+        <ApplicantCardCompact {...recruit} />
+      </Dialog.CleanedUpTrigger>
+      <Dialog.Content
+        css={{
+          minWidth: '75vw',
+          overflow: 'auto',
+          p: 0,
+        }}
+      >
+        <Flex css={{ m: 'auto', p: '$8' }} direction="column" gap="8">
+          <ApplicantProfile
+            rightHeaderComponent={
+              <Button
+                type="secondary"
+                onClick={() => {
+                  onClick()
+                  setOpen(false)
+                }}
+                loading={isValidating}
+              >
+                HIRE
+              </Button>
+            }
+          />
+          <EmploymentHistory />
+        </Flex>
+      </Dialog.Content>
+    </Dialog.Root>
   )
 }
 

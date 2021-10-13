@@ -7,6 +7,7 @@ import { FormFields } from '@/components/JobPost/helpers'
 type Data = JobPost[]
 type Params = {
   recruiterId: number
+  status: 'H' | 'A' | 'D'
 }
 
 const key = 'jobs'
@@ -28,13 +29,18 @@ export function useJobPosts(props: QueryProps<Data, Params> = {}) {
     data: jobs,
     error,
   } = useSWR(
-    props.params?.recruiterId ? [key, props.params.recruiterId] : key,
+    props.params?.recruiterId || props.params?.status
+      ? [key, props.params.recruiterId, props.params.status]
+      : key,
     () =>
       axios
         .get<Data>(
           props.params?.recruiterId
             ? `api/jobs/${props.params.recruiterId}/recruiter`
-            : 'api/jobs/list/'
+            : 'api/jobs/list/',
+          props.params?.status
+            ? { params: { status: props.params?.status } }
+            : undefined
         )
         .then((res) => res.data)
         .then((data) =>

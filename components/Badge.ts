@@ -14,7 +14,7 @@ const badgeStyles = css({
   height: 'fit-content',
 
   variants: {
-    variant: {
+    color: {
       hiring: {
         color: tomato.tomato11,
         background: tomato.tomato5,
@@ -27,8 +27,6 @@ const badgeStyles = css({
         color: blue.blue11,
         background: blue.blue5,
       },
-    },
-    color: {
       gray: {
         color: slate.slate11,
         background: slate.slate5,

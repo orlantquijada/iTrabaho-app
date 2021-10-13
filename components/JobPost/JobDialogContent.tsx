@@ -58,7 +58,7 @@ export default function JobDialogContent(job: Props) {
 
           <Grid css={{ gridTemplateColumns: '30% 1fr' }}>
             <SectionTitle>Status</SectionTitle>
-            <Badge variant={job.status} css={{ textTransform: 'capitalize' }}>
+            <Badge color={job.status} css={{ textTransform: 'capitalize' }}>
               {job.status}
             </Badge>
           </Grid>

@@ -13,6 +13,21 @@ const JobPostMap: Record<string, 'hiring' | 'active' | 'done'> = {
   D: 'done',
 }
 
+const formatJobPost = (data: JobPost): JobPost =>
+  ({
+    ...data,
+    datetimeCreated: new Date(data.datetimeCreated),
+    status: JobPostMap[data.status],
+  } as JobPost)
+
+// TODO: incorrect api endpoint (endpoint does not exist pa)
+export function acceptJobPost(id: JobPost['id']) {
+  return axios
+    .patch<Data>(`api/job/${id}/patch/`)
+    .then((res) => res.data)
+    .then((data) => formatJobPost(data))
+}
+
 export function useJobPost(id: JobPost['id'], props: QueryProps<Data> = {}) {
   const {
     isValidating,
@@ -25,14 +40,7 @@ export function useJobPost(id: JobPost['id'], props: QueryProps<Data> = {}) {
       axios
         .get<Data>(`api/jobs/${id}/get/`)
         .then((res) => res.data)
-        .then(
-          (data) =>
-            ({
-              ...data,
-              datetimeCreated: new Date(data.datetimeCreated),
-              status: JobPostMap[data.status],
-            } as JobPost)
-        ),
+        .then((data) => formatJobPost(data)),
     props.options
   )
 

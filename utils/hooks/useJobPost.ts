@@ -1,6 +1,6 @@
 import axios from '@/utils/api/axios'
 import useSWR from 'swr'
-import { JobPost } from '../types'
+import { Applicant, JobPost } from '../types'
 import { QueryProps } from '../types/utils'
 
 type Data = JobPost
@@ -20,10 +20,11 @@ const formatJobPost = (data: JobPost): JobPost =>
     status: JobPostMap[data.status],
   } as JobPost)
 
-// TODO: incorrect api endpoint (endpoint does not exist pa)
-export function acceptJobPost(id: JobPost['id']) {
+export function acceptJobPost(id: JobPost['id'], applicantId: Applicant['id']) {
   return axios
-    .patch<Data>(`api/job/${id}/patch/`)
+    .patch<Data>(`api/jobs/${id}/accept/`, {
+      applicantId,
+    })
     .then((res) => res.data)
     .then((data) => formatJobPost(data))
 }

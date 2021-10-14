@@ -1,7 +1,7 @@
 import { Badge, Box, Container, Flex, Grid } from '@/components'
 import ApplicantCardCompact from '@/components/ApplicantCardCompact'
 import { css } from '@/stitches.config'
-import { useJobPost } from '@/utils/hooks/useJobPost'
+import { useJobPost, acceptJobPost } from '@/utils/hooks/useJobPost'
 import { Applicant } from '@/utils/types'
 import {
   Loading,
@@ -146,24 +146,31 @@ export default function JobDetail() {
                   title="Applicants"
                   content={
                     !isLoadingApplicantsList && applicants ? (
-                      <Grid
-                        gap="2"
-                        css={{
-                          gridTemplateColumns:
-                            'repeat(auto-fill, minmax(200px,1fr))',
-                        }}
-                      >
-                        {applicants.map((recruit, index) => (
-                          <ApplicantDialog
-                            recruit={recruit}
-                            isValidating={isValidating}
-                            onClick={() => {
-                              mutate((data) => data)
-                            }}
-                            key={index}
-                          />
-                        ))}
-                      </Grid>
+                      applicants.length === 0 ? (
+                        <Text>No applicants currently!</Text>
+                      ) : (
+                        <Grid
+                          gap="2"
+                          css={{
+                            gridTemplateColumns:
+                              'repeat(auto-fill, minmax(200px,1fr))',
+                          }}
+                        >
+                          {applicants.map((recruit, index) => (
+                            <ApplicantDialog
+                              recruit={recruit}
+                              isValidating={isValidating}
+                              onClick={() => {
+                                mutate(
+                                  async () =>
+                                    await acceptJobPost(jobId, recruit.id)
+                                )
+                              }}
+                              key={index}
+                            />
+                          ))}
+                        </Grid>
+                      )
                     ) : (
                       <Loading />
                     )

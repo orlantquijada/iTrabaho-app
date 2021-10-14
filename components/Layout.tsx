@@ -42,7 +42,14 @@ export default function Layout({ children }: { children: ReactNode }) {
   const user = useUser()
 
   useEffect(() => {
-    if (!(router.pathname === '/' || router.pathname === '/jobs') && !user)
+    if (
+      !(
+        router.pathname === '/' ||
+        router.pathname === '/jobs' ||
+        router.pathname.startsWith('/rep/applicants/')
+      ) &&
+      !user
+    )
       router.push('/')
   }, [router, user])
 

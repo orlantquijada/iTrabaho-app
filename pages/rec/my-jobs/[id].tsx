@@ -20,6 +20,7 @@ import EmploymentHistory from '@/components/ApplicantProfile/EmploymentHistory'
 import { useState } from 'react'
 import ReviewForm, { FormFields } from '@/components/ReviewForm'
 import { useForm } from 'react-hook-form'
+import { useApplicants } from '@/utils/hooks/useApplicants'
 
 const border = `1px solid ${slate.slate6}`
 
@@ -28,6 +29,9 @@ export default function JobDetail() {
   const { id } = router.query
   const jobId = Number(id)
   const { job, isLoading, mutate, isValidating } = useJobPost(jobId)
+  const { applicants, isLoading: isLoadingApplicantsList } = useApplicants({
+    params: { jobPostId: jobId },
+  })
   const { bindings, setVisible } = useModal()
   const methods = useForm<FormFields>({
     mode: 'onTouched',
@@ -141,24 +145,28 @@ export default function JobDetail() {
                 <Description
                   title="Applicants"
                   content={
-                    <Grid
-                      gap="2"
-                      css={{
-                        gridTemplateColumns:
-                          'repeat(auto-fill, minmax(200px,1fr))',
-                      }}
-                    >
-                      {recruistList.map((recruit, index) => (
-                        <ApplicantDialog
-                          recruit={recruit}
-                          isValidating={isValidating}
-                          onClick={() => {
-                            mutate((data) => data)
-                          }}
-                          key={index}
-                        />
-                      ))}
-                    </Grid>
+                    !isLoadingApplicantsList && applicants ? (
+                      <Grid
+                        gap="2"
+                        css={{
+                          gridTemplateColumns:
+                            'repeat(auto-fill, minmax(200px,1fr))',
+                        }}
+                      >
+                        {applicants.map((recruit, index) => (
+                          <ApplicantDialog
+                            recruit={recruit}
+                            isValidating={isValidating}
+                            onClick={() => {
+                              mutate((data) => data)
+                            }}
+                            key={index}
+                          />
+                        ))}
+                      </Grid>
+                    ) : (
+                      <Loading />
+                    )
                   }
                 />
               ) : null}
@@ -231,97 +239,3 @@ const description = css({
   letterSpacing: '-0.003em',
   lineHeight: '24px',
 })
-
-const recruit: Applicant = {
-  id: 1,
-  firstName: 'John',
-  lastName: 'Doe',
-  phoneNumber: '+639222833416',
-  address: '25 Bayabas Ext., Punta Princes, Cebu City, Cebu',
-  fullName: 'John Doe',
-  birthdate: new Date(),
-  userType: 'A',
-  rep: {
-    id: 1,
-    barangay: 'Punta Princesa',
-    birthdate: new Date(),
-    city: 'Cebu City',
-    province: 'Cebu',
-    firstName: 'Jane',
-    lastName: 'Doe',
-    fullName: 'Jane Doe',
-    phoneNumber: '09222833416',
-    userType: 'L',
-  },
-  profile: {
-    yearsOfExperience: 4,
-    highestEducationAttained: 'Primary School',
-    experience: [
-      {
-        end_month: 'January',
-        end_year: 2021,
-        start_year: 2020,
-        start_month: 'October',
-        location: 'Punta Princesa Cebu City',
-        role: 'Software Engineer',
-        company: 'David Dobrik LLC',
-        experienceDetails: [
-          {
-            description:
-              'Write modern, performant, and robust code for a diverse array of client and internal projects',
-          },
-          {
-            description:
-              'Work with a variety of different languages, frameworks, and content management systems such as JavaScript, TypeScript, React, Vue, NativeScript, Node.js, Craft, Prismic, etc.',
-          },
-          {
-            description:
-              'Communicate and collaborate with multi-disciplinary teams of engineers, designers, producers, clients, and stakeholders on a daily basis',
-          },
-          {
-            description:
-              'Worked with a team of three designers to build a marketing website and e-commerce platform for blistabloc, an ambitious venture originating from Northeastern',
-          },
-        ],
-      },
-      {
-        end_month: 'January',
-        end_year: 2021,
-        start_year: 2020,
-        start_month: 'October',
-        location: 'Punta Princesa Cebu City',
-        role: 'Software Engineer',
-        company: 'David Dobrik LLC',
-        experienceDetails: [
-          {
-            description:
-              'Write modern, performant, and robust code for a diverse array of client and internal projects',
-          },
-          {
-            description:
-              'Work with a variety of different languages, frameworks, and content management systems such as JavaScript, TypeScript, React, Vue, NativeScript, Node.js, Craft, Prismic, etc.',
-          },
-          {
-            description:
-              'Communicate and collaborate with multi-disciplinary teams of engineers, designers, producers, clients, and stakeholders on a daily basis',
-          },
-          {
-            description:
-              'Worked with a team of three designers to build a marketing website and e-commerce platform for blistabloc, an ambitious venture originating from Northeastern',
-          },
-        ],
-      },
-    ],
-  },
-}
-
-const recruistList = [
-  recruit,
-  recruit,
-  recruit,
-  recruit,
-  recruit,
-  recruit,
-  recruit,
-  recruit,
-]

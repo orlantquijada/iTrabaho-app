@@ -7,7 +7,7 @@ import { Loading } from '@geist-ui/react'
 export default function ApplicantsList() {
   const user = useUser()
   const { applicants, isLoading } = useApplicants({
-    params: user?.id ? { LGURepresentative: user.id } : undefined,
+    params: { LGURepresentative: user?.id as number },
   })
 
   return (

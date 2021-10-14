@@ -1,7 +1,11 @@
 import { Badge, Box, Container, Flex, Grid } from '@/components'
 import ApplicantCardCompact from '@/components/ApplicantCardCompact'
 import { css } from '@/stitches.config'
-import { useJobPost, acceptJobPost } from '@/utils/hooks/useJobPost'
+import {
+  useJobPost,
+  acceptJobPost,
+  completeJobPost,
+} from '@/utils/hooks/useJobPost'
 import { Applicant } from '@/utils/types'
 import {
   Loading,
@@ -17,10 +21,11 @@ import ApplicantProfile from '@/components/ApplicantProfile'
 
 import * as Dialog from '@/components/Dialog'
 import EmploymentHistory from '@/components/ApplicantProfile/EmploymentHistory'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import ReviewForm, { FormFields } from '@/components/ReviewForm'
 import { useForm } from 'react-hook-form'
 import { useApplicants } from '@/utils/hooks/useApplicants'
+import { createReview } from '@/utils/api/lib'
 
 const border = `1px solid ${slate.slate6}`
 
@@ -35,12 +40,16 @@ export default function JobDetail() {
   const { bindings, setVisible } = useModal()
   const methods = useForm<FormFields>({
     mode: 'onTouched',
-    defaultValues: { rating: 0 },
+    defaultValues: { rate: 0 },
   })
+  const recruit = useRef<Applicant>()
 
-  // TODO: connect to api
-  const handleSubmit = methods.handleSubmit((values) => {
-    alert(JSON.stringify(values, null, 2))
+  const handleSubmit = methods.handleSubmit(async (values) => {
+    await createReview({
+      ...values,
+      fromUserId: job?.recruiter.id as number,
+      toUserId: recruit.current?.id as number,
+    })
     setVisible(false)
   })
 
@@ -100,32 +109,35 @@ export default function JobDetail() {
                 content={job.datetimeCreated.toDateString()}
               />
               {job.status === 'active' ? (
-                <>
-                  <Button type="secondary" onClick={() => setVisible(true)}>
-                    Finish Job
-                  </Button>
-                  <Modal {...bindings}>
-                    <Modal.Title>Feedback</Modal.Title>
-                    <Modal.Subtitle style={{ textTransform: 'initial' }}>
-                      How would you rate{' '}
-                      <span style={{ fontWeight: 700 }}>
-                        {job.recruit.fullName}
-                      </span>
-                      ?
-                    </Modal.Subtitle>
-                    <Modal.Content>
-                      <ReviewForm
-                        handleSubmit={handleSubmit}
-                        methods={methods}
-                      />
-                    </Modal.Content>
-                    <Modal.Action passive onClick={() => setVisible(false)}>
-                      Cancel
-                    </Modal.Action>
-                    <Modal.Action onClick={handleSubmit}>Submit</Modal.Action>
-                  </Modal>
-                </>
+                <Button
+                  type="secondary"
+                  onClick={() => {
+                    recruit.current = job.recruit
+                    mutate(async () => await completeJobPost(jobId))
+                    setVisible(true)
+                  }}
+                >
+                  Finish Job
+                </Button>
               ) : null}
+
+              <Modal {...bindings}>
+                <Modal.Title>Feedback</Modal.Title>
+                <Modal.Subtitle style={{ textTransform: 'initial' }}>
+                  How would you rate{' '}
+                  <span style={{ fontWeight: 700 }}>
+                    {recruit.current?.fullName}
+                  </span>
+                  ?
+                </Modal.Subtitle>
+                <Modal.Content>
+                  <ReviewForm handleSubmit={handleSubmit} methods={methods} />
+                </Modal.Content>
+                <Modal.Action passive onClick={() => setVisible(false)}>
+                  Cancel
+                </Modal.Action>
+                <Modal.Action onClick={handleSubmit}>Submit</Modal.Action>
+              </Modal>
             </Flex>
           </Box>
 

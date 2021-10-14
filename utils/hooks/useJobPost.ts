@@ -28,6 +28,12 @@ export function acceptJobPost(id: JobPost['id'], applicantId: Applicant['id']) {
     .then((res) => res.data)
     .then((data) => formatJobPost(data))
 }
+export function completeJobPost(id: JobPost['id']) {
+  return axios
+    .patch<Data>(`api/jobs/${id}/done/`)
+    .then((res) => res.data)
+    .then((data) => formatJobPost(data))
+}
 
 export function useJobPost(id: JobPost['id'], props: QueryProps<Data> = {}) {
   const {

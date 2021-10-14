@@ -2,6 +2,7 @@ import { styled } from '@/stitches.config'
 import { Rating } from '@geist-ui/react'
 import { FormField, TextArea } from '@/components'
 import { UseFormReturn } from 'react-hook-form'
+import { User } from '@/utils/types'
 
 interface Props {
   methods: UseFormReturn<FormFields>
@@ -12,7 +13,7 @@ export default function ReviewForm(props: Props) {
   return (
     <Form noValidate action="POST">
       <Rating
-        onValueChange={(value) => props.methods.setValue('rating', value)}
+        onValueChange={(value) => props.methods.setValue('rate', value)}
         style={{
           width: '100%',
           display: 'flex',
@@ -31,6 +32,8 @@ export default function ReviewForm(props: Props) {
 const Form = styled('form', {})
 
 export interface FormFields {
-  rating: number
+  rate: number
   comment?: string
+  fromUserId: User['id']
+  toUserId: User['id']
 }

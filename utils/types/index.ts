@@ -73,14 +73,14 @@ export interface HiringJobPost extends BaseJobPost {
 export interface ActiveJobPost extends BaseJobPost {
   status: 'active'
   recruit: Applicant
-  recruitReview?: Omit<Review, 'jobPost'>
+  applicantReview?: Omit<Review, 'jobPost'>
   recruiterReview?: Omit<Review, 'jobPost'>
 }
 
 export interface DoneJobPost extends BaseJobPost {
   status: 'done'
   recruit: Applicant
-  recruitReview?: Omit<Review, 'jobPost'>
+  applicantReview?: Omit<Review, 'jobPost'>
   recruiterReview?: Omit<Review, 'jobPost'>
   datetimeEnded: Date
 }
@@ -101,3 +101,9 @@ export interface Match {
   percentage: number
   rank: number
 }
+
+export type Activity = { datetimeCreated: Date; type: 'M' | 'R' | 'A' } & (
+  | { type: 'M'; content: Match } // match
+  | { type: 'R'; content: Review } // review
+  | { type: 'A'; content: Required<ActiveJobPost> } // accepted
+)

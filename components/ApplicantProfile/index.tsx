@@ -272,7 +272,7 @@ const job2: DoneJobPost = {
     toUser: recruiter,
     rate: 5,
   },
-  recruitReview: {
+  applicantReview: {
     comment:
       'I highly recommend Francis for your projects. I am very pick when it comes to the people I work with, since these are my life time projects. And he has been more than helpful and very professional.',
     fromUser: recruiter,
@@ -303,7 +303,7 @@ const job: ActiveJobPost = {
     toUser: recruiter,
     rate: 5,
   },
-  recruitReview: {
+  applicantReview: {
     comment: 'John is by far the best! Highly recommended',
     fromUser: recruiter,
     toUser: recruit,

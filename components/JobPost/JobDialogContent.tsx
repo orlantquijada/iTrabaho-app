@@ -71,11 +71,11 @@ export default function JobDialogContent(job: Props) {
       </Grid>
 
       {job.status !== 'hiring' &&
-      (job?.recruitReview || job?.recruiterReview) ? (
+      (job?.applicantReview || job?.recruiterReview) ? (
         <Box as="section">
           <Feedback>Job Feedback</Feedback>
           <Grid columns="2" gap="4">
-            {job.recruitReview ? (
+            {job.applicantReview ? (
               <Box>
                 <Grid align="center" justify="start" flow="column">
                   <Text span margin="0" marginRight={0.5}>
@@ -83,11 +83,11 @@ export default function JobDialogContent(job: Props) {
                   </Text>
                   <StarFilledIcon />
                   <Text span className={rateValue()}>
-                    {job.recruitReview.rate}
+                    {job.applicantReview.rate}
                   </Text>
                 </Grid>
                 <Text className={feedBackComment()}>
-                  &quot;{job.recruitReview.comment}&quot;
+                  &quot;{job.applicantReview.comment}&quot;
                 </Text>
               </Box>
             ) : null}

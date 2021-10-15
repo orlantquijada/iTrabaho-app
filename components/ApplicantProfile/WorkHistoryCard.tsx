@@ -32,11 +32,11 @@ export default function WorkHistoryCard(job: ActiveJobPost | DoneJobPost) {
           <JobTitle>{job.title}</JobTitle>
 
           <Grid inline align="center" justify="start" flow="column">
-            {job.recruitReview ? (
+            {job.applicantReview ? (
               <>
                 <StarFilledIcon />
                 <Text span className={rate()}>
-                  {job.recruitReview.rate}
+                  {job.applicantReview.rate}
                 </Text>
               </>
             ) : null}
@@ -47,8 +47,8 @@ export default function WorkHistoryCard(job: ActiveJobPost | DoneJobPost) {
                 : 'Present'}
             </Text>
           </Grid>
-          {job.recruitReview ? (
-            <Comment>&quot;{job.recruitReview.comment}&quot;</Comment>
+          {job.applicantReview ? (
+            <Comment>&quot;{job.applicantReview.comment}&quot;</Comment>
           ) : (
             <Text className={noFeedback()}>
               {job.status === 'done' ? 'No feedback given' : 'Job in progress'}

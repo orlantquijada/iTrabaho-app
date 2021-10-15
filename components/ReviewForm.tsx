@@ -2,7 +2,7 @@ import { styled } from '@/stitches.config'
 import { Rating } from '@geist-ui/react'
 import { FormField, TextArea } from '@/components'
 import { UseFormReturn } from 'react-hook-form'
-import { User } from '@/utils/types'
+import { JobPost } from '@/utils/types'
 
 interface Props {
   methods: UseFormReturn<FormFields>
@@ -34,6 +34,5 @@ const Form = styled('form', {})
 export interface FormFields {
   rate: number
   comment?: string
-  fromUserId: User['id']
-  toUserId: User['id']
+  jobId: JobPost['id']
 }

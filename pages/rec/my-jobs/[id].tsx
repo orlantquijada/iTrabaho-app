@@ -47,8 +47,7 @@ export default function JobDetail() {
   const handleSubmit = methods.handleSubmit(async (values) => {
     await createReview({
       ...values,
-      fromUserId: job?.recruiter.id as number,
-      toUserId: recruit.current?.id as number,
+      jobId,
     })
     setVisible(false)
   })

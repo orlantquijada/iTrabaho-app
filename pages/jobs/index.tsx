@@ -4,18 +4,21 @@ import { Box, Container, Flex, Grid } from '@/components'
 import { Loading, Text } from '@geist-ui/react'
 import { blue, gray } from '@radix-ui/colors'
 import JobPostListView from '@/components/JobPost/JobPostListView'
-import { ActiveJobPost, Match, Review, User } from '@/utils/types'
 import { css } from '@/stitches.config'
 import useUser from '@/utils/hooks/useUser'
 import { useJobPosts } from '@/utils/hooks/useJobPosts'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 
+import type { Activity, User } from '@/utils/types'
+import { useActivities } from '@/utils/hooks/useActivities'
+
 export default function JobsList() {
   const { jobs, isLoading } = useJobPosts()
   const router = useRouter()
   const [jobId, setJobId] = useState<number | undefined>(undefined)
   const user = useUser()
+  const { activities, isLoading: isLoadingActivities } = useActivities()
 
   useEffect(() => {
     const handleRouteChange = () => {
@@ -84,77 +87,26 @@ export default function JobsList() {
             All Activity
           </Text>
           {/* activity list */}
-          <Flex direction="column" css={{ pl: '1rem' }}>
-            <ActivityCard
-              currentUser={user}
-              datetimeCreated={new Date()}
-              type="M"
-              content={{
-                rank: 1,
-                percentage: 80,
-                jobPost: {
-                  id: 1,
-                  barangay: 'Punta Princesa',
-                  city: 'Cebu City',
-                  datetimeCreated: new Date(),
-                  province: 'Cebu',
-                  street: '25 Bayabas Ext.',
-                  description:
-                    'Social media strategy developed for your campaign, event, or general business promotion. I have 16 years of experience developing social media strategies and content, including copy and graphics. The strategy will include a review of your social media and recommendations on how improve/leverage/expand your social marketing efforts.',
-
-                  title: 'Create a social media strategy for my business',
-                  status: 'hiring',
-                  role: 'Communications Expert',
-                  recruiter: {
-                    id: 1,
-                    birthdate: new Date(),
-                    firstName: 'Jane',
-                    lastName: 'Doe',
-                    fullName: 'Jane Doe',
-                    phoneNumber: '09222833416',
-                    userType: 'R',
-                  },
-                },
-                applicant: {
-                  ...user,
-                  address: 'Punta Princesa Cebu City',
-                  fullName: 'John Doe',
-                  birthdate: new Date(),
-                  userType: 'A',
-                  rep: {
-                    id: 1,
-                    barangay: 'Punta Princesa',
-                    birthdate: new Date(),
-                    city: 'Cebu City',
-                    province: 'Cebu',
-                    firstName: 'Jane',
-                    lastName: 'Doe',
-                    fullName: 'Jane Doe',
-                    phoneNumber: '09222833416',
-                    userType: 'L',
-                  },
-                  profile: {
-                    yearsOfExperience: 4,
-                    highestEducationAttained: 'Primary School',
-                    experience: [
-                      {
-                        end_month: 'January',
-                        end_year: 2021,
-                        start_year: 2020,
-                        start_month: 'October',
-                        location: 'Punta Princesa Cebu City',
-                        role: 'Software Engineer',
-                        experienceDetails: [
-                          {
-                            description: 'wow cool',
-                          },
-                        ],
-                      },
-                    ],
-                  },
-                },
-              }}
-            />
+          <Flex direction="column" gap="2" css={{ pl: '1rem' }}>
+            {!isLoadingActivities && activities ? (
+              activities.length === 0 ? (
+                <Text style={{ margin: 0, fontSize: '0.75rem' }}>
+                  No activities!
+                </Text>
+              ) : (
+                activities.map((activity, index) => (
+                  <ActivityCard
+                    key={index}
+                    currentUser={user}
+                    datetimeCreated={activity.datetimeCreated}
+                    type={activity.type as any}
+                    content={activity.content as any}
+                  />
+                ))
+              )
+            ) : (
+              <Loading />
+            )}
           </Flex>
         </Flex>
       ) : null}
@@ -164,30 +116,34 @@ export default function JobsList() {
 
 type Props = {
   currentUser: User
-  datetimeCreated: Date
 }
 
-function ActivityCard(
-  props: Props &
-    (
-      | { type: 'M'; content: Match } // match
-      | { type: 'R'; content: Review } // review
-      | { type: 'A'; content: Required<ActiveJobPost> } // accepted
-    )
-) {
+function ActivityCard(props: Props & Activity) {
+  // TODO: clean up texts
   const description = () => {
     if (props.type === 'R') {
-      return (
-        <Text margin="0" style={{ fontSize: '0.75rem' }}>
-          <strong>{props.content.fromUser.fullName}</strong> rated his job
-          experience on job <strong>{props.content.jobPost.title}</strong>{' '}
-          <strong>{props.content.rate}</strong> / <strong>5</strong> stars
-        </Text>
-      )
+      if (props.currentUser.userType === 'L') {
+        return (
+          <Text style={{ fontSize: '0.75rem', margin: 0 }}>
+            <strong>{props.content.fromUser.fullName}</strong> rated his job
+            experience on job <strong>{props.content.jobPost.title}</strong>{' '}
+            <strong>{props.content.rate}</strong> / <strong>5</strong> stars
+          </Text>
+        )
+      } else if (props.currentUser.userType === 'R') {
+        return (
+          <Text style={{ fontSize: '0.75rem', margin: 0 }}>
+            <strong>You</strong> rated{' '}
+            <strong>{props.content.toUser.fullName}</strong> on job{' '}
+            <strong>{props.content.jobPost.title}</strong>{' '}
+            <strong>{props.content.rate}</strong> / <strong>5</strong> stars
+          </Text>
+        )
+      }
     } else if (props.type === 'M') {
       if (props.currentUser.userType === 'L') {
         return (
-          <Text margin="0" style={{ fontSize: '0.75rem' }}>
+          <Text style={{ fontSize: '0.75rem', margin: 0 }}>
             <strong>{props.content.applicant.fullName}</strong> has matched the
             job, <strong>{props.content.jobPost.title}</strong>, posted by{' '}
             <strong>{props.content.jobPost.recruiter.fullName}</strong>
@@ -195,7 +151,7 @@ function ActivityCard(
         )
       } else if (props.currentUser.userType === 'R') {
         return (
-          <Text margin="0" style={{ fontSize: '0.75rem' }}>
+          <Text style={{ fontSize: '0.75rem', margin: 0 }}>
             Your job post <strong>{props.content.jobPost.title}</strong> has
             matched applicant{' '}
             <strong>{props.content.applicant.fullName}</strong>
@@ -203,12 +159,22 @@ function ActivityCard(
         )
       }
     } else if (props.type === 'A') {
-      return (
-        <Text margin="0" style={{ fontSize: '0.75rem' }}>
-          <strong>{props.content.recruit.fullName}</strong> has been accepted on
-          the job: <strong>{props.content.title}</strong>
-        </Text>
-      )
+      if (props.currentUser.userType === 'L') {
+        return (
+          <Text style={{ fontSize: '0.75rem', margin: 0 }}>
+            <strong>{props.content.recruit.fullName}</strong> has been accepted
+            on the job: <strong>{props.content.title}</strong>
+          </Text>
+        )
+      } else if (props.currentUser.userType === 'R') {
+        return (
+          <Text style={{ fontSize: '0.75rem', margin: 0 }}>
+            <strong>You</strong> accepted{' '}
+            <strong>{props.content.recruit.fullName}</strong> on the job:{' '}
+            <strong>{props.content.title}</strong>
+          </Text>
+        )
+      }
     }
   }
 

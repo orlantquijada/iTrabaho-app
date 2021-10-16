@@ -20,7 +20,7 @@ export default function CreateApplicantPage() {
   })
 
   const educationController = useController({
-    name: 'highestEducationAttained',
+    name: 'highesteducationAttained',
     control: methods.control,
     rules: required,
   })

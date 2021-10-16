@@ -7,7 +7,7 @@ export interface FormFields {
   birthdate: string
 
   yearsOfExperience: number
-  highestEducationAttained: string
+  highesteducationAttained: string
 
   experience: Array<{
     role: string

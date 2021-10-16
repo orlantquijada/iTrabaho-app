@@ -13,7 +13,7 @@ interface Props {
   sexController: UseControllerReturn<FormFields, 'sex'>
   educationController: UseControllerReturn<
     FormFields,
-    'highestEducationAttained'
+    'highesteducationAttained'
   >
 }
 
@@ -26,7 +26,7 @@ export default class ApplicantFormView extends Component<Props, State> {
     birthdate: '',
 
     yearsOfExperience: 0,
-    highestEducationAttained: '',
+    highesteducationAttained: '',
 
     experience: [
       {
@@ -64,7 +64,7 @@ export default class ApplicantFormView extends Component<Props, State> {
     return this.state.yearsOfExperience
   }
   getHighestEducationAttained() {
-    return this.state.highestEducationAttained
+    return this.state.highesteducationAttained
   }
   getExperience() {
     return this.state.experience
@@ -227,7 +227,7 @@ export default class ApplicantFormView extends Component<Props, State> {
           <FormField
             title="Highest Education Attained"
             error={
-              this.props.methods.formState.errors.highestEducationAttained
+              this.props.methods.formState.errors.highesteducationAttained
                 ?.message
             }
             requirementLabel="optional"
@@ -235,7 +235,7 @@ export default class ApplicantFormView extends Component<Props, State> {
             <Select
               placeholder="Choose one"
               type={
-                this.props.methods.formState.errors.highestEducationAttained
+                this.props.methods.formState.errors.highesteducationAttained
                   ?.message
                   ? 'error'
                   : 'default'
@@ -243,12 +243,13 @@ export default class ApplicantFormView extends Component<Props, State> {
               value={this.props.educationController.field.value}
               onChange={this.props.educationController.field.onChange}
             >
-              <Select.Option value="primary">Primary</Select.Option>
-              <Select.Option value="junior">Junior High School</Select.Option>
-              <Select.Option value="senior">Senior High School</Select.Option>
-              <Select.Option value="undergraduate">Undergraduate</Select.Option>
-              <Select.Option value="graduate">Graduate</Select.Option>
-              <Select.Option value="doctoral">Doctorial</Select.Option>
+              <Select.Option value="E">Elementary</Select.Option>
+              <Select.Option value="H">High School</Select.Option>
+              <Select.Option value="U">College Undergraduate</Select.Option>
+              <Select.Option value="B">Bachelor&apos;s Degree</Select.Option>
+              <Select.Option value="A">Associate&apos;s Degree</Select.Option>
+              <Select.Option value="M">Master&apos;s Degree</Select.Option>
+              <Select.Option value="D">Doctorate Degree</Select.Option>
             </Select>
           </FormField>
           <FormField

@@ -20,8 +20,7 @@ export default function ExperienceCard(props: Experience) {
         {props.company ? ` | ${props.company}` : null}
       </Text>
       <Text className={dates()}>
-        {props.start_month} {props.start_year} - {props.end_month}{' '}
-        {props.end_year}
+        {props.startMonth} {props.startYear} - {props.endMonth} {props.endYear}
       </Text>
       <ul
         style={{
@@ -31,7 +30,7 @@ export default function ExperienceCard(props: Experience) {
           gap: '0.25rem',
         }}
       >
-        {props.experienceDetails.map((detail, index) => (
+        {props.details.map((detail, index) => (
           <li
             style={{
               fontSize: '0.875rem',

@@ -18,7 +18,7 @@ export default function EmploymentHistory() {
       </Box>
 
       <Box css={{ paddingInline: '2rem' }}>
-        {recruit.profile.experience.map((experience, index) => (
+        {recruit.profile.experiences.map((experience, index) => (
           <EmploymentHistoryCard {...experience} key={index} />
         ))}
       </Box>
@@ -56,16 +56,16 @@ const recruit: Applicant = {
   profile: {
     yearsOfExperience: 4,
     highestEducationAttained: 'Primary School',
-    experience: [
+    experiences: [
       {
-        end_month: 'January',
-        end_year: 2021,
-        start_year: 2020,
-        start_month: 'October',
+        endMonth: 'January',
+        endYear: 2021,
+        startYear: 2020,
+        startMonth: 'October',
         location: 'Punta Princesa Cebu City',
         role: 'Software Engineer',
         company: 'David Dobrik LLC',
-        experienceDetails: [
+        details: [
           {
             description:
               'Write modern, performant, and robust code for a diverse array of client and internal projects',
@@ -85,14 +85,14 @@ const recruit: Applicant = {
         ],
       },
       {
-        end_month: 'January',
-        end_year: 2021,
-        start_year: 2020,
-        start_month: 'October',
+        endMonth: 'January',
+        endYear: 2021,
+        startYear: 2020,
+        startMonth: 'October',
         location: 'Punta Princesa Cebu City',
         role: 'Software Engineer',
         company: 'David Dobrik LLC',
-        experienceDetails: [
+        details: [
           {
             description:
               'Write modern, performant, and robust code for a diverse array of client and internal projects',

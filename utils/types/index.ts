@@ -26,18 +26,18 @@ export interface Experience {
   role: string
   company?: string
   location: string
-  start_month: string
-  start_year: number
-  end_month: string
-  end_year: number
-  experienceDetails: ExperienceDetail[]
+  startMonth: string
+  startYear: number
+  endMonth: string
+  endYear: number
+  details: ExperienceDetail[]
 }
 
 export interface Applicant extends User {
   profile: {
     yearsOfExperience: number
     highestEducationAttained: string
-    experience: Experience[]
+    experiences: Experience[]
   }
   rep: Representative
   address: string

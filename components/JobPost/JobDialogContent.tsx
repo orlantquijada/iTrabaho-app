@@ -78,7 +78,7 @@ export default function JobDialogContent(job: Props) {
             {job.applicantReview ? (
               <Box>
                 <Grid align="center" justify="start" flow="column">
-                  <Text span margin="0" marginRight={0.5}>
+                  <Text span style={{ margin: 0, marginRight: '0.5rem' }}>
                     Recruit&apos;s feedback to the recruiter
                   </Text>
                   <StarFilledIcon />
@@ -95,7 +95,7 @@ export default function JobDialogContent(job: Props) {
             {job.recruiterReview ? (
               <Box>
                 <Grid align="center" justify="start" flow="column">
-                  <Text span margin="0" marginRight={0.5}>
+                  <Text span style={{ margin: 0, marginRight: '0.5rem' }}>
                     Recruiter&apos;s feedback
                   </Text>
                   <StarFilledIcon />

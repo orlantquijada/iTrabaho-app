@@ -199,12 +199,12 @@ const recruit: Applicant = {
   },
   profile: {
     yearsOfExperience: 4,
-    highestEducationAttained: 'Primary School',
+    highesteducationAttained: 'Primary School',
     experiences: [
       {
         endMonth: 'January',
-        endYear: 2021,
-        startYear: 2020,
+        endYear: '2021',
+        startYear: '2020',
         startMonth: 'October',
         location: 'Punta Princesa Cebu City',
         role: 'Software Engineer',
@@ -230,8 +230,8 @@ const recruit: Applicant = {
       },
       {
         endMonth: 'January',
-        endYear: 2021,
-        startYear: 2020,
+        endYear: '2021',
+        startYear: '2020',
         startMonth: 'October',
         location: 'Punta Princesa Cebu City',
         role: 'Software Engineer',

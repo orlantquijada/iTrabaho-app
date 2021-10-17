@@ -4,12 +4,12 @@ export interface FormFields {
   lastName: string
   phoneNumber: string
   sex?: 'M' | 'F'
-  birthdate: string
+  birthDate: string
 
   yearsOfExperience: number
   highesteducationAttained: string
 
-  experience: Array<{
+  experiences: Array<{
     role: string
     company?: string
     location?: string

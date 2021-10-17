@@ -27,16 +27,16 @@ export interface Experience {
   company?: string
   location: string
   startMonth: string
-  startYear: number
+  startYear: string
   endMonth: string
-  endYear: number
+  endYear: string
   details: ExperienceDetail[]
 }
 
 export interface Applicant extends User {
   profile: {
     yearsOfExperience: number
-    highestEducationAttained: string
+    highesteducationAttained: string
     experiences: Experience[]
   }
   rep: Representative

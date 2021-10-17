@@ -57,7 +57,7 @@ function JobsList({
     <>
       {jobs.map((job) => (
         <Link
-          key={job.title}
+          key={job.id}
           href={`/rec/my-jobs/${job.id}`}
           css={{ textDecoration: 'none' }}
         >

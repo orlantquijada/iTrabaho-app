@@ -16,7 +16,7 @@ export default function Experience(): ReactElement {
 
   const { fields, append, remove } = useFieldArray({
     control,
-    name: 'experience',
+    name: 'experiences',
   })
 
   const [options, setOptions] =
@@ -57,7 +57,7 @@ export default function Experience(): ReactElement {
             <Grid gapY="4" gapX="4" columns="2">
               <FormField
                 title="Role"
-                error={errors.experience?.[index]?.role?.message}
+                error={errors.experiences?.[index]?.role?.message}
               >
                 <AutoComplete
                   clearable
@@ -66,13 +66,13 @@ export default function Experience(): ReactElement {
                   options={options}
                   onSearch={searchHandler}
                   type={
-                    errors.experience?.[index]?.role?.message
+                    errors.experiences?.[index]?.role?.message
                       ? 'error'
                       : 'default'
                   }
-                  {...register(`experience.${index}.role` as const, required)}
+                  {...register(`experiences.${index}.role` as const, required)}
                   onChange={(value) =>
-                    setValue(`experience.${index}.role`, value)
+                    setValue(`experiences.${index}.role`, value)
                   }
                 />
               </FormField>
@@ -80,42 +80,42 @@ export default function Experience(): ReactElement {
                 <Input
                   placeholder="Company A"
                   clearable
-                  {...register(`experience.${index}.company`)}
+                  {...register(`experiences.${index}.company`)}
                 />
               </FormField>
               <FormField
                 title="Start Date"
-                error={errors.experience?.[index]?.startDate?.message}
+                error={errors.experiences?.[index]?.startDate?.message}
               >
                 <TextField
                   status={
-                    errors.experience?.[index]?.startDate?.message
+                    errors.experiences?.[index]?.startDate?.message
                       ? 'error'
                       : undefined
                   }
                   type="month"
-                  {...register(`experience.${index}.startDate`, required)}
+                  {...register(`experiences.${index}.startDate`, required)}
                 />
               </FormField>
               <FormField
                 title="End Date"
-                error={errors.experience?.[index]?.endDate?.message}
+                error={errors.experiences?.[index]?.endDate?.message}
               >
                 <TextField
                   status={
-                    errors.experience?.[index]?.endDate?.message
+                    errors.experiences?.[index]?.endDate?.message
                       ? 'error'
                       : undefined
                   }
                   type="month"
-                  {...register(`experience.${index}.endDate`, required)}
+                  {...register(`experiences.${index}.endDate`, required)}
                 />
               </FormField>
               <FormField title="Location" requirementLabel="optional">
                 <Input
                   placeholder="Cebu City, Cebu"
                   clearable
-                  {...register(`experience.${index}.location`)}
+                  {...register(`experiences.${index}.location`)}
                 />
               </FormField>
             </Grid>
@@ -142,7 +142,7 @@ function ExperienceDetails({ experienceIndex }: { experienceIndex: number }) {
 
   const { fields, append, remove } = useFieldArray({
     control,
-    name: `experience.${experienceIndex}.details`,
+    name: `experiences.${experienceIndex}.details`,
   })
 
   return (
@@ -151,7 +151,7 @@ function ExperienceDetails({ experienceIndex }: { experienceIndex: number }) {
         <Span>Key Description/Impact</Span>
         {fields.map((field, index) => {
           const error =
-            errors.experience?.[experienceIndex]?.details?.[index]?.description
+            errors.experiences?.[experienceIndex]?.details?.[index]?.description
               ?.message
           return (
             <div key={index}>
@@ -159,7 +159,7 @@ function ExperienceDetails({ experienceIndex }: { experienceIndex: number }) {
                 <TextField
                   status={error ? 'error' : undefined}
                   {...register(
-                    `experience.${experienceIndex}.details.${index}.description` as const,
+                    `experiences.${experienceIndex}.details.${index}.description` as const,
                     required
                   )}
                 />

@@ -8,7 +8,8 @@ specifiers:
   '@radix-ui/react-id': ^0.1.0
   '@radix-ui/react-popover': ^0.1.0
   '@radix-ui/react-tabs': ^0.1.0
-  '@stitches/react': ^1.2.3
+  '@radix-ui/react-toggle-group': ^0.1.0
+  '@stitches/react': ^1.2.5
   '@testing-library/react': ^11.2.5
   '@types/jest': ^26.0.23
   '@types/node': ^14.14.25
@@ -42,6 +43,7 @@ dependencies:
   '@radix-ui/react-id': 0.1.0_react@17.0.2
   '@radix-ui/react-popover': 0.1.0_12a6012245369fd5be825566be975ff0
   '@radix-ui/react-tabs': 0.1.0_react@17.0.2
+  '@radix-ui/react-toggle-group': 0.1.0_react@17.0.2
   '@stitches/react': 1.2.5_react@17.0.2
   axios: 0.21.4
   next: 11.1.2_bd7797d63db473de6e2318609a63c933
@@ -1196,6 +1198,33 @@ packages:
       '@radix-ui/react-primitive': 0.1.0_react@17.0.2
       '@radix-ui/react-roving-focus': 0.1.0_react@17.0.2
       '@radix-ui/react-use-callback-ref': 0.1.0_react@17.0.2
+      '@radix-ui/react-use-controllable-state': 0.1.0_react@17.0.2
+      react: 17.0.2
+    dev: false
+
+  /@radix-ui/react-toggle-group/0.1.0_react@17.0.2:
+    resolution: {integrity: sha512-FG82AtsFlZXvoRGaKKkVLadiwvgU3GdrvoSq/pSjFHb6L+PmZAKX9tJ2gQeZ/LYOXFJ5Qd7Fk//yq/dJ41oxHA==}
+    peerDependencies:
+      react: ^16.8 || ^17.0
+    dependencies:
+      '@babel/runtime': 7.15.4
+      '@radix-ui/primitive': 0.1.0
+      '@radix-ui/react-context': 0.1.0_react@17.0.2
+      '@radix-ui/react-primitive': 0.1.0_react@17.0.2
+      '@radix-ui/react-roving-focus': 0.1.0_react@17.0.2
+      '@radix-ui/react-toggle': 0.1.0_react@17.0.2
+      '@radix-ui/react-use-controllable-state': 0.1.0_react@17.0.2
+      react: 17.0.2
+    dev: false
+
+  /@radix-ui/react-toggle/0.1.0_react@17.0.2:
+    resolution: {integrity: sha512-pk5v93yi8mlWKxAev8WKrL6hvZs5uaaFtUxuITakqtLwnGFCW19GkKryRhp/gRJaFtNwrk0OaR/UmGr2bzfxhQ==}
+    peerDependencies:
+      react: ^16.8 || ^17.0
+    dependencies:
+      '@babel/runtime': 7.15.4
+      '@radix-ui/primitive': 0.1.0
+      '@radix-ui/react-primitive': 0.1.0_react@17.0.2
       '@radix-ui/react-use-controllable-state': 0.1.0_react@17.0.2
       react: 17.0.2
     dev: false

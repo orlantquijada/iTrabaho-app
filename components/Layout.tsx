@@ -29,6 +29,7 @@ const links: Record<
   R: [
     { href: '/', title: 'Home' },
     { href: '/jobs', title: 'Jobs' },
+    { href: '/rec/my-jobs', title: 'My Jobs' },
     { href: '/jobs/create', title: 'Create Job Post', create: true },
   ],
 }
@@ -41,7 +42,14 @@ export default function Layout({ children }: { children: ReactNode }) {
   const user = useUser()
 
   useEffect(() => {
-    if (!(router.pathname === '/' || router.pathname === '/jobs') && !user)
+    if (
+      !(
+        router.pathname === '/' ||
+        router.pathname === '/jobs' ||
+        router.pathname.startsWith('/rep/applicants/')
+      ) &&
+      !user
+    )
       router.push('/')
   }, [router, user])
 

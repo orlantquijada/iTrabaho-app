@@ -58,7 +58,7 @@ export default function JobDialogContent(job: Props) {
 
           <Grid css={{ gridTemplateColumns: '30% 1fr' }}>
             <SectionTitle>Status</SectionTitle>
-            <Badge variant={job.status} css={{ textTransform: 'capitalize' }}>
+            <Badge color={job.status} css={{ textTransform: 'capitalize' }}>
               {job.status}
             </Badge>
           </Grid>
@@ -71,23 +71,23 @@ export default function JobDialogContent(job: Props) {
       </Grid>
 
       {job.status !== 'hiring' &&
-      (job?.recruitReview || job?.recruiterReview) ? (
+      (job?.applicantReview || job?.recruiterReview) ? (
         <Box as="section">
           <Feedback>Job Feedback</Feedback>
           <Grid columns="2" gap="4">
-            {job.recruitReview ? (
+            {job.applicantReview ? (
               <Box>
                 <Grid align="center" justify="start" flow="column">
-                  <Text span margin="0" marginRight={0.5}>
+                  <Text span style={{ margin: 0, marginRight: '0.5rem' }}>
                     Recruit&apos;s feedback to the recruiter
                   </Text>
                   <StarFilledIcon />
                   <Text span className={rateValue()}>
-                    {job.recruitReview.rate}
+                    {job.applicantReview.rate}
                   </Text>
                 </Grid>
                 <Text className={feedBackComment()}>
-                  &quot;{job.recruitReview.comment}&quot;
+                  &quot;{job.applicantReview.comment}&quot;
                 </Text>
               </Box>
             ) : null}
@@ -95,7 +95,7 @@ export default function JobDialogContent(job: Props) {
             {job.recruiterReview ? (
               <Box>
                 <Grid align="center" justify="start" flow="column">
-                  <Text span margin="0" marginRight={0.5}>
+                  <Text span style={{ margin: 0, marginRight: '0.5rem' }}>
                     Recruiter&apos;s feedback
                   </Text>
                   <StarFilledIcon />

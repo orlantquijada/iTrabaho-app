@@ -13,8 +13,10 @@ interface Props {
   sexController: UseControllerReturn<FormFields, 'sex'>
   educationController: UseControllerReturn<
     FormFields,
-    'highestEducationAttained'
+    'highesteducationAttained'
   >
+  handleSubmit: ReturnType<UseFormReturn['handleSubmit']>
+  isLoading: boolean
 }
 
 export default class ApplicantFormView extends Component<Props, State> {
@@ -23,12 +25,12 @@ export default class ApplicantFormView extends Component<Props, State> {
     lastName: '',
     phoneNumber: '',
     sex: undefined,
-    birthdate: '',
+    birthDate: '',
 
     yearsOfExperience: 0,
-    highestEducationAttained: '',
+    highesteducationAttained: '',
 
-    experience: [
+    experiences: [
       {
         role: '',
         company: '',
@@ -58,16 +60,16 @@ export default class ApplicantFormView extends Component<Props, State> {
     return this.state.sex
   }
   getBirthdate() {
-    return this.state.birthdate
+    return this.state.birthDate
   }
   getYearsOfExperience() {
     return this.state.yearsOfExperience
   }
   getHighestEducationAttained() {
-    return this.state.highestEducationAttained
+    return this.state.highesteducationAttained
   }
   getExperience() {
-    return this.state.experience
+    return this.state.experiences
   }
 
   validateForm() {
@@ -86,7 +88,7 @@ export default class ApplicantFormView extends Component<Props, State> {
   }
 
   sendApplicantCreateRequest(values: FormFields) {
-    const { experience } = values
+    const { experiences: experience } = values
 
     // parse endDate and startDate to startMonth and StartYear for each experience
     const parsedExperience = experience.map((exp) => {
@@ -103,7 +105,7 @@ export default class ApplicantFormView extends Component<Props, State> {
 
     const body: typeof values = {
       ...values,
-      experience: parsedExperience,
+      experiences: parsedExperience,
       phoneNumber: values.phoneNumber.replaceAll(' ', ''),
     }
 
@@ -112,13 +114,7 @@ export default class ApplicantFormView extends Component<Props, State> {
 
   render() {
     return (
-      <Form
-        noValidate
-        action="POST"
-        onSubmit={this.props.methods.handleSubmit(
-          this.sendApplicantCreateRequest
-        )}
-      >
+      <Form noValidate action="POST" onSubmit={this.props.handleSubmit}>
         <SectionTitle h1 hasMarginTop>
           Personal Details
         </SectionTitle>
@@ -200,22 +196,22 @@ export default class ApplicantFormView extends Component<Props, State> {
           <Grid>
             <FormField
               title="Birthdate"
-              error={this.props.methods.formState.errors.birthdate?.message}
+              error={this.props.methods.formState.errors.birthDate?.message}
             >
               <TextField
                 type="date"
                 status={
-                  this.props.methods.formState.errors.birthdate?.message
+                  this.props.methods.formState.errors.birthDate?.message
                     ? 'error'
                     : undefined
                 }
-                {...this.props.methods.register('birthdate', {
+                {...this.props.methods.register('birthDate', {
                   ...required,
                   validate: (v) => {
-                    if (isNaN(Date.parse(v))) return 'Please fill in this field'
+                    if (isNaN(Date.parse(v as unknown as string)))
+                      return 'Please fill in this field'
                     return undefined
                   },
-                  valueAsDate: true,
                 })}
               />
             </FormField>
@@ -227,7 +223,7 @@ export default class ApplicantFormView extends Component<Props, State> {
           <FormField
             title="Highest Education Attained"
             error={
-              this.props.methods.formState.errors.highestEducationAttained
+              this.props.methods.formState.errors.highesteducationAttained
                 ?.message
             }
             requirementLabel="optional"
@@ -235,7 +231,7 @@ export default class ApplicantFormView extends Component<Props, State> {
             <Select
               placeholder="Choose one"
               type={
-                this.props.methods.formState.errors.highestEducationAttained
+                this.props.methods.formState.errors.highesteducationAttained
                   ?.message
                   ? 'error'
                   : 'default'
@@ -243,12 +239,13 @@ export default class ApplicantFormView extends Component<Props, State> {
               value={this.props.educationController.field.value}
               onChange={this.props.educationController.field.onChange}
             >
-              <Select.Option value="primary">Primary</Select.Option>
-              <Select.Option value="junior">Junior High School</Select.Option>
-              <Select.Option value="senior">Senior High School</Select.Option>
-              <Select.Option value="undergraduate">Undergraduate</Select.Option>
-              <Select.Option value="graduate">Graduate</Select.Option>
-              <Select.Option value="doctoral">Doctorial</Select.Option>
+              <Select.Option value="E">Elementary</Select.Option>
+              <Select.Option value="H">High School</Select.Option>
+              <Select.Option value="U">College Undergraduate</Select.Option>
+              <Select.Option value="B">Bachelor&apos;s Degree</Select.Option>
+              <Select.Option value="A">Associate&apos;s Degree</Select.Option>
+              <Select.Option value="M">Master&apos;s Degree</Select.Option>
+              <Select.Option value="D">Doctorate Degree</Select.Option>
             </Select>
           </FormField>
           <FormField
@@ -279,6 +276,7 @@ export default class ApplicantFormView extends Component<Props, State> {
           type="secondary"
           htmlType="submit"
           style={{ marginTop: '2rem' }}
+          loading={this.props.isLoading}
         >
           Create
         </Button>

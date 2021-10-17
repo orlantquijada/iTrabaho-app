@@ -26,22 +26,27 @@ export interface Experience {
   role: string
   company?: string
   location: string
-  start_month: string
-  start_year: number
-  end_month: string
-  end_year: number
-  experienceDetails: ExperienceDetail[]
+  startMonth: string
+  startYear: string
+  endMonth: string
+  endYear: string
+  details: ExperienceDetail[]
 }
 
 export interface Applicant extends User {
   profile: {
     yearsOfExperience: number
-    highestEducationAttained: string
-    experience: Experience[]
+    highesteducationAttained: string
+    experiences: Experience[]
   }
   rep: Representative
   address: string
   userType: 'A'
+}
+
+export interface ExtendedApplicant extends Applicant {
+  doneJobs: DoneJobPost[]
+  activeJobs: ActiveJobPost[]
 }
 
 export interface Recruiter extends User {
@@ -73,14 +78,14 @@ export interface HiringJobPost extends BaseJobPost {
 export interface ActiveJobPost extends BaseJobPost {
   status: 'active'
   recruit: Applicant
-  recruitReview?: Omit<Review, 'jobPost'>
+  applicantReview?: Omit<Review, 'jobPost'>
   recruiterReview?: Omit<Review, 'jobPost'>
 }
 
 export interface DoneJobPost extends BaseJobPost {
   status: 'done'
   recruit: Applicant
-  recruitReview?: Omit<Review, 'jobPost'>
+  applicantReview?: Omit<Review, 'jobPost'>
   recruiterReview?: Omit<Review, 'jobPost'>
   datetimeEnded: Date
 }
@@ -101,3 +106,9 @@ export interface Match {
   percentage: number
   rank: number
 }
+
+export type Activity = { datetimeCreated: Date; type: 'M' | 'R' | 'A' } & (
+  | { type: 'M'; content: Match } // match
+  | { type: 'R'; content: Review } // review
+  | { type: 'A'; content: Required<ActiveJobPost> } // accepted
+)

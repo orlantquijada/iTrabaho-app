@@ -13,6 +13,6 @@ export type QueryProps<
   options?: Partial<PublicConfiguration<Data, any, Fetcher<Data>>>
 } & (Params extends Record<string, unknown>
   ? {
-      params?: Params
+      params?: Partial<Params>
     }
   : Record<string, never>)

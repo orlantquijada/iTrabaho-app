@@ -7,10 +7,12 @@ import JobPostFormView from '@/components/JobPost/JobPostFormView'
 import { Container } from '@/components'
 import { addJobPost, useJobPosts } from '@/utils/hooks/useJobPosts'
 import useUser from '@/utils/hooks/useUser'
+import { useRouter } from 'next/router'
 
 export default function CreateJobPost() {
-  const methods = useForm<FormFields>()
   const user = useUser()
+  const router = useRouter()
+  const methods = useForm<FormFields>()
   const { isValidating, mutate } = useJobPosts({
     params: { recruiterId: user?.id as number },
   })
@@ -54,15 +56,16 @@ export default function CreateJobPost() {
     searchHandler,
   }
 
-  const handleSubmit = methods.handleSubmit((values) =>
-    mutate(async (jobs) => {
-      const job = await addJobPost({
-        ...values,
-        recruiterId: user?.id as number,
-      })
-      return jobs ? [...jobs, job.data] : jobs
+  const handleSubmit = methods.handleSubmit(async (values) => {
+    const job = await addJobPost({
+      ...values,
+      recruiterId: user?.id as number,
     })
-  )
+
+    mutate(async (jobs) => (jobs ? [...jobs, job.data] : [job.data]))
+
+    router.push(`/rec/my-jobs/${job.data.id}`)
+  })
 
   return (
     <Container css={{ maxWidth: 'fit-content', pt: '$6' }}>

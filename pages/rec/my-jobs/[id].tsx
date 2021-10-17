@@ -26,6 +26,7 @@ import ReviewForm, { FormFields } from '@/components/ReviewForm'
 import { useForm } from 'react-hook-form'
 import { useApplicants } from '@/utils/hooks/useApplicants'
 import { createReview } from '@/utils/api/lib'
+import { useApplicant } from '@/utils/hooks/useApplicant'
 
 const border = `1px solid ${slate.slate6}`
 
@@ -207,40 +208,45 @@ function ApplicantDialog({
   onClick: () => void
   isValidating: boolean
 }) {
+  const { applicant, isLoading } = useApplicant(recruit.id)
   const [open, setOpen] = useState(false)
 
-  return (
-    <Dialog.Root open={open} onOpenChange={(open) => setOpen(open)}>
-      <Dialog.CleanedUpTrigger css={{ paddingInline: 0 }}>
-        <ApplicantCardCompact {...recruit} />
-      </Dialog.CleanedUpTrigger>
-      <Dialog.Content
-        css={{
-          minWidth: '75vw',
-          overflow: 'auto',
-          p: 0,
-        }}
-      >
-        <Flex css={{ m: 'auto', p: '$8' }} direction="column" gap="8">
-          <ApplicantProfile
-            rightHeaderComponent={
-              <Button
-                type="secondary"
-                onClick={() => {
-                  onClick()
-                  setOpen(false)
-                }}
-                loading={isValidating}
-              >
-                HIRE
-              </Button>
-            }
-          />
-          <EmploymentHistory />
-        </Flex>
-      </Dialog.Content>
-    </Dialog.Root>
-  )
+  if (!isLoading && applicant)
+    return (
+      <Dialog.Root open={open} onOpenChange={(open) => setOpen(open)}>
+        <Dialog.CleanedUpTrigger css={{ paddingInline: 0 }}>
+          <ApplicantCardCompact {...applicant} />
+        </Dialog.CleanedUpTrigger>
+        <Dialog.Content
+          css={{
+            minWidth: '75vw',
+            overflow: 'auto',
+            p: 0,
+          }}
+        >
+          <Flex css={{ m: 'auto', p: '$8' }} direction="column" gap="8">
+            <ApplicantProfile
+              applicant={applicant}
+              rightHeaderComponent={
+                <Button
+                  type="secondary"
+                  onClick={() => {
+                    onClick()
+                    setOpen(false)
+                  }}
+                  loading={isValidating}
+                >
+                  HIRE
+                </Button>
+              }
+            />
+            <EmploymentHistory experiences={applicant.profile.experiences} />
+          </Flex>
+        </Dialog.Content>
+      </Dialog.Root>
+    )
+
+  return <Loading />
 }
 
 const jobTitle = css({

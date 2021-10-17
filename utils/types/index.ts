@@ -44,6 +44,11 @@ export interface Applicant extends User {
   userType: 'A'
 }
 
+export interface ExtendedApplicant extends Applicant {
+  doneJobs: DoneJobPost[]
+  activeJobs: ActiveJobPost[]
+}
+
 export interface Recruiter extends User {
   company?: string
   userType: 'R'

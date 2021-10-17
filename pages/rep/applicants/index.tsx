@@ -19,7 +19,7 @@ export default function ApplicantsList() {
         >
           {applicants.map((recruit) => (
             <Link
-              href="/rep/applicants/1"
+              href={`/rep/applicants/${recruit.id}`}
               css={{ textDecoration: 'none' }}
               key={recruit.id}
             >

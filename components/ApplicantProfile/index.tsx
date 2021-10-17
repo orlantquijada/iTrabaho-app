@@ -7,21 +7,20 @@ import { Text } from '@geist-ui/react'
 import WorkHistoryCard from './WorkHistoryCard'
 import * as Tabs from './Tabs'
 
-import type {
-  ActiveJobPost,
-  Applicant,
-  DoneJobPost,
-  Recruiter,
-} from '@/utils/types'
+import type { ExtendedApplicant } from '@/utils/types'
 import type { ReactNode } from 'react'
 
 const border = `1px solid ${slate.slate6}`
 
-export default function ApplicantProfile({
-  rightHeaderComponent,
-}: {
+interface Props {
   rightHeaderComponent?: ReactNode
-}) {
+  applicant: ExtendedApplicant
+}
+
+export default function ApplicantProfile({
+  applicant,
+  rightHeaderComponent,
+}: Props) {
   return (
     <Grid
       css={{
@@ -38,18 +37,20 @@ export default function ApplicantProfile({
         <Grid css={{ gridTemplateColumns: '4rem 1fr', gap: '1.5rem' }}>
           <Image
             alt="Profile Picture"
-            src={`https://avatars.dicebear.com/api/initials/${
-              'John' + ' ' + 'Doe'
-            }.svg?r=50&size=60`}
+            src={`https://avatars.dicebear.com/api/initials/${applicant.fullName}.svg?r=50&size=60`}
             width={60}
             height={60}
           />
           <Box>
             <Text h1 className={name()}>
-              John Doe
+              {applicant.fullName}
             </Text>
             <Text className={address()}>
-              25 Bayabas Ext., Punta Princesa, Cebu City, Philippines
+              {[
+                applicant.rep.barangay,
+                applicant.rep.city,
+                applicant.rep.province,
+              ].join(', ')}
             </Text>
           </Box>
         </Grid>
@@ -93,14 +94,22 @@ export default function ApplicantProfile({
           </Text>
           <Tabs.Root defaultValue="completed">
             <Tabs.List>
-              <Tabs.Trigger value="completed">Completed Jobs (45)</Tabs.Trigger>
-              <Tabs.Trigger value="in-progress">In progress (25)</Tabs.Trigger>
+              <Tabs.Trigger value="completed">
+                Completed Jobs ({applicant.doneJobs.length})
+              </Tabs.Trigger>
+              <Tabs.Trigger value="in-progress">
+                In progress ({applicant.activeJobs.length})
+              </Tabs.Trigger>
             </Tabs.List>
             <Tabs.Content value="completed">
-              <WorkHistoryCard {...job2} />
+              {applicant.doneJobs.map((job) => (
+                <WorkHistoryCard {...job} key={job.id} />
+              ))}
             </Tabs.Content>
             <Tabs.Content value="in-progress">
-              <WorkHistoryCard {...job} />
+              {applicant.activeJobs.map((job) => (
+                <WorkHistoryCard {...job} key={job.id} />
+              ))}
             </Tabs.Content>
           </Tabs.Root>
         </Box>
@@ -166,154 +175,3 @@ const skills: string[] = [
   'Sass',
   'Typescript',
 ]
-
-const recruiter: Recruiter = {
-  id: 1,
-  firstName: 'John',
-  lastName: 'Doe',
-  phoneNumber: '+639222833416',
-  fullName: 'John Doe',
-  birthdate: new Date(),
-  userType: 'R',
-}
-const recruit: Applicant = {
-  id: 1,
-  firstName: 'John',
-  lastName: 'Doe',
-  phoneNumber: '+639222833416',
-  address: '25 Bayabas Ext., Punta Princes, Cebu City, Cebu',
-  fullName: 'John Doe',
-  birthdate: new Date(),
-  userType: 'A',
-  rep: {
-    id: 1,
-    barangay: 'Punta Princesa',
-    birthdate: new Date(),
-    city: 'Cebu City',
-    province: 'Cebu',
-    firstName: 'Jane',
-    lastName: 'Doe',
-    fullName: 'Jane Doe',
-    phoneNumber: '09222833416',
-    userType: 'L',
-  },
-  profile: {
-    yearsOfExperience: 4,
-    highesteducationAttained: 'Primary School',
-    experiences: [
-      {
-        endMonth: 'January',
-        endYear: '2021',
-        startYear: '2020',
-        startMonth: 'October',
-        location: 'Punta Princesa Cebu City',
-        role: 'Software Engineer',
-        company: 'David Dobrik LLC',
-        details: [
-          {
-            description:
-              'Write modern, performant, and robust code for a diverse array of client and internal projects',
-          },
-          {
-            description:
-              'Work with a variety of different languages, frameworks, and content management systems such as JavaScript, TypeScript, React, Vue, NativeScript, Node.js, Craft, Prismic, etc.',
-          },
-          {
-            description:
-              'Communicate and collaborate with multi-disciplinary teams of engineers, designers, producers, clients, and stakeholders on a daily basis',
-          },
-          {
-            description:
-              'Worked with a team of three designers to build a marketing website and e-commerce platform for blistabloc, an ambitious venture originating from Northeastern',
-          },
-        ],
-      },
-      {
-        endMonth: 'January',
-        endYear: '2021',
-        startYear: '2020',
-        startMonth: 'October',
-        location: 'Punta Princesa Cebu City',
-        role: 'Software Engineer',
-        company: 'David Dobrik LLC',
-        details: [
-          {
-            description:
-              'Write modern, performant, and robust code for a diverse array of client and internal projects',
-          },
-          {
-            description:
-              'Work with a variety of different languages, frameworks, and content management systems such as JavaScript, TypeScript, React, Vue, NativeScript, Node.js, Craft, Prismic, etc.',
-          },
-          {
-            description:
-              'Communicate and collaborate with multi-disciplinary teams of engineers, designers, producers, clients, and stakeholders on a daily basis',
-          },
-          {
-            description:
-              'Worked with a team of three designers to build a marketing website and e-commerce platform for blistabloc, an ambitious venture originating from Northeastern',
-          },
-        ],
-      },
-    ],
-  },
-}
-const job2: DoneJobPost = {
-  id: 1,
-  title: 'Create a social media strategy for my business',
-  description:
-    'Social media strategy developed for your campaign, event, or general business promotion. I have 16 years of experience developing social media strategies and content, including copy and graphics. The strategy will include a review of your social media and recommendations on how improve/leverage/expand your social marketing efforts.',
-  recruiter,
-  recruit,
-  recruiterReview: {
-    comment:
-      'Very nice client. Sets clear requirements and reasonable expectations. Will definitely work with him again in the future if needed.',
-    fromUser: recruit,
-    toUser: recruiter,
-    rate: 5,
-  },
-  applicantReview: {
-    comment:
-      'I highly recommend Francis for your projects. I am very pick when it comes to the people I work with, since these are my life time projects. And he has been more than helpful and very professional.',
-    fromUser: recruiter,
-    toUser: recruit,
-    rate: 4,
-  },
-  role: 'Communications Expert',
-  status: 'done',
-  street: '25 Sesame St.,',
-  barangay: 'Punta Princesa',
-  city: 'Cebu City',
-  province: 'Cebu',
-  datetimeCreated: new Date(),
-  datetimeEnded: new Date(),
-}
-
-const job: ActiveJobPost = {
-  id: 2,
-  title: 'Create a social media strategy for my business',
-  description:
-    'Social media strategy developed for your campaign, event, or general business promotion. I have 16 years of experience developing social media strategies and content, including copy and graphics. The strategy will include a review of your social media and recommendations on how improve/leverage/expand your social marketing efforts.',
-  recruiter,
-  recruit,
-  recruiterReview: {
-    comment:
-      'Very nice client. Sets clear requirements and reasonable expectations. Will definitely work with him again in the future if needed.',
-    fromUser: recruit,
-    toUser: recruiter,
-    rate: 5,
-  },
-  applicantReview: {
-    comment: 'John is by far the best! Highly recommended',
-    fromUser: recruiter,
-    toUser: recruit,
-    rate: 4,
-  },
-  role: 'Communications Expert',
-  status: 'active',
-  street: '25 Sesame St.,',
-  barangay: 'Punta Princesa',
-  city: 'Cebu City',
-  province: 'Cebu',
-  datetimeCreated: new Date(),
-}

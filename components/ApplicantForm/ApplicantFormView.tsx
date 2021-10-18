@@ -5,6 +5,8 @@ import { FormFields, required } from './helpers'
 import { Button, Input, Radio, Select } from '@geist-ui/react'
 import SectionTitle from './SectionTitle'
 import Experience from './Experience'
+import SkillsSection from './SkillsSection'
+import { Skill } from '@/utils/types'
 
 type State = FormFields
 
@@ -17,6 +19,7 @@ interface Props {
   >
   handleSubmit: ReturnType<UseFormReturn['handleSubmit']>
   isLoading: boolean
+  skills: Skill[]
 }
 
 export default class ApplicantFormView extends Component<Props, State> {
@@ -29,6 +32,8 @@ export default class ApplicantFormView extends Component<Props, State> {
 
     yearsOfExperience: 0,
     highesteducationAttained: '',
+
+    skills: [],
 
     experiences: [
       {
@@ -270,6 +275,7 @@ export default class ApplicantFormView extends Component<Props, State> {
           </FormField>
         </Grid>
 
+        <SkillsSection skills={this.props.skills} />
         <Experience />
 
         <Button

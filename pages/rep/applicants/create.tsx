@@ -7,8 +7,12 @@ import useUser from '@/utils/hooks/useUser'
 import { createApplicant, RequestBody } from '@/utils/hooks/useApplicant'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
+import { getSkillsList } from '@/utils/api/lib'
+import { InferGetStaticPropsType } from 'next'
 
-export default function CreateApplicantPage() {
+export default function CreateApplicantPage({
+  skills,
+}: InferGetStaticPropsType<typeof getStaticProps>) {
   const router = useRouter()
   const user = useUser()
   const methods = useForm<FormFields>({
@@ -66,6 +70,7 @@ export default function CreateApplicantPage() {
     }
 
     await createApplicant(body).then(() => setIsLoading(false))
+
     router.push('/rep/applicants')
   })
 
@@ -75,6 +80,7 @@ export default function CreateApplicantPage() {
     methods,
     handleSubmit,
     isLoading,
+    skills,
   }
 
   return (
@@ -84,4 +90,12 @@ export default function CreateApplicantPage() {
       </FormProvider>
     </Container>
   )
+}
+
+export async function getStaticProps() {
+  const skills = await getSkillsList()
+
+  return {
+    props: { skills },
+  }
 }

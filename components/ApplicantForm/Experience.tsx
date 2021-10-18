@@ -29,7 +29,7 @@ export default function Experience(): ReactElement {
         label: 'Add "' + currentValue + '"',
       },
     ]
-    if (!currentValue) return setOptions([])
+    if (!currentValue) return setOptions(allOptions)
     const relatedOptions = allOptions.filter((item) =>
       item?.value.toLowerCase().includes(currentValue)
     )
@@ -70,7 +70,7 @@ export default function Experience(): ReactElement {
                       ? 'error'
                       : 'default'
                   }
-                  {...register(`experiences.${index}.role` as const, required)}
+                  {...register(`experiences.${index}.role`, required)}
                   onChange={(value) =>
                     setValue(`experiences.${index}.role`, value)
                   }
@@ -111,11 +111,19 @@ export default function Experience(): ReactElement {
                   {...register(`experiences.${index}.endDate`, required)}
                 />
               </FormField>
-              <FormField title="Location" requirementLabel="optional">
+              <FormField
+                title="Location"
+                error={errors.experiences?.[index]?.location?.message}
+              >
                 <Input
                   placeholder="Cebu City, Cebu"
                   clearable
-                  {...register(`experiences.${index}.location`)}
+                  type={
+                    errors.experiences?.[index]?.location?.message
+                      ? 'error'
+                      : 'default'
+                  }
+                  {...register(`experiences.${index}.location`, required)}
                 />
               </FormField>
             </Grid>

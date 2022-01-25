@@ -251,7 +251,7 @@ function ApplicantDialog({
 
 const jobTitle = css({
   fontSize: '1.625rem',
-  fontWeight: 500,
+  fontWeight: 700,
   margin: 0,
 })
 

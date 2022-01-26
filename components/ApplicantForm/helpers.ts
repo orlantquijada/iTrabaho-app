@@ -9,10 +9,14 @@ export interface FormFields {
   yearsOfExperience: number
   highesteducationAttained: string
 
+  skills: Array<{
+    name: string
+  }>
+
   experiences: Array<{
     role: string
     company?: string
-    location?: string
+    location: string
     startDate: string
     endDate: string
 

@@ -7,12 +7,16 @@ import type {
   Applicant,
   DoneJobPost,
   ExtendedApplicant,
+  Skill,
 } from '../types'
 import type { QueryProps } from '../types/utils'
 import { formatJobPost } from './useJobPosts'
 
 type Data = ExtendedApplicant
-type APIResponse = Applicant & { jobs: Array<ActiveJobPost | DoneJobPost> }
+type APIResponse = Applicant & {
+  jobs: Array<ActiveJobPost | DoneJobPost>
+  skills: Skill[]
+}
 
 const key = 'applicants'
 
@@ -68,6 +72,7 @@ export interface RequestBody {
   birthDate: string
   profile: Profile
   LGURepresentativeId: number
+  skills: Array<Skill['id']>
 }
 
 interface Profile {

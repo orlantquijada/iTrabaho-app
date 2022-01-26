@@ -73,9 +73,9 @@ export default function ApplicantProfile({
         <Box as="section" css={{ padding: '1.25rem 2rem' }}>
           <Text className={moreDetailsSectionTitle()}>Skills</Text>
           <Flex css={{ flexWrap: 'wrap' }} gap="2">
-            {skills.map((skill) => (
-              <Badge key={skill} css={{ fontWeight: 500 }}>
-                {skill}
+            {applicant.skills.map((skill) => (
+              <Badge key={skill.id} css={{ fontWeight: 500 }}>
+                {skill.name}
               </Badge>
             ))}
           </Flex>
@@ -94,10 +94,10 @@ export default function ApplicantProfile({
           </Text>
           <Tabs.Root defaultValue="completed">
             <Tabs.List>
-              <Tabs.Trigger value="completed">
+              <Tabs.Trigger value="completed" css={{ border: 'none' }}>
                 Completed Jobs ({applicant.doneJobs.length})
               </Tabs.Trigger>
-              <Tabs.Trigger value="in-progress">
+              <Tabs.Trigger value="in-progress" css={{ border: 'none' }}>
                 In progress ({applicant.activeJobs.length})
               </Tabs.Trigger>
             </Tabs.List>
@@ -166,12 +166,12 @@ const metrics: Array<{ label: string; value: string }> = [
   },
 ]
 
-const skills: string[] = [
-  'UI/UX',
-  'Figma',
-  'Web Design',
-  'NextJS',
-  'CSS-in-JS',
-  'Sass',
-  'Typescript',
-]
+// const skills: string[] = [
+//   'UI/UX',
+//   'Figma',
+//   'Web Design',
+//   'NextJS',
+//   'CSS-in-JS',
+//   'Sass',
+//   'Typescript',
+// ]

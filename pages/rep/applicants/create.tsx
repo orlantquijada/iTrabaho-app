@@ -8,11 +8,11 @@ import { createApplicant, RequestBody } from '@/utils/hooks/useApplicant'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { getSkillsList } from '@/utils/api/lib'
-import { InferGetStaticPropsType } from 'next'
+import { InferGetServerSidePropsType } from 'next'
 
 export default function CreateApplicantPage({
   skills,
-}: InferGetStaticPropsType<typeof getStaticProps>) {
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const router = useRouter()
   const user = useUser()
   const methods = useForm<FormFields>({
@@ -58,6 +58,10 @@ export default function CreateApplicantPage({
       return { ...rest, startMonth, startYear, endMonth, endYear }
     })
 
+    const selectedSkillsIds = values.skills.map(
+      (skill) => skills.find(({ name }) => name === skill.name)?.id as number
+    )
+
     const body: RequestBody = {
       ...rest,
       profile: {
@@ -67,6 +71,7 @@ export default function CreateApplicantPage({
       },
       phoneNumber: values.phoneNumber.replaceAll(' ', ''),
       LGURepresentativeId: user?.id as number,
+      skills: selectedSkillsIds,
     }
 
     await createApplicant(body).then(() => setIsLoading(false))
@@ -92,7 +97,7 @@ export default function CreateApplicantPage({
   )
 }
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   const skills = await getSkillsList()
 
   return {

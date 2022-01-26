@@ -1,3 +1,5 @@
+import { Skill } from '@/utils/types'
+
 // types
 export interface FormFields {
   street: string
@@ -8,6 +10,8 @@ export interface FormFields {
   description: string
   role: string
   title: string
+
+  skills: Array<Skill['id']>
 }
 
 // methods

@@ -8,6 +8,8 @@ import { InfoCircledIcon } from '@radix-ui/react-icons'
 import { availableLocations, cities } from '@/utils/data/location'
 import { FormField, Grid, TextArea } from '@/components'
 import SectionTitle from '@/components/ApplicantForm/SectionTitle'
+import SkillsSection from '../ApplicantForm/SkillsSection'
+import { Skill } from '@/utils/types'
 
 type State = FormFields
 
@@ -20,6 +22,7 @@ interface Props {
   searchHandler: (currentValue: string) => void
   handleSubmit: ReturnType<UseFormReturn['handleSubmit']>
   isCreatingJobPost: boolean
+  skills: Skill[]
 }
 
 export default class JobPostFormView extends Component<Props, State> {
@@ -31,6 +34,7 @@ export default class JobPostFormView extends Component<Props, State> {
     description: '',
     role: '',
     title: '',
+    skills: [],
   }
   getAddressInput() {
     return `${this.state.street} ${this.state.barangay} ${this.state.city}, ${this.state.province}`
@@ -86,7 +90,7 @@ export default class JobPostFormView extends Component<Props, State> {
           <Grid gapY="4">
             <FormField title="Title" error={errors.title?.message}>
               <Input
-                placeholder="So what is the job all about?"
+                placeholder="Add a title that describes your job post"
                 width="100%"
                 type={errors.title?.message ? 'error' : 'default'}
                 clearable
@@ -111,12 +115,14 @@ export default class JobPostFormView extends Component<Props, State> {
             <FormField title="Description" error={errors.description?.message}>
               <TextArea
                 rows={7}
+                placeholder="So what is the job all about?"
                 status={errors.description?.message ? 'error' : undefined}
                 {...register('description', required)}
               />
             </FormField>
           </Grid>
         </section>
+        <SkillsSection skills={this.props.skills} forRecruiter />
         <section>
           <SectionTitle h1>Location</SectionTitle>
           <Grid gapY="4">
@@ -185,6 +191,7 @@ export default class JobPostFormView extends Component<Props, State> {
                 <Input
                   placeholder="221B Baker Street"
                   type={errors.street?.message ? 'error' : 'default'}
+                  width="100%"
                   clearable
                   {...register('street', required)}
                 />

@@ -14,7 +14,13 @@ import { Skill } from '@/utils/types'
 
 const ALERT_DIALOG_CONTENT_ID = 'alert-content'
 
-export default function SkillsSection({ skills }: { skills: Skill[] }) {
+export default function SkillsSection({
+  skills,
+  forRecruiter = false,
+}: {
+  skills: Skill[]
+  forRecruiter?: boolean
+}) {
   const { control } = useFormContext<FormFields>()
   const { fields, append, remove } = useFieldArray({
     control,
@@ -58,9 +64,9 @@ export default function SkillsSection({ skills }: { skills: Skill[] }) {
           <Popover.Content side="top">
             <Popover.Arrow />
             <Description>
-              Choose your most important skills to show your talents! Make sure
-              they match the keywords of the jobs that you prefer as they are
-              used for recommendations.
+              {forRecruiter
+                ? 'Choose the important skills that are required on the job. The skills that you list will be used to match the recommended job applicants.'
+                : 'Choose your most important skills to show your talents! Make sure they match the keywords of the jobs that you prefer as they are used for recommendations.'}
             </Description>
           </Popover.Content>
         </Popover.Root>
@@ -96,9 +102,9 @@ export default function SkillsSection({ skills }: { skills: Skill[] }) {
           <AlertDialog.Content id={ALERT_DIALOG_CONTENT_ID}>
             <AlertDialog.Title>Skills and Expertise</AlertDialog.Title>
             <AlertDialog.Description>
-              Choose your most important skills to show your talents! Make sure
-              they match the keywords of the jobs that you prefer as they are
-              used for recommendations.
+              {forRecruiter
+                ? 'Choose the important skills that are required on the job. The skills that you list will be used to match the recommended job applicants.'
+                : 'Choose your most important skills to show your talents! Make sure they match the keywords of the jobs that you prefer as they are used for recommendations.'}
             </AlertDialog.Description>
             <FormField title="Select a skill">
               <AutoComplete

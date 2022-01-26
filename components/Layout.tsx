@@ -130,7 +130,7 @@ export default function Layout({ children }: { children: ReactNode }) {
             position: 'sticky',
             top: 0,
             background: 'White',
-            zIndex: '$max',
+            zIndex: '$3',
           }}
           align="center"
           justify="center"

@@ -112,3 +112,7 @@ export type Activity = { datetimeCreated: Date; type: 'M' | 'R' | 'A' } & (
   | { type: 'R'; content: Review } // review
   | { type: 'A'; content: Required<ActiveJobPost> } // accepted
 )
+
+export interface Skill {
+  name: string
+}

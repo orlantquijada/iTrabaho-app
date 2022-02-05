@@ -216,3 +216,7 @@ const sticky = css({
   top: '3.5rem',
   height: 'fit-content',
 })
+
+// TODO: hide jobs list on recruiter ui - place activity side bar on my jobs screen
+// TODO: replace jobs for you title on rep ui
+// TODO: remove categories side bar

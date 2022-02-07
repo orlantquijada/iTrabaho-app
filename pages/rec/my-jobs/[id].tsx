@@ -105,7 +105,7 @@ export default function JobDetail() {
                 }
               />
               <Description
-                title="Post On"
+                title="Posted On"
                 content={job.datetimeCreated.toDateString()}
               />
               {job.status === 'active' ? (

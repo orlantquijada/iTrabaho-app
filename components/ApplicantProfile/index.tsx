@@ -102,14 +102,22 @@ export default function ApplicantProfile({
               </Tabs.Trigger>
             </Tabs.List>
             <Tabs.Content value="completed">
-              {applicant.doneJobs.map((job) => (
-                <WorkHistoryCard {...job} key={job.id} />
-              ))}
+              {applicant.doneJobs.length ? (
+                applicant.doneJobs.map((job) => (
+                  <WorkHistoryCard {...job} key={job.id} />
+                ))
+              ) : (
+                <Text marginTop="1.25rem">No previous completed jobs</Text>
+              )}
             </Tabs.Content>
             <Tabs.Content value="in-progress">
-              {applicant.activeJobs.map((job) => (
-                <WorkHistoryCard {...job} key={job.id} />
-              ))}
+              {applicant.activeJobs.length ? (
+                applicant.activeJobs.map((job) => (
+                  <WorkHistoryCard {...job} key={job.id} />
+                ))
+              ) : (
+                <Text marginTop="1.25rem">No in progress jobs right now</Text>
+              )}
             </Tabs.Content>
           </Tabs.Root>
         </Box>
@@ -151,6 +159,7 @@ const mainContentSectionTitle = css({
   fontWeight: 500,
 })
 
+// TODO: remove
 const metrics: Array<{ label: string; value: string }> = [
   {
     label: 'Total Jobs',
@@ -165,13 +174,3 @@ const metrics: Array<{ label: string; value: string }> = [
     value: '45',
   },
 ]
-
-// const skills: string[] = [
-//   'UI/UX',
-//   'Figma',
-//   'Web Design',
-//   'NextJS',
-//   'CSS-in-JS',
-//   'Sass',
-//   'Typescript',
-// ]

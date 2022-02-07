@@ -78,7 +78,7 @@ export default function CreateJobPost({
   })
 
   return (
-    <Container css={{ maxWidth: 'fit-content', pt: '$6' }}>
+    <Container css={{ maxWidth: 'fit-content', py: '$6' }}>
       <FormProvider {...methods}>
         <JobPostFormView
           {...props}

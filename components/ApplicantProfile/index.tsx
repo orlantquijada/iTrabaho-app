@@ -9,6 +9,7 @@ import * as Tabs from './Tabs'
 
 import type { ExtendedApplicant } from '@/utils/types'
 import type { ReactNode } from 'react'
+import { useApplicantMetrics } from '@/utils/hooks/useApplicant'
 
 const border = `1px solid ${slate.slate6}`
 
@@ -21,6 +22,14 @@ export default function ApplicantProfile({
   applicant,
   rightHeaderComponent,
 }: Props) {
+  const { isLoading, metrics } = useApplicantMetrics(applicant.id)
+
+  const formattedMetrics = [
+    { label: 'Total Jobs', value: metrics?.jobs },
+    { label: 'Rating', value: metrics?.rating },
+    { label: 'Reviews', value: metrics?.reviews },
+  ]
+
   return (
     <Grid
       css={{
@@ -62,12 +71,14 @@ export default function ApplicantProfile({
           justify="between"
           css={{ borderBottom: border, padding: '1.25rem 2rem' }}
         >
-          {metrics.map((metric) => (
-            <Box key={metric.label}>
-              <Text className={metricValue()}>{metric.value}</Text>
-              <Text className={metricLabel()}>{metric.label}</Text>
-            </Box>
-          ))}
+          {!isLoading
+            ? formattedMetrics.map((metric) => (
+                <Box key={metric.label}>
+                  <Text className={metricValue()}>{metric.value}</Text>
+                  <Text className={metricLabel()}>{metric.label}</Text>
+                </Box>
+              ))
+            : null}
         </Flex>
 
         <Box as="section" css={{ padding: '1.25rem 2rem' }}>
@@ -158,19 +169,3 @@ const mainContentSectionTitle = css({
   fontSize: '1.125rem',
   fontWeight: 500,
 })
-
-// TODO: remove
-const metrics: Array<{ label: string; value: string }> = [
-  {
-    label: 'Total Jobs',
-    value: '30',
-  },
-  {
-    label: 'Rating',
-    value: '4.8',
-  },
-  {
-    label: 'Reviews',
-    value: '45',
-  },
-]

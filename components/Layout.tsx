@@ -130,7 +130,7 @@ export default function Layout({ children }: { children: ReactNode }) {
             position: 'sticky',
             top: 0,
             background: 'White',
-            zIndex: '$max',
+            zIndex: '$3',
           }}
           align="center"
           justify="center"
@@ -156,15 +156,6 @@ export default function Layout({ children }: { children: ReactNode }) {
         </Flex>
 
         {children}
-
-        <Container as="footer">
-          <Link
-            href="/links"
-            css={{ textDecoration: 'none', color: '#191919' }}
-          >
-            <Text>links</Text>
-          </Link>
-        </Container>
       </Box>
       <Modal
         visible={loginModalState}

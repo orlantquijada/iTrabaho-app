@@ -2,14 +2,18 @@ import { useState } from 'react'
 import { allOptions } from '@/components/ApplicantForm/helpers'
 import { FormFields, required } from '@/components/JobPost/helpers'
 import { cities } from '@/utils/data/location'
-import { useController, useForm } from 'react-hook-form'
+import { FormProvider, useController, useForm } from 'react-hook-form'
 import JobPostFormView from '@/components/JobPost/JobPostFormView'
 import { Container } from '@/components'
 import { addJobPost, useJobPosts } from '@/utils/hooks/useJobPosts'
 import useUser from '@/utils/hooks/useUser'
 import { useRouter } from 'next/router'
+import { InferGetServerSidePropsType } from 'next'
+import { getSkillsList } from '@/utils/api/lib'
 
-export default function CreateJobPost() {
+export default function CreateJobPost({
+  skills,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const user = useUser()
   const router = useRouter()
   const methods = useForm<FormFields>()
@@ -57,9 +61,15 @@ export default function CreateJobPost() {
   }
 
   const handleSubmit = methods.handleSubmit(async (values) => {
+    const selectedSkills = values.skills as unknown as Array<{ name: string }>
+    const selectedSkillsIds = selectedSkills.map(
+      (skill) => skills.find(({ name }) => name === skill.name)?.id as number
+    )
+
     const job = await addJobPost({
       ...values,
       recruiterId: user?.id as number,
+      skills: selectedSkillsIds,
     })
 
     mutate(async (jobs) => (jobs ? [...jobs, job.data] : [job.data]))
@@ -68,12 +78,23 @@ export default function CreateJobPost() {
   })
 
   return (
-    <Container css={{ maxWidth: 'fit-content', pt: '$6' }}>
-      <JobPostFormView
-        {...props}
-        handleSubmit={handleSubmit}
-        isCreatingJobPost={isValidating}
-      />
+    <Container css={{ maxWidth: 'fit-content', py: '$6' }}>
+      <FormProvider {...methods}>
+        <JobPostFormView
+          {...props}
+          handleSubmit={handleSubmit}
+          isCreatingJobPost={isValidating}
+          skills={skills}
+        />
+      </FormProvider>
     </Container>
   )
+}
+
+export async function getServerSideProps() {
+  const skills = await getSkillsList()
+
+  return {
+    props: { skills },
+  }
 }

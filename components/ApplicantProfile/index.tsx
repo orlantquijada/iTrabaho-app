@@ -9,6 +9,7 @@ import * as Tabs from './Tabs'
 
 import type { ExtendedApplicant } from '@/utils/types'
 import type { ReactNode } from 'react'
+import { useApplicantMetrics } from '@/utils/hooks/useApplicant'
 
 const border = `1px solid ${slate.slate6}`
 
@@ -21,6 +22,14 @@ export default function ApplicantProfile({
   applicant,
   rightHeaderComponent,
 }: Props) {
+  const { isLoading, metrics } = useApplicantMetrics(applicant.id)
+
+  const formattedMetrics = [
+    { label: 'Total Jobs', value: metrics?.jobs },
+    { label: 'Rating', value: metrics?.rating },
+    { label: 'Reviews', value: metrics?.reviews },
+  ]
+
   return (
     <Grid
       css={{
@@ -62,20 +71,22 @@ export default function ApplicantProfile({
           justify="between"
           css={{ borderBottom: border, padding: '1.25rem 2rem' }}
         >
-          {metrics.map((metric) => (
-            <Box key={metric.label}>
-              <Text className={metricValue()}>{metric.value}</Text>
-              <Text className={metricLabel()}>{metric.label}</Text>
-            </Box>
-          ))}
+          {!isLoading
+            ? formattedMetrics.map((metric) => (
+                <Box key={metric.label}>
+                  <Text className={metricValue()}>{metric.value}</Text>
+                  <Text className={metricLabel()}>{metric.label}</Text>
+                </Box>
+              ))
+            : null}
         </Flex>
 
         <Box as="section" css={{ padding: '1.25rem 2rem' }}>
           <Text className={moreDetailsSectionTitle()}>Skills</Text>
           <Flex css={{ flexWrap: 'wrap' }} gap="2">
-            {skills.map((skill) => (
-              <Badge key={skill} css={{ fontWeight: 500 }}>
-                {skill}
+            {applicant.skills.map((skill) => (
+              <Badge key={skill.id} css={{ fontWeight: 500 }}>
+                {skill.name}
               </Badge>
             ))}
           </Flex>
@@ -94,22 +105,30 @@ export default function ApplicantProfile({
           </Text>
           <Tabs.Root defaultValue="completed">
             <Tabs.List>
-              <Tabs.Trigger value="completed">
+              <Tabs.Trigger value="completed" css={{ border: 'none' }}>
                 Completed Jobs ({applicant.doneJobs.length})
               </Tabs.Trigger>
-              <Tabs.Trigger value="in-progress">
+              <Tabs.Trigger value="in-progress" css={{ border: 'none' }}>
                 In progress ({applicant.activeJobs.length})
               </Tabs.Trigger>
             </Tabs.List>
             <Tabs.Content value="completed">
-              {applicant.doneJobs.map((job) => (
-                <WorkHistoryCard {...job} key={job.id} />
-              ))}
+              {applicant.doneJobs.length ? (
+                applicant.doneJobs.map((job) => (
+                  <WorkHistoryCard {...job} key={job.id} />
+                ))
+              ) : (
+                <Text marginTop="1.25rem">No previous completed jobs</Text>
+              )}
             </Tabs.Content>
             <Tabs.Content value="in-progress">
-              {applicant.activeJobs.map((job) => (
-                <WorkHistoryCard {...job} key={job.id} />
-              ))}
+              {applicant.activeJobs.length ? (
+                applicant.activeJobs.map((job) => (
+                  <WorkHistoryCard {...job} key={job.id} />
+                ))
+              ) : (
+                <Text marginTop="1.25rem">No in progress jobs right now</Text>
+              )}
             </Tabs.Content>
           </Tabs.Root>
         </Box>
@@ -150,28 +169,3 @@ const mainContentSectionTitle = css({
   fontSize: '1.125rem',
   fontWeight: 500,
 })
-
-const metrics: Array<{ label: string; value: string }> = [
-  {
-    label: 'Total Jobs',
-    value: '30',
-  },
-  {
-    label: 'Rating',
-    value: '4.8',
-  },
-  {
-    label: 'Reviews',
-    value: '45',
-  },
-]
-
-const skills: string[] = [
-  'UI/UX',
-  'Figma',
-  'Web Design',
-  'NextJS',
-  'CSS-in-JS',
-  'Sass',
-  'Typescript',
-]

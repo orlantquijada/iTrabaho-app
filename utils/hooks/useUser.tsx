@@ -67,5 +67,5 @@ export async function signup(body: {
 
 export function logout() {
   window.localStorage.removeItem(userKey)
-  window.location.reload()
+  window.location.replace('/')
 }

@@ -7,12 +7,16 @@ import type {
   Applicant,
   DoneJobPost,
   ExtendedApplicant,
+  Skill,
 } from '../types'
 import type { QueryProps } from '../types/utils'
 import { formatJobPost } from './useJobPosts'
 
 type Data = ExtendedApplicant
-type APIResponse = Applicant & { jobs: Array<ActiveJobPost | DoneJobPost> }
+type APIResponse = Applicant & {
+  jobs: Array<ActiveJobPost | DoneJobPost>
+  skills: Skill[]
+}
 
 const key = 'applicants'
 
@@ -60,6 +64,37 @@ export function useApplicant(
   }
 }
 
+interface Metrics {
+  jobs: number
+  rating: number
+  reviews: number
+}
+
+export function useApplicantMetrics(
+  id: Applicant['id'],
+  props: QueryProps<Metrics> = {}
+) {
+  const {
+    isValidating,
+    mutate,
+    data: metrics,
+    error,
+  } = useSWR(
+    ['applicant-metrics', id],
+    () =>
+      axios.get<Metrics>(`api/applicants/${id}/stats/`).then((res) => res.data),
+    props.options
+  )
+
+  return {
+    isValidating,
+    mutate,
+    metrics,
+    error,
+    isLoading: !error && !metrics,
+  }
+}
+
 export interface RequestBody {
   sex?: string
   firstName: string
@@ -68,6 +103,7 @@ export interface RequestBody {
   birthDate: string
   profile: Profile
   LGURepresentativeId: number
+  skills: Array<Skill['id']>
 }
 
 interface Profile {

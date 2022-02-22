@@ -47,6 +47,7 @@ export interface Applicant extends User {
 export interface ExtendedApplicant extends Applicant {
   doneJobs: DoneJobPost[]
   activeJobs: ActiveJobPost[]
+  skills: Skill[]
 }
 
 export interface Recruiter extends User {
@@ -110,9 +111,10 @@ export interface Match {
 export type Activity = { datetimeCreated: Date; type: 'M' | 'R' | 'A' } & (
   | { type: 'M'; content: Match } // match
   | { type: 'R'; content: Review } // review
-  | { type: 'A'; content: Required<ActiveJobPost> } // accepted
-)
+  | { type: 'A'; content: Required<ActiveJobPost> }
+) // accepted
 
 export interface Skill {
+  id: number
   name: string
 }

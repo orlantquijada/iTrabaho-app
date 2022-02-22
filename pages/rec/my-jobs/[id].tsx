@@ -105,7 +105,7 @@ export default function JobDetail() {
                 }
               />
               <Description
-                title="Post On"
+                title="Posted On"
                 content={job.datetimeCreated.toDateString()}
               />
               {job.status === 'active' ? (
@@ -251,7 +251,7 @@ function ApplicantDialog({
 
 const jobTitle = css({
   fontSize: '1.625rem',
-  fontWeight: 500,
+  fontWeight: 700,
   margin: 0,
 })
 

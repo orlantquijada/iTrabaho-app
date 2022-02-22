@@ -2,7 +2,7 @@ import Image from 'next/image'
 
 import { Box, Container, Flex, Grid } from '@/components'
 import { Loading, Text } from '@geist-ui/react'
-import { blue, gray } from '@radix-ui/colors'
+import { gray } from '@radix-ui/colors'
 import JobPostListView from '@/components/JobPost/JobPostListView'
 import { css } from '@/stitches.config'
 import useUser from '@/utils/hooks/useUser'
@@ -14,7 +14,7 @@ import type { Activity, User } from '@/utils/types'
 import { useActivities } from '@/utils/hooks/useActivities'
 
 export default function JobsList() {
-  const { jobs, isLoading } = useJobPosts()
+  const { jobs, isLoading } = useJobPosts({ params: { status: 'H' } })
   const router = useRouter()
   const [jobId, setJobId] = useState<number | undefined>(undefined)
   const user = useUser()
@@ -37,42 +37,15 @@ export default function JobsList() {
     <Container
       css={{
         display: 'grid',
-        gridTemplateColumns: user ? '20% 1fr 30%' : '20% 1fr',
+        gridTemplateColumns: user ? '1fr 30%' : '1fr',
         py: '$6',
         position: 'relative',
+        gap: '$4',
       }}
     >
-      <Box className={sticky()}>
-        <Text
-          h4
-          style={{ marginTop: 0, paddingLeft: '0.5rem', marginBottom: '1rem' }}
-        >
-          Categories
-        </Text>
-        {/* TODO: filter job posts per category */}
-        <Grid
-          flow="row"
-          css={{
-            '& > p': {
-              m: 0,
-              cursor: 'pointer',
-              transition: 'all 200ms ease',
-              py: '0.5rem',
-              pl: '0.5rem',
-              rl: '$pill',
-              '&:hover': { color: blue.blue9, background: blue.blue4 },
-            },
-          }}
-        >
-          <Text>Web Development</Text>
-          <Text>Marketing</Text>
-          <Text>Carpentry</Text>
-          <Text>Construction</Text>
-        </Grid>
-      </Box>
       <Flex direction="column">
         <Text h1 style={{ marginTop: 0 }}>
-          Jobs For You
+          Available Jobs
         </Text>
         {!isLoading && jobs ? (
           <JobPostListView jobId={jobId} jobs={jobs} />
@@ -82,7 +55,7 @@ export default function JobsList() {
       </Flex>
 
       {user ? (
-        <Flex direction="column" className={sticky()}>
+        <Flex direction="column" className={sticky({ css: { pt: '1rem' } })}>
           <Text style={{ paddingLeft: '1rem', marginTop: 0 }}>
             All Activity
           </Text>

@@ -6,8 +6,14 @@ import { Box, Grid } from '@/components'
 import { StarFilledIcon } from '@radix-ui/react-icons'
 import { css } from '@/stitches.config'
 import { slate } from '@radix-ui/colors'
+import { useApplicantMetrics } from '@/utils/hooks/useApplicant'
 
-export default function ApplicantCardCompact({ fullName }: Applicant) {
+export default function ApplicantCardCompact({
+  fullName,
+  phoneNumber,
+  id,
+}: Applicant) {
+  const { isLoading, metrics } = useApplicantMetrics(id)
   return (
     <Card hoverable>
       <Card.Content className={userCard()}>
@@ -21,9 +27,7 @@ export default function ApplicantCardCompact({ fullName }: Applicant) {
           <Text span className={title()}>
             {fullName}
           </Text>
-          {/* TODO */}
-          {/* not sure pero basig ang source ani kay ang last job niya or most frequent occuring role sa experiences? */}
-          <Text className={subtitle()}>Software Engineer</Text>
+          <Text className={subtitle()}>{phoneNumber}</Text>
 
           <Grid
             flow="column"
@@ -34,13 +38,11 @@ export default function ApplicantCardCompact({ fullName }: Applicant) {
             }}
           >
             <StarFilledIcon />
-            {/* TODO */}
             <Text span className={rateValue()}>
-              4.8
+              {!isLoading ? metrics?.rating : null}
             </Text>
-            {/* TODO */}
             <Text span className={rateCount()}>
-              (45)
+              {!isLoading ? `(${metrics?.jobs})` : null}
             </Text>
           </Grid>
         </Box>

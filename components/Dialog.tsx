@@ -21,6 +21,7 @@ const StyledOverlay = styled(DialogPrimitive.Overlay, {
   '@media (prefers-reduced-motion: no-preference)': {
     animation: `${overlayShow} 150ms cubic-bezier(0.16, 1, 0.3, 1)`,
   },
+  zIndex: '$3',
 })
 
 function DialogRoot({
@@ -48,6 +49,7 @@ const StyledContent = styled(DialogPrimitive.Content, {
   minWidth: '30vw',
   maxHeight: '85vh',
   padding: 25,
+  zIndex: '$max',
   '@media (prefers-reduced-motion: no-preference)': {
     animation: `${contentShow} 150ms cubic-bezier(0.16, 1, 0.3, 1)`,
     willChange: 'transform',

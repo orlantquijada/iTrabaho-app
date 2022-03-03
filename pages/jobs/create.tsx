@@ -10,6 +10,7 @@ import useUser from '@/utils/hooks/useUser'
 import { useRouter } from 'next/router'
 import { InferGetServerSidePropsType } from 'next'
 import { getSkillsList } from '@/utils/api/lib'
+import axios from '@/utils/api/axios'
 
 export default function CreateJobPost({
   skills,
@@ -71,6 +72,8 @@ export default function CreateJobPost({
       recruiterId: user?.id as number,
       skills: selectedSkillsIds,
     })
+
+    await axios.post('match/', { id: job.data.id })
 
     mutate(async (jobs) => (jobs ? [...jobs, job.data] : [job.data]))
 

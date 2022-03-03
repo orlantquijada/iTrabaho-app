@@ -98,11 +98,11 @@ export interface Review {
   comment: string
   fromUser: Applicant | Recruiter
   toUser: Applicant | Recruiter
-  jobPost: JobPost
+  jobPostId: JobPost
 }
 
 export interface Match {
-  jobPost: JobPost
+  jobPostId: JobPost
   applicant: Applicant
   percentage: number
   rank: number

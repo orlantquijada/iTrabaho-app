@@ -103,7 +103,7 @@ export interface Review {
 
 export interface Match {
   jobPostId: JobPost
-  applicant: Applicant
+  applicantId: Applicant
   percentage: number
   rank: number
 }

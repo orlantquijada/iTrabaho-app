@@ -117,8 +117,8 @@ function ActivityCard(props: Props & Activity) {
       if (props.currentUser.userType === 'L') {
         return (
           <Text style={{ fontSize: '0.75rem', margin: 0 }}>
-            <strong>{props.content.applicant.fullName}</strong> has matched the
-            job, <strong>{props.content.jobPostId.title}</strong>, posted by{' '}
+            <strong>{props.content.applicantId.fullName}</strong> has matched
+            the job, <strong>{props.content.jobPostId.title}</strong>, posted by{' '}
             <strong>{props.content.jobPostId.recruiter.fullName}</strong>
           </Text>
         )
@@ -127,7 +127,7 @@ function ActivityCard(props: Props & Activity) {
           <Text style={{ fontSize: '0.75rem', margin: 0 }}>
             Your job post <strong>{props.content.jobPostId.title}</strong> has
             matched applicant{' '}
-            <strong>{props.content.applicant.fullName}</strong>
+            <strong>{props.content.applicantId.fullName}</strong>
           </Text>
         )
       }

@@ -73,7 +73,7 @@ export default function CreateJobPost({
       skills: selectedSkillsIds,
     })
 
-    await axios.post('match/', { id: job.data.id })
+    await axios.post('api/match/', { id: job.data.id })
 
     mutate(async (jobs) => (jobs ? [...jobs, job.data] : [job.data]))
 

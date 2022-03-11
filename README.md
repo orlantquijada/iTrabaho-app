@@ -1,33 +1,28 @@
-# NextJS Typescript Boilerplate
+# iTrabaho
 
-Bootstrap a developer-friendly NextJS app configured with:
+This is the frontend code for the iTrabaho application
 
-- [Typescript](https://www.typescriptlang.org/)
-- Linting with [ESLint](https://eslint.org/)
-- Formatting with [Prettier](https://prettier.io/)
-- Linting, typechecking and formatting on by default using [`husky`](https://github.com/typicode/husky) for commit hooks
-- Testing with [Jest](https://jestjs.io/) and [`react-testing-library`](https://testing-library.com/docs/react-testing-library/intro)
+## Access deployed application
 
-## Preview
+This application is deployed on the web, to access, head over to https://itrabaho-orlantquijada.vercel.app.
 
-Preview the example live on [StackBlitz](http://stackblitz.com/):
+## Brief Description
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/vercel/next.js/tree/canary/examples/with-typescript-eslint-jest)
+iTrabaho is a web-based application job marketplace that caters verified skilled workers who are non-tech savvy from rural areas in the Philippines. Using this system would open a lot of job opportunities to those skilled workers in every barangay since the steps in becoming available to this is hassle-free. Considering that the only essential step for a potential applicant is to go to their designated barangay halls in which they live and enroll to have their own account in the system. 
 
-## Deploy your own
+## How to use as an Applicant
 
-Deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example):
+1. Request to register in your local area to be listed as a job applicant for the app. ( LGU Representatives are given respective accounts capable of registering workers for their area)
+2. Jobs posted by recruiters will automatically match to suitable candidates. You will receive an SMS message once you are matched to a job.
+3. Apply to the job by replying YES JOB_CODE.
+4. Wait for recruiter to accept your application.
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https://github.com/vercel/next.js/tree/canary/examples/with-typescript-eslint-jest&project-name=with-typescript-eslint-jest&repository-name=with-typescript-eslint-jest)
+## How to use as a Recruiter
 
-## How to use
+1. Access website.
+2. Register as a recruiter.
+3. Post a job listing.
+4. Wait for applicants to apply.
+5. Accept a job application.
+6. Rate your applicant after your job has been completed. (optional)
 
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init) or [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/) to bootstrap the example:
-
-```bash
-npx create-next-app --example with-typescript-eslint-jest with-typescript-eslint-jest-app
-# or
-yarn create next-app --example with-typescript-eslint-jest with-typescript-eslint-jest-app
-```
-
-Deploy it to the cloud with [Vercel](https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example) ([Documentation](https://nextjs.org/docs/deployment)).

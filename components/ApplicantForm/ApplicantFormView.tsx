@@ -162,7 +162,7 @@ export default class ApplicantFormView extends Component<Props, State> {
               error={this.props.methods.formState.errors.phoneNumber?.message}
             >
               <Input
-                label="+63"
+                // label="+63"
                 placeholder="922 283 3416"
                 clearable
                 type={

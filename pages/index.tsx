@@ -11,7 +11,7 @@ export default function Home() {
         }}
       >
         <Text h1 font="59px">
-          Join the world’s largest startup community
+          Welcome to iTrabaho
         </Text>
         <Text
           style={{

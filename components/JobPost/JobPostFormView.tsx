@@ -122,7 +122,7 @@ export default class JobPostFormView extends Component<Props, State> {
             </FormField>
           </Grid>
         </section>
-        <SkillsSection skills={this.props.skills} forRecruiter />
+        {/* <SkillsSection skills={this.props.skills} forRecruiter /> */}
         <section>
           <SectionTitle h1>Location</SectionTitle>
           <Grid gapY="4">

@@ -21,7 +21,7 @@ export default function Home() {
             margin: 'auto',
           }}
         >
-          We help you find the job that's right for you.
+          We help you find the job that&apos;s right for you.
         </Text>
       </Box>
     </Container>

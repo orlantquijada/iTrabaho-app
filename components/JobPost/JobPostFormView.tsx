@@ -8,7 +8,7 @@ import { InfoCircledIcon } from '@radix-ui/react-icons'
 import { availableLocations, cities } from '@/utils/data/location'
 import { FormField, Grid, TextArea } from '@/components'
 import SectionTitle from '@/components/ApplicantForm/SectionTitle'
-import SkillsSection from '../ApplicantForm/SkillsSection'
+// import SkillsSection from '../ApplicantForm/SkillsSection'
 import { Skill } from '@/utils/types'
 
 type State = FormFields

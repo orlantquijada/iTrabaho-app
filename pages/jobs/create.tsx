@@ -62,15 +62,15 @@ export default function CreateJobPost({
   }
 
   const handleSubmit = methods.handleSubmit(async (values) => {
-    const selectedSkills = values.skills as unknown as Array<{ name: string }>
-    const selectedSkillsIds = selectedSkills.map(
-      (skill) => skills.find(({ name }) => name === skill.name)?.id as number
-    )
+    // const selectedSkills = values.skills as unknown as Array<{ name: string }>
+    // const selectedSkillsIds = selectedSkills.map(
+    //   (skill) => skills.find(({ name }) => name === skill.name)?.id as number
+    // )
 
     const job = await addJobPost({
       ...values,
       recruiterId: user?.id as number,
-      skills: selectedSkillsIds,
+      skills: [],
     })
 
     await axios.post('api/match/', { id: job.data.id })

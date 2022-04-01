@@ -11,7 +11,7 @@ export default function Home() {
         }}
       >
         <Text h1 font="59px">
-          Join the world’s largest startup community
+          Welcome to iTrabaho
         </Text>
         <Text
           style={{
@@ -21,8 +21,7 @@ export default function Home() {
             margin: 'auto',
           }}
         >
-          Experience the startup ecosystem — invest in startups, research the
-          fastest-growing companies, and find a job you love.
+          We help you find the job that's right for you.
         </Text>
       </Box>
     </Container>

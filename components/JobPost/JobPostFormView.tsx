@@ -8,7 +8,7 @@ import { InfoCircledIcon } from '@radix-ui/react-icons'
 import { availableLocations, cities } from '@/utils/data/location'
 import { FormField, Grid, TextArea } from '@/components'
 import SectionTitle from '@/components/ApplicantForm/SectionTitle'
-import SkillsSection from '../ApplicantForm/SkillsSection'
+// import SkillsSection from '../ApplicantForm/SkillsSection'
 import { Skill } from '@/utils/types'
 
 type State = FormFields
@@ -122,7 +122,7 @@ export default class JobPostFormView extends Component<Props, State> {
             </FormField>
           </Grid>
         </section>
-        <SkillsSection skills={this.props.skills} forRecruiter />
+        {/* <SkillsSection skills={this.props.skills} forRecruiter /> */}
         <section>
           <SectionTitle h1>Location</SectionTitle>
           <Grid gapY="4">

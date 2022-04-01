@@ -21,8 +21,7 @@ export default function Home() {
             margin: 'auto',
           }}
         >
-          Experience the startup ecosystem — invest in startups, research the
-          fastest-growing companies, and find a job you love.
+          We help you find the job that's right for you.
         </Text>
       </Box>
     </Container>
